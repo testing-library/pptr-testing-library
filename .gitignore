@@ -1,0 +1,9 @@
+node_modules/
+coverage/
+.nyc_output/
+dist/
+npm-debug.log
+
+dom-testing-library.js
+extend.js
+extend.d.ts
