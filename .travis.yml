@@ -1,0 +1,18 @@
+dist: trusty
+language: node_js
+cache: yarn
+notifications:
+  email: false
+node_js:
+  - v9
+  - v8
+  - v6
+before_install:
+  - npm install -g yarn coveralls nyc
+script:
+  - yarn rebuild
+  - yarn test:lint
+  - yarn test:unit --coverage --runInBand --verbose
+after_success:
+  - cat coverage/lcov.info | coveralls || echo 'Failed to upload to coveralls...'
+  - yarn semantic-release

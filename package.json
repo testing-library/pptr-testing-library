@@ -1,0 +1,46 @@
+{
+  "name": "pptr-testing-library",
+  "version": "0.0.0-development",
+  "description": "puppeteer + dom-testing-library",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "npm run test:lint && npm run test:unit",
+    "test:unit": "jest",
+    "test:lint": "lint",
+    "semantic-release": "semantic-release",
+    "clean": "rm -fR dist/",
+    "rebuild": "npm run clean && npm run build",
+    "prepublish": "npm run rebuild",
+    "build": "npm run build:ts",
+    "build:ts": "tsc",
+    "build:rollup": "rollup -c rollup.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/patrickhulce/pptr-testing-library.git"
+  },
+  "author": "Patrick Hulce <patrick.hulce@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/patrickhulce/pptr-testing-library#readme",
+  "bugs": {
+    "url": "https://github.com/patrickhulce/pptr-testing-library/issues"
+  },
+  "devDependencies": {
+    "@patrickhulce/lint": "^2.1.3",
+    "@types/jest": "^23.1.1",
+    "@types/puppeteer": "^1.3.4",
+    "dom-testing-library": "2.6.1",
+    "jest": "^23.1.0",
+    "puppeteer": "^1.5.0",
+    "rollup": "^0.61.1",
+    "rollup-plugin-commonjs": "^9.1.3",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "semantic-release": "^11.0.0",
+    "ts-jest": "^22.4.6",
+    "tslint": "^5.10.0",
+    "typescript": "^2.9.2"
+  },
+  "peerDependencies": {
+    "puppeteer": "^1.5.0"
+  }
+}
