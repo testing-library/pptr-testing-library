@@ -1,8 +1,8 @@
 import * as path from 'path'
 import * as puppeteer from 'puppeteer'
-import '../lib'
+import '../lib/extend'
 
-describe('lib/index.ts', () => {
+describe('lib/extend.ts', () => {
   let browser: puppeteer.Browser
   let page: puppeteer.Page
   let document: puppeteer.ElementHandle

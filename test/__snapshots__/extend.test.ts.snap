@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`lib/extend.ts should handle the LabelText methods 1`] = `"<input id=\\"label-text-input\\" type=\\"text\\">"`;
+
+exports[`lib/extend.ts should handle the get* methods 1`] = `"<input type=\\"text\\" data-testid=\\"testid-text-input\\">"`;

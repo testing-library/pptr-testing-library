@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`lib/index.ts should handle the LabelText methods 1`] = `"<input id=\\"label-text-input\\" type=\\"text\\">"`;
-
-exports[`lib/index.ts should handle the get* methods 1`] = `"<input type=\\"text\\" data-testid=\\"testid-text-input\\">"`;
