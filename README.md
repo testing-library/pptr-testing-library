@@ -43,7 +43,7 @@ const browser = await puppeteer.launch()
 const page = await browser.newPage()
 
 const $document = await getDocument(page)
-const $form = queries.getByTestId(document, 'my-form')
+const $form = await queries.getByTestId(document, 'my-form')
 // ...
 ```
 
