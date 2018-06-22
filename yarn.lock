@@ -1840,7 +1840,7 @@ doctrine@^2.0.0:
   dependencies:
     esutils "^2.0.2"
 
-dom-testing-library@2.6.1:
+dom-testing-library@^2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/dom-testing-library/-/dom-testing-library-2.6.1.tgz#ec97192d3ddbc026809d1377eafc22eabdc372d3"
   dependencies:

@@ -1,5 +1,5 @@
+import {Matcher, MatcherOptions, SelectorMatcherOptions} from 'dom-testing-library/typings' // tslint:disable-line no-submodule-imports
 import {ElementHandle} from 'puppeteer'
-import {MatcherOptions, Matcher, SelectorMatcherOptions} from 'dom-testing-library/typings/'
 
 type Element = ElementHandle
 
@@ -30,9 +30,10 @@ export interface ITestUtils {
   getAllByTitle(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element[]>
 }
 
+/* tslint:disable */
 declare module 'puppeteer' {
   interface Page {
-    getTestingUtilsForDocument(): ElementHandle
+    document(): Promise<ElementHandle>
   }
 
   interface ElementHandle {

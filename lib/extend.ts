@@ -1,8 +1,8 @@
-import {getTestingUtilsForDocument, extendObjectWithTestingUtils} from '.'
+import {extendObjectWithTestingUtils, getDocument} from '.'
 
-const Page = require('puppeteer/lib/Page.js')
-const ElementHandle = require('puppeteer/lib/ElementHandle.js')
+const Page = require('puppeteer/lib/Page.js') // tslint:disable-line
+const ElementHandle = require('puppeteer/lib/ElementHandle.js') // tslint:disable-line
 
-Page.prototype.getTestingUtilsForDocument = getTestingUtilsForDocument
+Page.prototype.document = getDocument
 
 extendObjectWithTestingUtils(ElementHandle.prototype)

@@ -14,7 +14,7 @@ describe('lib/extend.ts', () => {
   })
 
   it('should extend puppeteer ElementHandle', async () => {
-    document = await page.getTestingUtilsForDocument()
+    document = await page.document()
     expect(typeof document.queryAllByAltText).toBe('function')
   })
 

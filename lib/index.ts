@@ -1,6 +1,5 @@
-import './typedefs'
-import * as path from 'path'
 import {readFileSync} from 'fs'
+import * as path from 'path'
 import {ElementHandle, EvaluateFn, Page} from 'puppeteer'
 import {ITestUtils} from './typedefs'
 
@@ -38,22 +37,26 @@ function createDelegateFor(
     // @ts-ignore
     const evaluateFn: EvaluateFn = {toString: () => mockFnToExecuteInPage}
 
-    const mappedArgs = args.map(arg => (arg instanceof RegExp ? {regex: arg.source} : arg))
+    let argsToForward = args.map(arg => (arg instanceof RegExp ? {regex: arg.source} : arg))
+    if (containerHandle === args[0]) {
+      argsToForward = args.slice(1)
+    }
+
     const handle = await containerHandle
       .executionContext()
-      .evaluateHandle(evaluateFn, containerHandle, fnName, ...mappedArgs)
+      .evaluateHandle(evaluateFn, containerHandle, fnName, ...argsToForward)
     const element = handle.asElement()
     if (element) return element
     await handle.dispose()
-    return null
+    return null // tslint:disable-line
   }
 }
 
-export async function getTestingUtilsForDocument(context?: Page): Promise<ElementHandle> {
+export async function getDocument(context?: Page): Promise<ElementHandle> {
   // @ts-ignore
   const page: Page = context || this
   const documentHandle = await page.mainFrame().evaluateHandle('document')
-  const document = await documentHandle.asElement()
+  const document = documentHandle.asElement()
   if (!document) throw new Error('Could not find document')
   return document
 }
