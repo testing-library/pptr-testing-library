@@ -52,6 +52,12 @@ describe('lib/extend.ts', () => {
     expect(text).toEqual(['Hello h1', 'Hello h2'])
   })
 
+  it('should scope results to element', async () => {
+    const scope = await document.$('#scoped')
+    const element = await scope.queryByText(/Hello/)
+    expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h3')
+  })
+
   afterAll(async () => {
     await browser.close()
   })
