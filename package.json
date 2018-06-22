@@ -2,7 +2,7 @@
   "name": "pptr-testing-library",
   "version": "0.0.0-development",
   "description": "puppeteer + dom-testing-library",
-  "main": "./lib/index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "npm run test:lint && npm run test:unit",
     "test:unit": "jest",
@@ -25,6 +25,12 @@
   "bugs": {
     "url": "https://github.com/patrickhulce/pptr-testing-library/issues"
   },
+  "keywords": [
+    "puppeteer",
+    "dom-testing-library",
+    "testing",
+    "utility"
+  ],
   "config": {
     "exportAliases": {
       "extend": "./dist/extend"
