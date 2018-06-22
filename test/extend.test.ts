@@ -35,6 +35,18 @@ describe('lib/extend.ts', () => {
     expect(await page.evaluate(el => el.outerHTML, element)).toMatchSnapshot()
   })
 
+  it('should handle the get* method failures', async () => {
+    // Use the scoped element so the pretty HTML snapshot is smaller
+    const scope = await document.$('#scoped')
+
+    try {
+      await scope.getByTitle('missing')
+      fail()
+    } catch (err) {
+      expect(err).toMatchSnapshot()
+    }
+  })
+
   it('should handle the LabelText methods', async () => {
     const element = await document.getByLabelText('Label A')
     expect(await page.evaluate(el => el.outerHTML, element)).toMatchSnapshot()

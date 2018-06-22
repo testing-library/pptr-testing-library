@@ -62,6 +62,7 @@ function createDelegateFor(
     // @ts-ignore
     const evaluateFn: EvaluateFn = {toString: () => mockFnToExecuteInPage}
 
+    // Convert RegExp to a special format since they don't serialize well
     let argsToForward = args.map(arg => (arg instanceof RegExp ? {regex: arg.source} : arg))
     if (containerHandle === args[0]) {
       argsToForward = args.slice(1)
