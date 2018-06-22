@@ -23,7 +23,7 @@ const browser = await puppeteer.launch()
 const page = await browser.newPage()
 
 // Grab ElementHandle for document, this convenience method added by pptr-testing-library/extend
-const $document = await page.document()
+const $document = await page.getDocument()
 
 // query methods are added to prototype of ElementHandle
 const $form = await document.getByTestId('my-form')

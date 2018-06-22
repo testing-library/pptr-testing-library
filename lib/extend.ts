@@ -4,14 +4,14 @@ import {extendObjectWithTestingUtils, getDocument} from '.'
 const Page = require('puppeteer/lib/Page.js') // tslint:disable-line
 const ElementHandle = require('puppeteer/lib/ElementHandle.js') // tslint:disable-line
 
-Page.prototype.document = getDocument
+Page.prototype.getDocument = getDocument
 
 extendObjectWithTestingUtils(ElementHandle.prototype)
 
 /* tslint:disable */
 declare module 'puppeteer' {
   interface Page {
-    document(): Promise<ElementHandle>
+    getDocument(): Promise<ElementHandle>
   }
 
   interface ElementHandle {
