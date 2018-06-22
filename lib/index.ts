@@ -8,8 +8,10 @@ const domLibraryAsString = readFileSync(
   'utf8',
 ).replace(/process.env/g, '{}')
 
-function mapArgument(argument: any): any {
-  return typeof argument === 'object' && argument.regex ? new RegExp(argument.regex) : argument
+function mapArgument(argument: any, index: number): any {
+  return index === 0 && typeof argument === 'object' && argument.regex
+    ? new RegExp(argument.regex)
+    : argument
 }
 
 const mockFnToExecuteInPage = `
