@@ -40,16 +40,17 @@ describe('lib/extend.ts', () => {
     expect(await page.evaluate(el => el.outerHTML, element)).toMatchSnapshot()
   })
 
-  it.skip('should handle the queryAll* methods', async () => {
+  it('should handle the queryAll* methods', async () => {
     const elements = await document.queryAllByText(/Hello/)
-    expect(elements).toHaveLength(2)
+    expect(elements).toHaveLength(3)
 
     const text = await Promise.all([
       page.evaluate(el => el.textContent, elements[0]),
       page.evaluate(el => el.textContent, elements[1]),
+      page.evaluate(el => el.textContent, elements[2]),
     ])
 
-    expect(text).toEqual(['Hello h1', 'Hello h2'])
+    expect(text).toEqual(['Hello h1', 'Hello h2', 'Hello h3'])
   })
 
   it('should scope results to element', async () => {

@@ -1,6 +1,6 @@
 import {readFileSync} from 'fs'
 import * as path from 'path'
-import {ElementHandle, EvaluateFn, Page} from 'puppeteer'
+import {ElementHandle, EvaluateFn, JSHandle, Page} from 'puppeteer'
 import {ITestUtils} from './typedefs'
 
 const domLibraryAsString = readFileSync(
@@ -25,13 +25,36 @@ type DOMReturnType = ElementHandle | ElementHandle[] | null
 
 type ContextFn = (...args: any[]) => ElementHandle
 
+async function createElementHandleArray(handle: JSHandle): Promise<ElementHandle[]> {
+  const lengthHandle = await handle.getProperty('length')
+  const length = await lengthHandle.jsonValue()
+
+  const elements: ElementHandle[] = []
+  for (let i = 0; i < length; i++) {
+    const jsElement = await handle.getProperty(i.toString())
+    const element = await createElementHandle(jsElement)
+    if (element) elements.push(element)
+  }
+
+  return elements
+}
+
+async function createElementHandle(handle: JSHandle): Promise<ElementHandle | null> {
+  const element = handle.asElement()
+  if (element) return element
+  await handle.dispose()
+  return null // tslint:disable-line
+}
+
+async function covertToElementHandle(handle: JSHandle, asArray: boolean): Promise<DOMReturnType> {
+  return asArray ? createElementHandleArray(handle) : createElementHandle(handle)
+}
+
 function createDelegateFor(
   fnName: keyof ITestUtils,
   contextFn?: ContextFn,
 ): (...args: any[]) => Promise<DOMReturnType> {
   return async function(...args: any[]): Promise<DOMReturnType> {
-    if (fnName.includes('All')) throw new Error('*All methods not yet supported')
-
     // @ts-ignore
     const containerHandle: ElementHandle = contextFn ? contextFn(...args) : this
     // @ts-ignore
@@ -45,16 +68,13 @@ function createDelegateFor(
     const handle = await containerHandle
       .executionContext()
       .evaluateHandle(evaluateFn, containerHandle, fnName, ...argsToForward)
-    const element = handle.asElement()
-    if (element) return element
-    await handle.dispose()
-    return null // tslint:disable-line
+    return covertToElementHandle(handle, fnName.includes('All'))
   }
 }
 
-export async function getDocument(context?: Page): Promise<ElementHandle> {
+export async function getDocument(_page?: Page): Promise<ElementHandle> {
   // @ts-ignore
-  const page: Page = context || this
+  const page: Page = _page || this
   const documentHandle = await page.mainFrame().evaluateHandle('document')
   const document = documentHandle.asElement()
   if (!document) throw new Error('Could not find document')
