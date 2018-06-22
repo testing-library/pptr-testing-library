@@ -1,33 +1,40 @@
 import './typedefs'
 import * as path from 'path'
 import {readFileSync} from 'fs'
-import {ElementHandle, EvaluateFn} from 'puppeteer'
+import {ElementHandle, EvaluateFn, Page} from 'puppeteer'
+import {ITestUtils} from './typedefs'
 
 const domLibraryAsString = readFileSync(
   path.join(__dirname, '../dom-testing-library.js'),
   'utf8',
 ).replace(/process.env/g, '{}')
 
+function mapArgument(argument: any): any {
+  return typeof argument === 'object' && argument.regex ? new RegExp(argument.regex) : argument
+}
+
 const mockFnToExecuteInPage = `
 function evaluateInPage(container, fnName, ...args) {
   ${domLibraryAsString}
 
-  const mappedArgs = args.map(item => item.regex ? new RegExp(item.regex) : item)
+  const mappedArgs = args.map(${mapArgument.toString()})
   return __dom_testing_library__[fnName](container, ...mappedArgs)
 }
 `
 
 type DOMReturnType = ElementHandle | ElementHandle[] | null
 
-export function createDelegateFor(
-  fnName: string,
-  context?: () => ElementHandle,
+type ContextFn = (...args: any[]) => ElementHandle
+
+function createDelegateFor(
+  fnName: keyof ITestUtils,
+  contextFn?: ContextFn,
 ): (...args: any[]) => Promise<DOMReturnType> {
   return async function(...args: any[]): Promise<DOMReturnType> {
     if (fnName.includes('All')) throw new Error('*All methods not yet supported')
 
     // @ts-ignore
-    const containerHandle: ElementHandle = context ? context() : this
+    const containerHandle: ElementHandle = contextFn ? contextFn(...args) : this
     // @ts-ignore
     const evaluateFn: EvaluateFn = {toString: () => mockFnToExecuteInPage}
 
@@ -42,36 +49,42 @@ export function createDelegateFor(
   }
 }
 
-export async function getTestingUtilsForDocument(): Promise<ElementHandle> {
+export async function getTestingUtilsForDocument(context?: Page): Promise<ElementHandle> {
   // @ts-ignore
-  const page: Page = this
+  const page: Page = context || this
   const documentHandle = await page.mainFrame().evaluateHandle('document')
-  return await documentHandle.asElement()
+  const document = await documentHandle.asElement()
+  if (!document) throw new Error('Could not find document')
+  return document
 }
 
-export function extendObjectWithTestingUtils(object: any): void {
-  object.queryByPlaceholderText = createDelegateFor('queryByPlaceholderText')
-  object.queryAllByPlaceholderText = createDelegateFor('queryAllByPlaceholderText')
-  object.getByPlaceholderText = createDelegateFor('getByPlaceholderText')
-  object.getAllByPlaceholderText = createDelegateFor('getAllByPlaceholderText')
-  object.queryByText = createDelegateFor('queryByText')
-  object.queryAllByText = createDelegateFor('queryAllByText')
-  object.getByText = createDelegateFor('getByText')
-  object.getAllByText = createDelegateFor('getAllByText')
-  object.queryByLabelText = createDelegateFor('queryByLabelText')
-  object.queryAllByLabelText = createDelegateFor('queryAllByLabelText')
-  object.getByLabelText = createDelegateFor('getByLabelText')
-  object.getAllByLabelText = createDelegateFor('getAllByLabelText')
-  object.queryByAltText = createDelegateFor('queryByAltText')
-  object.queryAllByAltText = createDelegateFor('queryAllByAltText')
-  object.getByAltText = createDelegateFor('getByAltText')
-  object.getAllByAltText = createDelegateFor('getAllByAltText')
-  object.queryByTestId = createDelegateFor('queryByTestId')
-  object.queryAllByTestId = createDelegateFor('queryAllByTestId')
-  object.getByTestId = createDelegateFor('getByTestId')
-  object.getAllByTestId = createDelegateFor('getAllByTestId')
-  object.queryByTitle = createDelegateFor('queryByTitle')
-  object.queryAllByTitle = createDelegateFor('queryAllByTitle')
-  object.getByTitle = createDelegateFor('getByTitle')
-  object.getAllByTitle = createDelegateFor('getAllByTitle')
+export function extendObjectWithTestingUtils(object: any, contextFn?: ContextFn): void {
+  object.queryByPlaceholderText = createDelegateFor('queryByPlaceholderText', contextFn)
+  object.queryAllByPlaceholderText = createDelegateFor('queryAllByPlaceholderText', contextFn)
+  object.getByPlaceholderText = createDelegateFor('getByPlaceholderText', contextFn)
+  object.getAllByPlaceholderText = createDelegateFor('getAllByPlaceholderText', contextFn)
+  object.queryByText = createDelegateFor('queryByText', contextFn)
+  object.queryAllByText = createDelegateFor('queryAllByText', contextFn)
+  object.getByText = createDelegateFor('getByText', contextFn)
+  object.getAllByText = createDelegateFor('getAllByText', contextFn)
+  object.queryByLabelText = createDelegateFor('queryByLabelText', contextFn)
+  object.queryAllByLabelText = createDelegateFor('queryAllByLabelText', contextFn)
+  object.getByLabelText = createDelegateFor('getByLabelText', contextFn)
+  object.getAllByLabelText = createDelegateFor('getAllByLabelText', contextFn)
+  object.queryByAltText = createDelegateFor('queryByAltText', contextFn)
+  object.queryAllByAltText = createDelegateFor('queryAllByAltText', contextFn)
+  object.getByAltText = createDelegateFor('getByAltText', contextFn)
+  object.getAllByAltText = createDelegateFor('getAllByAltText', contextFn)
+  object.queryByTestId = createDelegateFor('queryByTestId', contextFn)
+  object.queryAllByTestId = createDelegateFor('queryAllByTestId', contextFn)
+  object.getByTestId = createDelegateFor('getByTestId', contextFn)
+  object.getAllByTestId = createDelegateFor('getAllByTestId', contextFn)
+  object.queryByTitle = createDelegateFor('queryByTitle', contextFn)
+  object.queryAllByTitle = createDelegateFor('queryAllByTitle', contextFn)
+  object.getByTitle = createDelegateFor('getByTitle', contextFn)
+  object.getAllByTitle = createDelegateFor('getAllByTitle', contextFn)
 }
+
+// @ts-ignore
+export const utils: ITestUtils = {}
+extendObjectWithTestingUtils(utils, el => el)
