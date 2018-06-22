@@ -10,7 +10,7 @@ before_install:
   - npm install -g yarn coveralls nyc
 script:
   - yarn rebuild
-  # - yarn test:lint
+  - yarn test:lint
   - yarn test:unit --coverage --runInBand --verbose
 after_success:
   - cat coverage/lcov.info | coveralls || echo 'Failed to upload to coveralls...'

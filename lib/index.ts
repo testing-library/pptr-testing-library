@@ -89,5 +89,5 @@ export function extendObjectWithTestingUtils(object: any, contextFn?: ContextFn)
 }
 
 // @ts-ignore
-export const utils: ITestUtils = {}
-extendObjectWithTestingUtils(utils, el => el)
+export const queries: ITestUtils = {}
+extendObjectWithTestingUtils(queries, el => el)
