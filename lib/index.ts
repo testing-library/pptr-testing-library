@@ -61,31 +61,33 @@ export async function getDocument(context?: Page): Promise<ElementHandle> {
   return document
 }
 
-export function extendObjectWithTestingUtils(object: any, contextFn?: ContextFn): void {
-  object.queryByPlaceholderText = createDelegateFor('queryByPlaceholderText', contextFn)
-  object.queryAllByPlaceholderText = createDelegateFor('queryAllByPlaceholderText', contextFn)
-  object.getByPlaceholderText = createDelegateFor('getByPlaceholderText', contextFn)
-  object.getAllByPlaceholderText = createDelegateFor('getAllByPlaceholderText', contextFn)
-  object.queryByText = createDelegateFor('queryByText', contextFn)
-  object.queryAllByText = createDelegateFor('queryAllByText', contextFn)
-  object.getByText = createDelegateFor('getByText', contextFn)
-  object.getAllByText = createDelegateFor('getAllByText', contextFn)
-  object.queryByLabelText = createDelegateFor('queryByLabelText', contextFn)
-  object.queryAllByLabelText = createDelegateFor('queryAllByLabelText', contextFn)
-  object.getByLabelText = createDelegateFor('getByLabelText', contextFn)
-  object.getAllByLabelText = createDelegateFor('getAllByLabelText', contextFn)
-  object.queryByAltText = createDelegateFor('queryByAltText', contextFn)
-  object.queryAllByAltText = createDelegateFor('queryAllByAltText', contextFn)
-  object.getByAltText = createDelegateFor('getByAltText', contextFn)
-  object.getAllByAltText = createDelegateFor('getAllByAltText', contextFn)
-  object.queryByTestId = createDelegateFor('queryByTestId', contextFn)
-  object.queryAllByTestId = createDelegateFor('queryAllByTestId', contextFn)
-  object.getByTestId = createDelegateFor('getByTestId', contextFn)
-  object.getAllByTestId = createDelegateFor('getAllByTestId', contextFn)
-  object.queryByTitle = createDelegateFor('queryByTitle', contextFn)
-  object.queryAllByTitle = createDelegateFor('queryAllByTitle', contextFn)
-  object.getByTitle = createDelegateFor('getByTitle', contextFn)
-  object.getAllByTitle = createDelegateFor('getAllByTitle', contextFn)
+export function extendObjectWithTestingUtils<T>(object: T, contextFn?: ContextFn): T & ITestUtils {
+  const o = object as any
+  o.queryByPlaceholderText = createDelegateFor('queryByPlaceholderText', contextFn)
+  o.queryAllByPlaceholderText = createDelegateFor('queryAllByPlaceholderText', contextFn)
+  o.getByPlaceholderText = createDelegateFor('getByPlaceholderText', contextFn)
+  o.getAllByPlaceholderText = createDelegateFor('getAllByPlaceholderText', contextFn)
+  o.queryByText = createDelegateFor('queryByText', contextFn)
+  o.queryAllByText = createDelegateFor('queryAllByText', contextFn)
+  o.getByText = createDelegateFor('getByText', contextFn)
+  o.getAllByText = createDelegateFor('getAllByText', contextFn)
+  o.queryByLabelText = createDelegateFor('queryByLabelText', contextFn)
+  o.queryAllByLabelText = createDelegateFor('queryAllByLabelText', contextFn)
+  o.getByLabelText = createDelegateFor('getByLabelText', contextFn)
+  o.getAllByLabelText = createDelegateFor('getAllByLabelText', contextFn)
+  o.queryByAltText = createDelegateFor('queryByAltText', contextFn)
+  o.queryAllByAltText = createDelegateFor('queryAllByAltText', contextFn)
+  o.getByAltText = createDelegateFor('getByAltText', contextFn)
+  o.getAllByAltText = createDelegateFor('getAllByAltText', contextFn)
+  o.queryByTestId = createDelegateFor('queryByTestId', contextFn)
+  o.queryAllByTestId = createDelegateFor('queryAllByTestId', contextFn)
+  o.getByTestId = createDelegateFor('getByTestId', contextFn)
+  o.getAllByTestId = createDelegateFor('getAllByTestId', contextFn)
+  o.queryByTitle = createDelegateFor('queryByTitle', contextFn)
+  o.queryAllByTitle = createDelegateFor('queryAllByTitle', contextFn)
+  o.getByTitle = createDelegateFor('getByTitle', contextFn)
+  o.getAllByTitle = createDelegateFor('getAllByTitle', contextFn)
+  return o
 }
 
 // @ts-ignore
