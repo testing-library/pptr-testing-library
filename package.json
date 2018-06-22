@@ -10,7 +10,7 @@
     "semantic-release": "semantic-release",
     "clean": "rm -fR dist/",
     "rebuild": "npm run clean && npm run build",
-    "prepublish": "npm run rebuild",
+    "prepublish": "npm run rebuild && generate-export-aliases",
     "build": "npm run build:ts",
     "build:ts": "tsc",
     "build:rollup": "rollup -c rollup.config.js"
@@ -25,11 +25,17 @@
   "bugs": {
     "url": "https://github.com/patrickhulce/pptr-testing-library/issues"
   },
+  "config": {
+    "exportAliases": {
+      "extend": "./dist/extend"
+    }
+  },
   "devDependencies": {
     "@patrickhulce/lint": "^2.1.3",
     "@types/jest": "^23.1.1",
     "@types/puppeteer": "^1.3.4",
     "dom-testing-library": "2.6.1",
+    "generate-export-aliases": "^1.1.0",
     "jest": "^23.1.0",
     "puppeteer": "^1.5.0",
     "rollup": "^0.61.1",
