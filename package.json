@@ -10,7 +10,7 @@
     "semantic-release": "semantic-release",
     "clean": "rm -fR dist/",
     "rebuild": "npm run clean && npm run build",
-    "prepublish": "npm run rebuild && generate-export-aliases",
+    "prepublishOnly": "npm run rebuild && generate-export-aliases",
     "build": "npm run build:ts",
     "build:ts": "tsc",
     "build:rollup": "rollup -c rollup.config.js"
