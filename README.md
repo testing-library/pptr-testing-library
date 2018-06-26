@@ -26,7 +26,7 @@ const page = await browser.newPage()
 const $document = await page.getDocument()
 
 // query methods are added to prototype of ElementHandle
-const $form = await document.getByTestId('my-form')
+const $form = await $document.getByTestId('my-form')
 // returned elements are ElementHandles too!
 const $email = await $form.getByLabelText('Email')
 // interact with puppeteer like usual
@@ -43,7 +43,7 @@ const browser = await puppeteer.launch()
 const page = await browser.newPage()
 
 const $document = await getDocument(page)
-const $form = await queries.getByTestId(document, 'my-form')
+const $form = await queries.getByTestId($document, 'my-form')
 // ...
 ```
 
