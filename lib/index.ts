@@ -15,7 +15,7 @@ function mapArgument(argument: any, index: number): any {
     : argument
 }
 
-const mockFnToExecuteInPage = `
+const delegateFnToExecuteInPage = `
 function evaluateInPage(container, fnName, ...args) {
   ${domLibraryAsString}
 
@@ -59,9 +59,9 @@ function createDelegateFor(
 ): (...args: any[]) => Promise<DOMReturnType> {
   return async function(...args: any[]): Promise<DOMReturnType> {
     // @ts-ignore
-    const containerHandle: ElementHandle = contextFn ? contextFn(...args) : this
+    const containerHandle: ElementHandle = contextFn ? contextFn.apply(this, args) : this
     // @ts-ignore
-    const evaluateFn: EvaluateFn = {toString: () => mockFnToExecuteInPage}
+    const evaluateFn: EvaluateFn = {toString: () => delegateFnToExecuteInPage}
 
     // Convert RegExp to a special format since they don't serialize well
     let argsToForward = args.map(arg => (arg instanceof RegExp ? {regex: arg.source} : arg))
