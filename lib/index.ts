@@ -84,7 +84,7 @@ export async function getDocument(_page?: Page): Promise<ElementHandle> {
   return document
 }
 
-export function extendObjectWithTestingUtils<T>(object: T, contextFn?: ContextFn): T & ITestUtils {
+export function getQueriesForElement<T>(object: T, contextFn?: ContextFn): T & ITestUtils {
   const o = object as any
   o.queryByPlaceholderText = createDelegateFor('queryByPlaceholderText', contextFn)
   o.queryAllByPlaceholderText = createDelegateFor('queryAllByPlaceholderText', contextFn)
@@ -113,6 +113,8 @@ export function extendObjectWithTestingUtils<T>(object: T, contextFn?: ContextFn
   return o
 }
 
+export const within = getQueriesForElement
+
 // @ts-ignore
 export const queries: ITestUtils = {}
-extendObjectWithTestingUtils(queries, el => el)
+getQueriesForElement(queries, el => el)

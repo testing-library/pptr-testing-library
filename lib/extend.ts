@@ -1,12 +1,18 @@
 import {Matcher, MatcherOptions, SelectorMatcherOptions} from 'dom-testing-library/typings' // tslint:disable-line no-submodule-imports
-import {extendObjectWithTestingUtils, getDocument} from '.'
+import {getQueriesForElement, getDocument} from '.'
 
-const Page = require('puppeteer/lib/Page.js') // tslint:disable-line
-const ElementHandle = require('puppeteer/lib/ElementHandle.js') // tslint:disable-line
+let Page, ElementHandle
 
-Page.prototype.getDocument = getDocument
+try {
+  Page = require('puppeteer/lib/Page.js') // tslint:disable-line
+  ElementHandle = require('puppeteer/lib/ElementHandle.js') // tslint:disable-line
 
-extendObjectWithTestingUtils(ElementHandle.prototype)
+  Page.prototype.getDocument = getDocument
+  getQueriesForElement(ElementHandle.prototype)
+} catch (err) {
+  console.error('Could not augment puppeteer functions, do you have a conflicting version?')
+  throw err
+}
 
 /* tslint:disable */
 declare module 'puppeteer' {
