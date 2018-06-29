@@ -2,7 +2,7 @@ import {readFileSync} from 'fs'
 import * as path from 'path'
 import {ElementHandle, EvaluateFn, JSHandle, Page} from 'puppeteer'
 import waitForExpect from 'wait-for-expect'
-import {ITestUtils} from './typedefs'
+import {IQueryUtils} from './typedefs'
 
 const domLibraryAsString = readFileSync(
   path.join(__dirname, '../dom-testing-library.js'),
@@ -53,11 +53,37 @@ async function covertToElementHandle(handle: JSHandle, asArray: boolean): Promis
   return asArray ? createElementHandleArray(handle) : createElementHandle(handle)
 }
 
-function createDelegateFor(
-  fnName: keyof ITestUtils,
+function processNodeText(handles: IHandleSet): Promise<string> {
+  return handles.containerHandle
+    .executionContext()
+    .evaluate(handles.evaluateFn, handles.containerHandle, 'getNodeText')
+}
+
+async function processQuery(handles: IHandleSet): Promise<DOMReturnType> {
+  const {containerHandle, evaluateFn, fnName, argsToForward} = handles
+
+  const handle = await containerHandle
+    .executionContext()
+    .evaluateHandle(evaluateFn, containerHandle, fnName, ...argsToForward)
+  return covertToElementHandle(handle, fnName.includes('All'))
+}
+
+interface IHandleSet {
+  containerHandle: ElementHandle
+  evaluateFn: EvaluateFn
+  fnName: string
+  argsToForward: any[]
+}
+
+function createDelegateFor<T = DOMReturnType>(
+  fnName: keyof IQueryUtils,
   contextFn?: ContextFn,
-): (...args: any[]) => Promise<DOMReturnType> {
-  return async function(...args: any[]): Promise<DOMReturnType> {
+  processHandleFn?: (handles: IHandleSet) => Promise<T>,
+): (...args: any[]) => Promise<T> {
+  // @ts-ignore
+  processHandleFn = processHandleFn || processQuery
+
+  return async function(...args: any[]): Promise<T> {
     // @ts-ignore
     const containerHandle: ElementHandle = contextFn ? contextFn.apply(this, args) : this
     // @ts-ignore
@@ -65,19 +91,13 @@ function createDelegateFor(
 
     // Convert RegExp to a special format since they don't serialize well
     let argsToForward = args.map(arg => (arg instanceof RegExp ? {regex: arg.source} : arg))
+    // Remove the container from the argsToForward since it's always the first argument
     if (containerHandle === args[0]) {
       argsToForward = args.slice(1)
     }
 
-    const handle = await containerHandle
-      .executionContext()
-      .evaluateHandle(evaluateFn, containerHandle, fnName, ...argsToForward)
-    return covertToElementHandle(handle, fnName.includes('All'))
+    return processHandleFn!({fnName, containerHandle, evaluateFn, argsToForward})
   }
-}
-
-export function wait(callback = () => {}, {timeout = 4500, interval = 50} = {}): Promise<{}> {
-  return waitForExpect(callback, timeout, interval)
 }
 
 export async function getDocument(_page?: Page): Promise<ElementHandle> {
@@ -89,7 +109,11 @@ export async function getDocument(_page?: Page): Promise<ElementHandle> {
   return document
 }
 
-export function getQueriesForElement<T>(object: T, contextFn?: ContextFn): T & ITestUtils {
+export function wait(callback = () => {}, {timeout = 4500, interval = 50} = {}): Promise<{}> {
+  return waitForExpect(callback, timeout, interval)
+}
+
+export function getQueriesForElement<T>(object: T, contextFn?: ContextFn): T & IQueryUtils {
   const o = object as any
   o.queryByPlaceholderText = createDelegateFor('queryByPlaceholderText', contextFn)
   o.queryAllByPlaceholderText = createDelegateFor('queryAllByPlaceholderText', contextFn)
@@ -115,11 +139,12 @@ export function getQueriesForElement<T>(object: T, contextFn?: ContextFn): T & I
   o.queryAllByTitle = createDelegateFor('queryAllByTitle', contextFn)
   o.getByTitle = createDelegateFor('getByTitle', contextFn)
   o.getAllByTitle = createDelegateFor('getAllByTitle', contextFn)
+  o.getNodeText = createDelegateFor<string>('getNodeText', contextFn, processNodeText)
   return o
 }
 
 export const within = getQueriesForElement
 
 // @ts-ignore
-export const queries: ITestUtils = {}
+export const queries: IQueryUtils = {}
 getQueriesForElement(queries, el => el)

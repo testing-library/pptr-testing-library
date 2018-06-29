@@ -71,6 +71,11 @@ describe('lib/extend.ts', () => {
     expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h3')
   })
 
+  it('should get text content', async () => {
+    const $h3 = await document.$('#scoped h3')
+    expect(await $h3.getNodeText()).toEqual('Hello h3')
+  })
+
   afterAll(async () => {
     await browser.close()
   })

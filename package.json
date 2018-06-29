@@ -11,7 +11,7 @@
     "clean": "rm -fR dist/",
     "rebuild": "npm run clean && npm run build",
     "prepublishOnly": "npm run rebuild && generate-export-aliases",
-    "build": "npm run build:ts",
+    "build": "npm run build:ts && npm run build:rollup",
     "build:ts": "tsc",
     "build:rollup": "rollup -c rollup.config.js"
   },

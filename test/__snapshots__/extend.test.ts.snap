@@ -20,7 +20,7 @@ exports[`lib/extend.ts should handle the get* method failures 1`] = `
     at getAllByTitle (<anonymous>:2827:12)
     at firstResultOrNull (<anonymous>:2638:31)
     at Object.getByTitle (<anonymous>:2837:29)
-    at evaluateInPage (<anonymous>:3047:41)]
+    at evaluateInPage (<anonymous>:3048:41)]
 `;
 
 exports[`lib/extend.ts should handle the get* methods 1`] = `"<input type=\\"text\\" data-testid=\\"testid-text-input\\">"`;

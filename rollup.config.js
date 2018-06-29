@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-  input: path.join(__dirname, 'node_modules/dom-testing-library/dist/queries.js'),
+  input: path.join(__dirname, 'rollup.input.js'),
   output: {
     file: 'dom-testing-library.js',
     format: 'iife',
