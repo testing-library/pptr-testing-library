@@ -1,6 +1,7 @@
 import {readFileSync} from 'fs'
 import * as path from 'path'
 import {ElementHandle, EvaluateFn, JSHandle, Page} from 'puppeteer'
+import waitForExpect from 'wait-for-expect'
 import {ITestUtils} from './typedefs'
 
 const domLibraryAsString = readFileSync(
@@ -73,6 +74,10 @@ function createDelegateFor(
       .evaluateHandle(evaluateFn, containerHandle, fnName, ...argsToForward)
     return covertToElementHandle(handle, fnName.includes('All'))
   }
+}
+
+export function wait(callback = () => {}, {timeout = 4500, interval = 50} = {}): Promise<{}> {
+  return waitForExpect(callback, timeout, interval)
 }
 
 export async function getDocument(_page?: Page): Promise<ElementHandle> {
