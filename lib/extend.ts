@@ -1,6 +1,7 @@
 import {Matcher, MatcherOptions, SelectorMatcherOptions} from 'dom-testing-library/typings' // tslint:disable-line no-submodule-imports
-import {getQueriesForElement, getDocument} from '.'
+import {getDocument, getQueriesForElement} from '.'
 
+// tslint:disable-next-line
 let Page, ElementHandle
 
 try {
@@ -10,6 +11,7 @@ try {
   Page.prototype.getDocument = getDocument
   getQueriesForElement(ElementHandle.prototype)
 } catch (err) {
+  // tslint:disable-next-line
   console.error('Could not augment puppeteer functions, do you have a conflicting version?')
   throw err
 }

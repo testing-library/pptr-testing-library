@@ -109,7 +109,10 @@ export async function getDocument(_page?: Page): Promise<ElementHandle> {
   return document
 }
 
-export function wait(callback = () => {}, {timeout = 4500, interval = 50} = {}): Promise<{}> {
+export function wait(
+  callback: () => any = () => undefined,
+  {timeout = 4500, interval = 50} = {}, // tslint:disable-line
+): Promise<{}> {
   return waitForExpect(callback, timeout, interval)
 }
 
