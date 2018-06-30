@@ -49,11 +49,18 @@ const $form = await queries.getByTestId($document, 'my-form')
 
 ## API
 
-See [dom-testing-libary](https://github.com/kentcdodds/dom-testing-library#usage) API for more. All `get*`/`query*` methods are supported.
+Puppeteer-specific methods
 
 - `getDocument(page: puppeteer.Page): ElementHandle` - get an ElementHandle for the document
-- `extendObjectWithTestingUtils(handle: ElementHandle): ElementHandle & TestingUtils` - extend the input object with
-- `queries: TestingUtils` - the query subset of `dom-testing-library` exports
+
+---
+
+[dom-testing-libary API](https://github.com/kentcdodds/dom-testing-library#usage). All `get*`/`query*` methods are supported.
+
+- `getQueriesForElement(handle: ElementHandle): ElementHandle & QueryUtils` - extend the input object with the query API and return it
+- `wait(conditionFn: () => {}): Promise<{}>` - wait for the condition to not throw
+- `getNodeText(handle: ElementHandle): Promise<string>` - get the text content of the element
+- `queries: QueryUtils` - the query subset of `dom-testing-library` exports
   - `queryByPlaceholderText`
   - `queryAllByPlaceholderText`
   - `getByPlaceholderText`
@@ -78,6 +85,11 @@ See [dom-testing-libary](https://github.com/kentcdodds/dom-testing-library#usage
   - `queryAllByTitle`
   - `getByTitle`
   - `getAllByTitle`
+
+## Known Limitations
+
+- `waitForElement` method is not exposed. Puppeteer has its own set of wait utilities that somewhat conflict with the style used in `dom-testing-library`. See [issue](https://github.com/patrickhulce/pptr-testing-library/issues/3).
+- `fireEvent` method is not exposed, use puppeteer's built-ins instead.
 
 ## Special Thanks
 
