@@ -7,7 +7,7 @@ describe('lib/index.ts', () => {
   let page: puppeteer.Page
 
   it('should launch puppeteer', async () => {
-    browser = await puppeteer.launch()
+    browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
     page = await browser.newPage()
     await page.goto(`file://${path.join(__dirname, 'fixtures/page.html')}`)
   })

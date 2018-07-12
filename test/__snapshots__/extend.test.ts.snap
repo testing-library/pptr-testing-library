@@ -3,10 +3,10 @@
 exports[`lib/extend.ts should handle the LabelText methods 1`] = `"<input id=\\"label-text-input\\" type=\\"text\\">"`;
 
 exports[`lib/extend.ts should handle the get* method failures 1`] = `
-[Error: Evaluation failed: Error: Unable to find an element with the title: missing.
+"Evaluation failed: Error: Unable to find an element with the title: missing.
 
 [36m<div[39m
-  [33mid[39m=[32m"scoped"[39m
+  [33mid[39m=[32m\\"scoped\\"[39m
 [36m>[39m
   [0m
     [0m
@@ -16,11 +16,11 @@ exports[`lib/extend.ts should handle the get* method failures 1`] = `
   [0m
   [0m
 [36m</div>[39m
-    at getElementError (<anonymous>:2626:11)
-    at getAllByTitle (<anonymous>:2827:12)
-    at firstResultOrNull (<anonymous>:2638:31)
-    at Object.getByTitle (<anonymous>:2837:29)
-    at evaluateInPage (<anonymous>:3048:41)]
+    at getElementError <stack>:X:X)
+    at getAllByTitle <stack>:X:X)
+    at firstResultOrNull <stack>:X:X)
+    at Object.getByTitle <stack>:X:X)
+    at evaluateInPage <stack>:X:X)"
 `;
 
 exports[`lib/extend.ts should handle the get* methods 1`] = `"<input type=\\"text\\" data-testid=\\"testid-text-input\\">"`;

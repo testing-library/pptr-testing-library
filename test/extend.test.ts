@@ -8,7 +8,7 @@ describe('lib/extend.ts', () => {
   let document: puppeteer.ElementHandle
 
   it('should launch puppeteer', async () => {
-    browser = await puppeteer.launch()
+    browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
     page = await browser.newPage()
     await page.goto(`file://${path.join(__dirname, 'fixtures/page.html')}`)
   })
@@ -21,17 +21,20 @@ describe('lib/extend.ts', () => {
   it('should handle the query* methods', async () => {
     const element = await document.queryByText('Hello h1')
     expect(element).toBeTruthy()
+    /* istanbul ignore next */
     expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h1')
   })
 
   it('should handle regex matching', async () => {
     const element = await document.queryByText(/Hello/)
     expect(element).toBeTruthy()
+    /* istanbul ignore next */
     expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h1')
   })
 
   it('should handle the get* methods', async () => {
     const element = await document.getByTestId('testid-text-input')
+    /* istanbul ignore next */
     expect(await page.evaluate(el => el.outerHTML, element)).toMatchSnapshot()
   })
 
@@ -43,12 +46,14 @@ describe('lib/extend.ts', () => {
       await scope.getByTitle('missing')
       fail()
     } catch (err) {
-      expect(err).toMatchSnapshot()
+      err.message = err.message.replace(/\(.*?:\d+:\d+/g, '<stack>:X:X')
+      expect(err.message).toMatchSnapshot()
     }
   })
 
   it('should handle the LabelText methods', async () => {
     const element = await document.getByLabelText('Label A')
+    /* istanbul ignore next */
     expect(await page.evaluate(el => el.outerHTML, element)).toMatchSnapshot()
   })
 
@@ -68,6 +73,7 @@ describe('lib/extend.ts', () => {
   it('should scope results to element', async () => {
     const scope = await document.$('#scoped')
     const element = await scope.queryByText(/Hello/)
+    /* istanbul ignore next */
     expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h3')
   })
 
