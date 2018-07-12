@@ -21,17 +21,20 @@ describe('lib/extend.ts', () => {
   it('should handle the query* methods', async () => {
     const element = await document.queryByText('Hello h1')
     expect(element).toBeTruthy()
+    /* istanbul ignore next */
     expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h1')
   })
 
   it('should handle regex matching', async () => {
     const element = await document.queryByText(/Hello/)
     expect(element).toBeTruthy()
+    /* istanbul ignore next */
     expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h1')
   })
 
   it('should handle the get* methods', async () => {
     const element = await document.getByTestId('testid-text-input')
+    /* istanbul ignore next */
     expect(await page.evaluate(el => el.outerHTML, element)).toMatchSnapshot()
   })
 
@@ -43,12 +46,14 @@ describe('lib/extend.ts', () => {
       await scope.getByTitle('missing')
       fail()
     } catch (err) {
-      expect(err).toMatchSnapshot()
+      err.stack = err.stack.replace(/\(.*?:\d+:\d+/g, '<stack>:X:X')
+      expect(err.stack).toMatchSnapshot()
     }
   })
 
   it('should handle the LabelText methods', async () => {
     const element = await document.getByLabelText('Label A')
+    /* istanbul ignore next */
     expect(await page.evaluate(el => el.outerHTML, element)).toMatchSnapshot()
   })
 
@@ -68,6 +73,7 @@ describe('lib/extend.ts', () => {
   it('should scope results to element', async () => {
     const scope = await document.$('#scoped')
     const element = await scope.queryByText(/Hello/)
+    /* istanbul ignore next */
     expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h3')
   })
 

@@ -9,6 +9,7 @@ const domLibraryAsString = readFileSync(
   'utf8',
 ).replace(/process.env/g, '{}')
 
+/* istanbul ignore next */
 function mapArgument(argument: any, index: number): any {
   return index === 0 && typeof argument === 'object' && argument.regex
     ? new RegExp(argument.regex)
