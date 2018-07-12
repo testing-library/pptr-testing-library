@@ -17,39 +17,44 @@ All your favorite user-centric querying functions from react-testing-library/dom
 
 ```js
 const puppeteer = require('puppeteer')
+const {getDocument, queries, wait} = require('pptr-testing-library')
+
+const {getByTestId, getByLabelText} = queries
+
+const browser = await puppeteer.launch()
+const page = await browser.newPage()
+
+// Grab ElementHandle for document
+const $document = await getDocument(page)
+// Your favorite query methods are available
+const $form = await getByTestId($document, 'my-form')
+// returned elements are ElementHandles too!
+const $email = await getByLabelText($form, 'Email')
+// interact with puppeteer like usual
+await $email.type('pptr@example.com')
+// waiting works too!
+await wait(() => getByText('Loading...'))
+```
+
+A little too un-puppeteer for you? We've got prototype-mucking covered too :)
+
+```js
+const puppeteer = require('puppeteer')
 require('pptr-testing-library/extend')
 
 const browser = await puppeteer.launch()
 const page = await browser.newPage()
 
-// Grab ElementHandle for document, this convenience method added by pptr-testing-library/extend
+// getDocument is added to prototype of Page
 const $document = await page.getDocument()
-
-// query methods are added to prototype of ElementHandle
+// query methods are added directly to prototype of ElementHandle
 const $form = await $document.getByTestId('my-form')
-// returned elements are ElementHandles too!
-const $email = await $form.getByLabelText('Email')
-// interact with puppeteer like usual
-await $email.type('pptr@example.com')
-```
-
-For those less enthused by prototype manipulation, we've got you covered too.
-
-```js
-const puppeteer = require('puppeteer')
-const {getDocument, queries} = require('pptr-testing-library')
-
-const browser = await puppeteer.launch()
-const page = await browser.newPage()
-
-const $document = await getDocument(page)
-const $form = await queries.getByTestId($document, 'my-form')
 // ...
 ```
 
 ## API
 
-Puppeteer-specific methods
+Unique methods, not part of `dom-testing-library`
 
 - `getDocument(page: puppeteer.Page): ElementHandle` - get an ElementHandle for the document
 
@@ -88,12 +93,19 @@ Puppeteer-specific methods
 
 ## Known Limitations
 
-- `waitForElement` method is not exposed. Puppeteer has its own set of wait utilities that somewhat conflict with the style used in `dom-testing-library`. See [issue](https://github.com/patrickhulce/pptr-testing-library/issues/3).
+- `waitForElement` method is not exposed. Puppeteer has its own set of wait utilities that somewhat conflict with the style used in `dom-testing-library`. See [#3](https://github.com/patrickhulce/pptr-testing-library/issues/3).
 - `fireEvent` method is not exposed, use puppeteer's built-ins instead.
+- Query methods rely on the context and don't support destructuring. See [#4](https://github.com/patrickhulce/pptr-testing-library/issues/4).
+- `expect` assertion extensions are not available.
 
 ## Special Thanks
 
 [dom-testing-library](https://github.com/kentcdodds/dom-testing-library) of course!
+
+## Related Puppeteer Test Utilities
+
+- [jest-puppeteer](https://github.com/smooth-code/jest-puppeteer)
+- Yours! Name TBD, PR welcome ;)
 
 ## LICENSE
 
