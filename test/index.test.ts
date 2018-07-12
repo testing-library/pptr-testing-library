@@ -1,6 +1,6 @@
 import * as path from 'path'
 import * as puppeteer from 'puppeteer'
-import {getDocument, queries} from '../lib'
+import {getDocument, queries, getQueriesForElement} from '../lib'
 
 describe('lib/index.ts', () => {
   let browser: puppeteer.Browser
@@ -15,7 +15,13 @@ describe('lib/index.ts', () => {
   it('should export the utilities', async () => {
     const document = await getDocument(page)
     const element = await queries.getByText(document, 'Hello h1')
-    expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h1')
+    expect(await queries.getNodeText(element)).toEqual('Hello h1')
+  })
+
+  it('should bind getQueriesForElement', async () => {
+    const {getByText} = getQueriesForElement(await getDocument(page))
+    const element = await getByText('Hello h1')
+    expect(await queries.getNodeText(element)).toEqual('Hello h1')
   })
 
   afterAll(async () => {
