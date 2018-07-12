@@ -55,7 +55,6 @@
     "rollup": "^0.61.1",
     "rollup-plugin-commonjs": "^9.1.3",
     "rollup-plugin-node-resolve": "^3.3.0",
-    "semantic-release": "^11.0.0",
     "ts-jest": "^22.4.6",
     "tslint": "^5.10.0",
     "typescript": "^2.9.2"
