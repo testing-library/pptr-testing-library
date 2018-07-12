@@ -76,6 +76,12 @@ describe('lib/extend.ts', () => {
     expect(await $h3.getNodeText()).toEqual('Hello h3')
   })
 
+  it('should work with destructuring', async () => {
+    const {queryByText} = (await document.$('#scoped')).getQueriesForElement()
+    expect(await queryByText('Hello h1')).toBeFalsy()
+    expect(await queryByText('Hello h3')).toBeTruthy()
+  })
+
   afterAll(async () => {
     await browser.close()
   })

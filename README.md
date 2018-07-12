@@ -49,6 +49,8 @@ const page = await browser.newPage()
 const $document = await page.getDocument()
 // query methods are added directly to prototype of ElementHandle
 const $form = await $document.getByTestId('my-form')
+// destructing works if you explicitly call getQueriesForElement
+const {getByText} = $form.getQueriesForElement()
 // ...
 ```
 
@@ -95,7 +97,6 @@ Unique methods, not part of `dom-testing-library`
 
 - `waitForElement` method is not exposed. Puppeteer has its own set of wait utilities that somewhat conflict with the style used in `dom-testing-library`. See [#3](https://github.com/patrickhulce/pptr-testing-library/issues/3).
 - `fireEvent` method is not exposed, use puppeteer's built-ins instead.
-- Query methods rely on the context and don't support destructuring. See [#4](https://github.com/patrickhulce/pptr-testing-library/issues/4).
 - `expect` assertion extensions are not available.
 
 ## Special Thanks

@@ -4,6 +4,7 @@ import {ElementHandle} from 'puppeteer'
 type Element = ElementHandle
 
 export interface IQueryUtils {
+  getQueriesForElement(): IQueryUtils
   getNodeText(el: Element): Promise<string>
   queryByPlaceholderText(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element | null>
   queryAllByPlaceholderText(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element[]>

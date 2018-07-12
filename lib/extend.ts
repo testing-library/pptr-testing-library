@@ -23,6 +23,7 @@ declare module 'puppeteer' {
   }
 
   interface ElementHandle {
+    getQueriesForElement(): ElementHandle
     getNodeText(): Promise<string>
     queryByPlaceholderText(m: Matcher, opts?: MatcherOptions): Promise<ElementHandle | null>
     queryAllByPlaceholderText(m: Matcher, opts?: MatcherOptions): Promise<ElementHandle[]>

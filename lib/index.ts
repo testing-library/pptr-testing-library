@@ -118,6 +118,11 @@ export function wait(
 
 export function getQueriesForElement<T>(object: T, contextFn?: ContextFn): T & IQueryUtils {
   const o = object as any
+  o.getQueriesForElement = function() {
+    const realContextFn = contextFn || ((): ElementHandle => this)
+    return getQueriesForElement(this, realContextFn)
+  }
+
   o.queryByPlaceholderText = createDelegateFor('queryByPlaceholderText', contextFn)
   o.queryAllByPlaceholderText = createDelegateFor('queryAllByPlaceholderText', contextFn)
   o.getByPlaceholderText = createDelegateFor('getByPlaceholderText', contextFn)
