@@ -26,7 +26,7 @@ describe('lib/extend.ts', () => {
   })
 
   it('should handle regex matching', async () => {
-    const element = await document.queryByText(/Hello/)
+    const element = await document.queryByText(/HeLlO/i)
     expect(element).toBeTruthy()
     /* istanbul ignore next */
     expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h1')

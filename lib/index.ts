@@ -12,7 +12,7 @@ const domLibraryAsString = readFileSync(
 /* istanbul ignore next */
 function mapArgument(argument: any, index: number): any {
   return index === 0 && typeof argument === 'object' && argument.regex
-    ? new RegExp(argument.regex)
+    ? new RegExp(argument.regex, argument.flags)
     : argument
 }
 
@@ -84,6 +84,8 @@ function createDelegateFor<T = DOMReturnType>(
   // @ts-ignore
   processHandleFn = processHandleFn || processQuery
 
+  const convertRegExp = (regex: RegExp) => ({regex: regex.source, flags: regex.flags})
+
   return async function(...args: any[]): Promise<T> {
     // @ts-ignore
     const containerHandle: ElementHandle = contextFn ? contextFn.apply(this, args) : this
@@ -91,7 +93,7 @@ function createDelegateFor<T = DOMReturnType>(
     const evaluateFn: EvaluateFn = {toString: () => delegateFnToExecuteInPage}
 
     // Convert RegExp to a special format since they don't serialize well
-    let argsToForward = args.map(arg => (arg instanceof RegExp ? {regex: arg.source} : arg))
+    let argsToForward = args.map(arg => (arg instanceof RegExp ? convertRegExp(arg) : arg))
     // Remove the container from the argsToForward since it's always the first argument
     if (containerHandle === args[0]) {
       argsToForward = args.slice(1)
