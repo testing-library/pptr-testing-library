@@ -16,13 +16,11 @@ function mapArgument(argument: any, index: number): any {
     : argument
 }
 
-const delegateFnToExecuteInPage = `
-function evaluateInPage(container, fnName, ...args) {
-  ${domLibraryAsString}
+const delegateFnBodyToExecuteInPage = `
+  ${domLibraryAsString};
 
-  const mappedArgs = args.map(${mapArgument.toString()})
-  return __dom_testing_library__[fnName](container, ...mappedArgs)
-}
+  const mappedArgs = args.map(${mapArgument.toString()});
+  return __dom_testing_library__[fnName](container, ...mappedArgs);
 `
 
 type DOMReturnType = ElementHandle | ElementHandle[] | null
@@ -90,7 +88,10 @@ function createDelegateFor<T = DOMReturnType>(
     // @ts-ignore
     const containerHandle: ElementHandle = contextFn ? contextFn.apply(this, args) : this
     // @ts-ignore
-    const evaluateFn: EvaluateFn = {toString: () => delegateFnToExecuteInPage}
+    const evaluateFn: EvaluateFn = new Function(
+      'container, fnName, ...args',
+      delegateFnBodyToExecuteInPage,
+    )
 
     // Convert RegExp to a special format since they don't serialize well
     let argsToForward = args.map(arg => (arg instanceof RegExp ? convertRegExp(arg) : arg))
