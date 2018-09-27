@@ -1,9 +1,11 @@
 import {readFileSync} from 'fs'
 import * as path from 'path'
-import * as queries from 'dom-testing-library/dist/queries'
 import {ElementHandle, EvaluateFn, JSHandle, Page} from 'puppeteer'
 import waitForExpect from 'wait-for-expect'
 import {IQueryUtils} from './typedefs'
+
+// @ts-ignore
+const queries = require('dom-testing-library/dist/queries')
 
 const domLibraryAsString = readFileSync(
   path.join(__dirname, '../dom-testing-library.js'),
