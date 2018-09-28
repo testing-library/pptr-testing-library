@@ -2,7 +2,7 @@
   "compileOnSave": true,
   "compilerOptions": {
     "outDir": "./dist",
-    "target": "es2015",
+    "target": "es2017",
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
@@ -13,6 +13,7 @@
     "noImplicitThis": true,
     "strictNullChecks": true,
     "preserveWatchOutput": true,
+    "lib": ["es2017", "dom"],
   },
   "include": [
     "lib/**/*"

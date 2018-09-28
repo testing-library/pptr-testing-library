@@ -5,6 +5,7 @@ import waitForExpect from 'wait-for-expect'
 import {IQueryUtils} from './typedefs'
 
 // @ts-ignore
+// tslint:disable-next-line
 const queries = require('dom-testing-library/dist/queries')
 
 const domLibraryAsString = readFileSync(
@@ -126,14 +127,14 @@ export function wait(
 export function getQueriesForElement<T>(object: T, contextFn?: ContextFn): T & IQueryUtils {
   const o = object as any
   if (!contextFn) contextFn = () => o
- 
+
   Object.entries(queries).map(([fnName]) => {
-    o[fnName] = createDelegateFor(fnName, contextFn)
+    o[fnName] = createDelegateFor(fnName as keyof IQueryUtils, contextFn)
   })
-  
+
   o.getQueriesForElement = () => getQueriesForElement(o, () => o)
   o.getNodeText = createDelegateFor<string>('getNodeText', contextFn, processNodeText)
- 
+
   return o
 }
 
