@@ -157,6 +157,22 @@ export function getQueriesForElement<T>(
   o.queryAllByTitle = createDelegateFor('queryAllByTitle', contextFn)
   o.getByTitle = createDelegateFor('getByTitle', contextFn)
   o.getAllByTitle = createDelegateFor('getAllByTitle', contextFn)
+
+  o.queryByRole = createDelegateFor('queryByRole', contextFn)
+  o.queryAllByRole = createDelegateFor('queryAllByRole', contextFn)
+  o.getByRole = createDelegateFor('getByRole', contextFn)
+  o.getAllByRole = createDelegateFor('getAllByRole', contextFn)
+
+  o.queryBySelectText = createDelegateFor('queryBySelectText', contextFn)
+  o.queryAllBySelectText = createDelegateFor('queryAllBySelectText', contextFn)
+  o.getBySelectText = createDelegateFor('getBySelectText', contextFn)
+  o.getAllBySelectText = createDelegateFor('getAllBySelectText', contextFn)
+
+  o.queryByValue = createDelegateFor('queryByValue', contextFn)
+  o.queryAllByValue = createDelegateFor('queryAllByValue', contextFn)
+  o.getByValue = createDelegateFor('getByValue', contextFn)
+  o.getAllByValue = createDelegateFor('getAllByValue', contextFn)
+
   o.getNodeText = createDelegateFor<string>('getNodeText', contextFn, processNodeText)
 
   return o

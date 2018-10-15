@@ -42,7 +42,7 @@
     }
   },
   "dependencies": {
-    "dom-testing-library": "^2.6.1",
+    "dom-testing-library": "^3.11.0",
     "wait-for-expect": "^0.4.0"
   },
   "devDependencies": {

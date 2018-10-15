@@ -33,6 +33,21 @@ interface IQueryMethods {
   queryAllByTitle(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element[]>
   getByTitle(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element>
   getAllByTitle(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element[]>
+
+  queryByRole(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element | null>
+  queryAllByRole(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element[]>
+  getByRole(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element>
+  getAllByRole(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element[]>
+
+  queryBySelectText(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element | null>
+  queryAllBySelectText(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element[]>
+  getBySelectText(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element>
+  getAllBySelectText(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element[]>
+
+  queryByValue(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element | null>
+  queryAllByValue(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element[]>
+  getByValue(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element>
+  getAllByValue(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element[]>
 }
 
 type IScopedQueryMethods = {

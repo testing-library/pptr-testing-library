@@ -5,17 +5,17 @@ exports[`lib/extend.ts should handle the LabelText methods 1`] = `"<input id=\\"
 exports[`lib/extend.ts should handle the get* method failures 1`] = `
 "Evaluation failed: Error: Unable to find an element with the title: missing.
 
-[36m<div[39m
-  [33mid[39m=[32m\\"scoped\\"[39m
-[36m>[39m
-  [0m
-    [0m
-  [36m<h3>[39m
-    [0mHello h3[0m
-  [36m</h3>[39m
-  [0m
-  [0m
-[36m</div>[39m
+<div
+  id=\\"scoped\\"
+>
+  
+    
+  <h3>
+    Hello h3
+  </h3>
+  
+  
+</div>
     at getElementError <stack>:X:X)
     at getAllByTitle <stack>:X:X)
     at firstResultOrNull <stack>:X:X)

@@ -25,6 +25,13 @@ describe('lib/extend.ts', () => {
     expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h1')
   })
 
+  it('should use the new v3 methods', async () => {
+    const element = await document.queryByRole('presentation')
+    expect(element).toBeTruthy()
+    /* istanbul ignore next */
+    expect(await page.evaluate(el => el.textContent, element)).toContain('Layout table')
+  })
+
   it('should handle regex matching', async () => {
     const element = await document.queryByText(/HeLlO/i)
     expect(element).toBeTruthy()
