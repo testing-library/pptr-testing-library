@@ -2,7 +2,7 @@ import {readFileSync} from 'fs'
 import * as path from 'path'
 import {ElementHandle, EvaluateFn, JSHandle, Page} from 'puppeteer'
 import waitForExpect from 'wait-for-expect'
-import {IQueryUtils} from './typedefs'
+import {IQueryUtils, IScopedQueryUtils} from './typedefs'
 
 const domLibraryAsString = readFileSync(
   path.join(__dirname, '../dom-testing-library.js'),
@@ -120,35 +120,45 @@ export function wait(
   return waitForExpect(callback, timeout, interval)
 }
 
-export function getQueriesForElement<T>(object: T, contextFn?: ContextFn): T & IQueryUtils {
+export function getQueriesForElement<T>(
+  object: T,
+  contextFn?: ContextFn,
+): T & IQueryUtils & IScopedQueryUtils {
   const o = object as any
   if (!contextFn) contextFn = () => o
   o.getQueriesForElement = () => getQueriesForElement(o, () => o)
+
   o.queryByPlaceholderText = createDelegateFor('queryByPlaceholderText', contextFn)
   o.queryAllByPlaceholderText = createDelegateFor('queryAllByPlaceholderText', contextFn)
   o.getByPlaceholderText = createDelegateFor('getByPlaceholderText', contextFn)
   o.getAllByPlaceholderText = createDelegateFor('getAllByPlaceholderText', contextFn)
+
   o.queryByText = createDelegateFor('queryByText', contextFn)
   o.queryAllByText = createDelegateFor('queryAllByText', contextFn)
   o.getByText = createDelegateFor('getByText', contextFn)
   o.getAllByText = createDelegateFor('getAllByText', contextFn)
+
   o.queryByLabelText = createDelegateFor('queryByLabelText', contextFn)
   o.queryAllByLabelText = createDelegateFor('queryAllByLabelText', contextFn)
   o.getByLabelText = createDelegateFor('getByLabelText', contextFn)
   o.getAllByLabelText = createDelegateFor('getAllByLabelText', contextFn)
+
   o.queryByAltText = createDelegateFor('queryByAltText', contextFn)
   o.queryAllByAltText = createDelegateFor('queryAllByAltText', contextFn)
   o.getByAltText = createDelegateFor('getByAltText', contextFn)
   o.getAllByAltText = createDelegateFor('getAllByAltText', contextFn)
+
   o.queryByTestId = createDelegateFor('queryByTestId', contextFn)
   o.queryAllByTestId = createDelegateFor('queryAllByTestId', contextFn)
   o.getByTestId = createDelegateFor('getByTestId', contextFn)
   o.getAllByTestId = createDelegateFor('getAllByTestId', contextFn)
+
   o.queryByTitle = createDelegateFor('queryByTitle', contextFn)
   o.queryAllByTitle = createDelegateFor('queryAllByTitle', contextFn)
   o.getByTitle = createDelegateFor('getByTitle', contextFn)
   o.getAllByTitle = createDelegateFor('getAllByTitle', contextFn)
   o.getNodeText = createDelegateFor<string>('getNodeText', contextFn, processNodeText)
+
   return o
 }
 
