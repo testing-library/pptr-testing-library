@@ -1,11 +1,11 @@
 # pptr-testing-library
 
 [![NPM Package](https://badge.fury.io/js/pptr-testing-library.svg)](https://www.npmjs.com/package/pptr-testing-library)
-[![Build Status](https://travis-ci.org/patrickhulce/pptr-testing-library.svg?branch=master)](https://travis-ci.org/patrickhulce/pptr-testing-library)
-[![Coverage Status](https://coveralls.io/repos/github/patrickhulce/pptr-testing-library/badge.svg?branch=master)](https://coveralls.io/github/patrickhulce/pptr-testing-library?branch=master)
-[![Dependencies](https://david-dm.org/patrickhulce/pptr-testing-library.svg)](https://david-dm.org/patrickhulce/pptr-testing-library)
+[![Build Status](https://travis-ci.org/testing-library/pptr-testing-library.svg?branch=master)](https://travis-ci.org/testing-library/pptr-testing-library)
+[![Coverage Status](https://coveralls.io/repos/github/testing-library/pptr-testing-library/badge.svg?branch=master)](https://coveralls.io/github/testing-library/pptr-testing-library?branch=master)
+[![Dependencies](https://david-dm.org/testing-library/pptr-testing-library.svg)](https://david-dm.org/testing-library/pptr-testing-library)
 
-[puppeteer](https://github.com/GoogleChrome/puppeteer) + [dom-testing-library](https://github.com/kentcdodds/dom-testing-library) = 💖
+[puppeteer](https://github.com/GoogleChrome/puppeteer) + [dom-testing-library](https://github.com/testing-library/dom-testing-library) = 💖
 
 All your favorite user-centric querying functions from react-testing-library/dom-testing-library available from Puppeteer!
 
@@ -62,7 +62,7 @@ Unique methods, not part of `dom-testing-library`
 
 ---
 
-[dom-testing-libary API](https://github.com/kentcdodds/dom-testing-library#usage). All `get*`/`query*` methods are supported.
+[dom-testing-libary API](https://github.com/testing-library/dom-testing-library#usage). All `get*`/`query*` methods are supported.
 
 - `getQueriesForElement(handle: ElementHandle): ElementHandle & QueryUtils` - extend the input object with the query API and return it
 - `wait(conditionFn: () => {}): Promise<{}>` - wait for the condition to not throw
@@ -95,13 +95,13 @@ Unique methods, not part of `dom-testing-library`
 
 ## Known Limitations
 
-- `waitForElement` method is not exposed. Puppeteer has its own set of wait utilities that somewhat conflict with the style used in `dom-testing-library`. See [#3](https://github.com/patrickhulce/pptr-testing-library/issues/3).
+- `waitForElement` method is not exposed. Puppeteer has its own set of wait utilities that somewhat conflict with the style used in `dom-testing-library`. See [#3](https://github.com/testing-library/pptr-testing-library/issues/3).
 - `fireEvent` method is not exposed, use puppeteer's built-ins instead.
 - `expect` assertion extensions are not available.
 
 ## Special Thanks
 
-[dom-testing-library](https://github.com/kentcdodds/dom-testing-library) of course!
+[dom-testing-library](https://github.com/testing-library/dom-testing-library) of course!
 
 ## Related Puppeteer Test Utilities
 
