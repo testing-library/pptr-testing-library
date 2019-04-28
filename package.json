@@ -17,13 +17,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/patrickhulce/pptr-testing-library.git"
+    "url": "https://github.com/testing-library/pptr-testing-library.git"
   },
   "author": "Patrick Hulce <patrick.hulce@gmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/patrickhulce/pptr-testing-library#readme",
+  "homepage": "https://github.com/testing-library/pptr-testing-library#readme",
   "bugs": {
-    "url": "https://github.com/patrickhulce/pptr-testing-library/issues"
+    "url": "https://github.com/testing-library/pptr-testing-library/issues"
   },
   "keywords": [
     "puppeteer",
