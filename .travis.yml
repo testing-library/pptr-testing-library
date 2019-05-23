@@ -14,11 +14,10 @@ env:
 before_install:
   - npm install -g yarn coveralls nyc @patrickhulce/scripts
 before_script:
-  - npm install --no-save "puppeteer@${PPTR_OVERRIDE_VERSION}"
+  - yarn add -D "puppeteer@${PPTR_OVERRIDE_VERSION}"
 script:
   - yarn rebuild
   - yarn test:lint
   - yarn test:unit --coverage --runInBand --verbose
 after_success:
   - cat coverage/lcov.info | coveralls || echo 'Failed to upload to coveralls...'
-  - hulk npm-publish --yes
