@@ -20,7 +20,10 @@ const delegateFnBodyToExecuteInPage = `
   ${domLibraryAsString};
 
   const mappedArgs = args.map(${mapArgument.toString()});
-  return __dom_testing_library__[fnName](container, ...mappedArgs);
+  const moduleWithFns = fnName in __dom_testing_library__ ?
+    __dom_testing_library__ :
+    __dom_testing_library__.__moduleExports;
+  return moduleWithFns[fnName](container, ...mappedArgs);
 `
 
 type DOMReturnType = ElementHandle | ElementHandle[] | null
@@ -61,10 +64,16 @@ function processNodeText(handles: IHandleSet): Promise<string> {
 async function processQuery(handles: IHandleSet): Promise<DOMReturnType> {
   const {containerHandle, evaluateFn, fnName, argsToForward} = handles
 
-  const handle = await containerHandle
-    .executionContext()
-    .evaluateHandle(evaluateFn, containerHandle, fnName, ...argsToForward)
-  return covertToElementHandle(handle, fnName.includes('All'))
+  try {
+    const handle = await containerHandle
+      .executionContext()
+      .evaluateHandle(evaluateFn, containerHandle, fnName, ...argsToForward)
+    return await covertToElementHandle(handle, fnName.includes('All'))
+  } catch (err) {
+    err.message = err.message.replace('[fnName]', `[${fnName}]`)
+    err.stack = err.stack.replace('[fnName]', `[${fnName}]`)
+    throw err
+  }
 }
 
 interface IHandleSet {
@@ -163,15 +172,10 @@ export function getQueriesForElement<T>(
   o.getByRole = createDelegateFor('getByRole', contextFn)
   o.getAllByRole = createDelegateFor('getAllByRole', contextFn)
 
-  o.queryBySelectText = createDelegateFor('queryBySelectText', contextFn)
-  o.queryAllBySelectText = createDelegateFor('queryAllBySelectText', contextFn)
-  o.getBySelectText = createDelegateFor('getBySelectText', contextFn)
-  o.getAllBySelectText = createDelegateFor('getAllBySelectText', contextFn)
-
-  o.queryByValue = createDelegateFor('queryByValue', contextFn)
-  o.queryAllByValue = createDelegateFor('queryAllByValue', contextFn)
-  o.getByValue = createDelegateFor('getByValue', contextFn)
-  o.getAllByValue = createDelegateFor('getAllByValue', contextFn)
+  o.queryByDisplayValue = createDelegateFor('queryByDisplayValue', contextFn)
+  o.queryAllByDisplayValue = createDelegateFor('queryAllByDisplayValue', contextFn)
+  o.getByDisplayValue = createDelegateFor('getByDisplayValue', contextFn)
+  o.getAllByDisplayValue = createDelegateFor('getAllByDisplayValue', contextFn)
 
   o.getNodeText = createDelegateFor<string>('getNodeText', contextFn, processNodeText)
 

@@ -16,11 +16,10 @@ exports[`lib/extend.ts should handle the get* method failures 1`] = `
   
   
 </div>
-    at getElementError <stack>:X:X)
-    at getAllByTitle <stack>:X:X)
-    at firstResultOrNull <stack>:X:X)
-    at Object.getByTitle <stack>:X:X)
-    at anonymous <stack>:X:X)"
+    at getElementError <stack>:X:X
+    at __puppeteer_evaluation_script__<stack>:X:X
+    at Object.<anonymous> <stack>:X:X
+    at anonymous <stack>:X:X"
 `;
 
 exports[`lib/extend.ts should handle the get* methods 1`] = `"<input type=\\"text\\" data-testid=\\"testid-text-input\\">"`;

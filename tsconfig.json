@@ -8,13 +8,13 @@
     "sourceMap": true,
     "declaration": true,
 
+    "skipLibCheck": true,
+
     "strict": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "preserveWatchOutput": true,
+    "preserveWatchOutput": true
   },
-  "include": [
-    "lib/**/*"
-  ]
+  "include": ["lib/**/*"]
 }

@@ -7,5 +7,11 @@ module.exports = {
     format: 'iife',
     name: '__dom_testing_library__',
   },
-  plugins: [require('rollup-plugin-node-resolve')(), require('rollup-plugin-commonjs')()],
+  plugins: [
+    require('rollup-plugin-node-resolve')(),
+    require('rollup-plugin-commonjs')(),
+    require('rollup-plugin-replace')({
+      'process.env.NODE_ENV': JSON.stringify('development'),
+    }),
+  ],
 }
