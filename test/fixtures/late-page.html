@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <span>Loading...</span>
+    <script>
+      setTimeout(() => {
+        const loaded = document.createElement('span')
+        loaded.textContent = 'Loaded!'
+        document.body.appendChild(loaded)
+      }, 5000)
+    </script>
+  </body>
+</html>
