@@ -56,7 +56,7 @@ describe('lib/extend.ts', () => {
       await scope.getByTitle('missing')
       fail()
     } catch (err) {
-      err.message = err.message.replace(/(\(.*?)?:\d+:\d+\)?/g, '<stack>:X:X')
+      err.message = err.message.replace(/(\s*at .*(\n|$))+/gm, '\n    <stack>:X:X')
       expect(err.message).toMatchSnapshot()
     }
   })
