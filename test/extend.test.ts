@@ -1,11 +1,14 @@
 import * as path from 'path'
 import * as puppeteer from 'puppeteer'
-import '../lib/extend'
 
 describe('lib/extend.ts', () => {
   let browser: puppeteer.Browser
   let page: puppeteer.Page
   let document: puppeteer.ElementHandle
+
+  it('should require without error', async () => {
+    await import('../lib/extend')
+  })
 
   it('should launch puppeteer', async () => {
     browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
