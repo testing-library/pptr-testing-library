@@ -36,7 +36,7 @@ describe('lib/extend.ts', () => {
   })
 
   it('should handle regex matching', async () => {
-    const element = await document.queryByText(/HeLlO/i)
+    const element = await document.queryByText(/HeLlO h(1|7)/i)
     expect(element).toBeTruthy()
     /* istanbul ignore next */
     expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h1')
@@ -56,7 +56,7 @@ describe('lib/extend.ts', () => {
       await scope.getByTitle('missing')
       fail()
     } catch (err) {
-      err.message = err.message.replace(/\(.*?:\d+:\d+/g, '<stack>:X:X')
+      err.message = err.message.replace(/(\(.*?)?:\d+:\d+\)?/g, '<stack>:X:X')
       expect(err.message).toMatchSnapshot()
     }
   })
