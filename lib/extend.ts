@@ -16,12 +16,15 @@ try {
   if (Page.Page) Page = Page.Page
 
   ElementHandle = requireOrUndefined('puppeteer/lib/ElementHandle.js') // tslint:disable-line variable-name
+  if (ElementHandle && ElementHandle.ElementHandle) ElementHandle = ElementHandle.ElementHandle
+
   if (!ElementHandle) {
     const ExecutionContext = requireOrUndefined('puppeteer/lib/ExecutionContext.js') // tslint:disable-line variable-name
     if (ExecutionContext && ExecutionContext.ElementHandle) {
       ElementHandle = ExecutionContext.ElementHandle
     }
   }
+  if (ElementHandle && ElementHandle.ElementHandle) ElementHandle = ElementHandle.ElementHandle
 
   if (!ElementHandle) {
     const JSHandle = require('puppeteer/lib/JSHandle.js') // tslint:disable-line
@@ -29,6 +32,7 @@ try {
       ElementHandle = JSHandle.ElementHandle
     }
   }
+  if (ElementHandle && ElementHandle.ElementHandle) ElementHandle = ElementHandle.ElementHandle
 
   Page.prototype.getDocument = getDocument
   getQueriesForElement(ElementHandle.prototype, function(this: ElementHandle): ElementHandle {
