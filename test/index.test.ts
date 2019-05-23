@@ -30,9 +30,9 @@ describe('lib/index.ts', () => {
 
   it('should use `wait` properly', async () => {
     const {getByText} = getQueriesForElement(await getDocument(page))
-    await wait(() => getByText('Loaded!'))
+    await wait(() => getByText('Loaded!'), {timeout: 7000})
     expect(await getByText('Loaded!')).toBeTruthy()
-  }, 7000)
+  }, 9000)
 
   afterAll(async () => {
     await browser.close()

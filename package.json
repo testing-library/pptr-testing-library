@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "dom-testing-library": "^4.1.1",
-    "wait-for-expect": "^0.4.0"
+    "wait-for-expect": "^1.2.0"
   },
   "devDependencies": {
     "@patrickhulce/lint": "^2.1.3",
