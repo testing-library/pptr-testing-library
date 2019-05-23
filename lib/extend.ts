@@ -15,9 +15,19 @@ try {
   Page = require('puppeteer/lib/Page.js') // tslint:disable-line
   if (Page.Page) Page = Page.Page
 
-  ElementHandle = requireOrUndefined('puppeteer/lib/ElementHandle.js') // tslint:disable-line
+  ElementHandle = requireOrUndefined('puppeteer/lib/ElementHandle.js') // tslint:disable-line variable-name
   if (!ElementHandle) {
-    ElementHandle = require('puppeteer/lib/ExecutionContext.js').ElementHandle // tslint:disable-line
+    const ExecutionContext = requireOrUndefined('puppeteer/lib/ExecutionContext.js') // tslint:disable-line variable-name
+    if (ExecutionContext && ExecutionContext.ElementHandle) {
+      ElementHandle = ExecutionContext.ElementHandle
+    }
+  }
+
+  if (!ElementHandle) {
+    const JSHandle = require('puppeteer/lib/JSHandle.js') // tslint:disable-line
+    if (JSHandle && JSHandle.ElementHandle) {
+      ElementHandle = JSHandle.ElementHandle
+    }
   }
 
   Page.prototype.getDocument = getDocument
