@@ -4,8 +4,8 @@ cache: yarn
 notifications:
   email: false
 node_js:
+  - v12
   - v10
-  - v8
 env:
   - PPTR_OVERRIDE_VERSION=1.5.x
   - PPTR_OVERRIDE_VERSION=1.7.x
