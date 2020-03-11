@@ -2,6 +2,7 @@ import {readFileSync} from 'fs'
 import * as path from 'path'
 import {ElementHandle, EvaluateFn, JSHandle, Page} from 'puppeteer'
 import waitForExpect from 'wait-for-expect'
+
 import {IQueryUtils, IScopedQueryUtils} from './typedefs'
 
 const domLibraryAsString = readFileSync(
@@ -32,7 +33,7 @@ type ContextFn = (...args: any[]) => ElementHandle
 
 async function createElementHandleArray(handle: JSHandle): Promise<ElementHandle[]> {
   const lengthHandle = await handle.getProperty('length')
-  const length = await lengthHandle.jsonValue()
+  const length = await lengthHandle.jsonValue() as number
 
   const elements: ElementHandle[] = []
   for (let i = 0; i < length; i++) {

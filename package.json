@@ -34,7 +34,20 @@
   "config": {
     "tslint": {
       "rules": {
-        "no-unsafe-any": false
+        "increment-decrement": false,
+        "no-unsafe-any": false,
+        "ban-ts-ignore": {
+          "severity": "warning"
+        },
+        "function-constructor": {
+          "severity": "warning"
+        },
+        "strict-comparisons": {
+          "severity": "warning"
+        },
+        "match-default-export-name": {
+          "severity": "warning"
+        }
       }
     },
     "exportAliases": {
@@ -56,9 +69,9 @@
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-replace": "^2.2.0",
-    "ts-jest": "^22.4.6",
-    "tslint": "^5.10.0",
-    "typescript": "^2.9.2"
+    "ts-jest": "^25.2.1",
+    "tslint": "^6.0.0",
+    "typescript": "^3.8.3"
   },
   "peerDependencies": {
     "puppeteer": "^1.5.0 || ^2.0.0"

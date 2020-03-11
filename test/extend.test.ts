@@ -53,7 +53,7 @@ describe('lib/extend.ts', () => {
     const scope = await document.$('#scoped')
 
     try {
-      await scope.getByTitle('missing')
+      await scope!.getByTitle('missing')
       fail()
     } catch (err) {
       err.message = err.message.replace(/(\s*at .*(\n|$))+/gm, '\n    <stack>:X:X')
@@ -82,18 +82,18 @@ describe('lib/extend.ts', () => {
 
   it('should scope results to element', async () => {
     const scope = await document.$('#scoped')
-    const element = await scope.queryByText(/Hello/)
+    const element = await scope!.queryByText(/Hello/)
     /* istanbul ignore next */
     expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h3')
   })
 
   it('should get text content', async () => {
     const $h3 = await document.$('#scoped h3')
-    expect(await $h3.getNodeText()).toEqual('Hello h3')
+    expect(await $h3!.getNodeText()).toEqual('Hello h3')
   })
 
   it('should work with destructuring', async () => {
-    const {queryByText} = (await document.$('#scoped')).getQueriesForElement()
+    const {queryByText} = (await document.$('#scoped'))!.getQueriesForElement()
     expect(await queryByText('Hello h1')).toBeFalsy()
     expect(await queryByText('Hello h3')).toBeTruthy()
   })
