@@ -62,5 +62,8 @@
   },
   "peerDependencies": {
     "puppeteer": "^1.5.0 || ^2.0.0"
+  },
+  "engines": {
+    "node": "^10 || ^12"
   }
 }
