@@ -1,4 +1,4 @@
-import {ElementHandle} from '../node_modules/@types/puppeteer'
+import {ElementHandle} from 'puppeteer'
 
 import {getDocument, getQueriesForElement} from '.'
 import {IScopedQueryUtils} from './typedefs'

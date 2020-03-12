@@ -8,14 +8,14 @@ node_js:
   - v12
   - v10
 env:
-  - PPTR_OVERRIDE_VERSION=1.5.x
-  - PPTR_OVERRIDE_VERSION=1.7.x
+  - PPTR_OVERRIDE_VERSION=1.6.x
+  - PPTR_OVERRIDE_VERSION=1.8.x
   - PPTR_OVERRIDE_VERSION=1.12.x
   - PPTR_OVERRIDE_VERSION=latest
 before_install:
   - npm install -g yarn coveralls nyc @patrickhulce/scripts
 before_script:
-  - yarn add -D "puppeteer@${PPTR_OVERRIDE_VERSION}"
+  - yarn add -D "puppeteer@${PPTR_OVERRIDE_VERSION}" "@types/puppeteer@${PPTR_OVERRIDE_VERSION}"
 script:
   - yarn rebuild
   - yarn test:lint

@@ -1,2 +1,2 @@
-export * from 'dom-testing-library/dist/queries'
-export {getNodeText} from 'dom-testing-library/dist/get-node-text'
+export * from '@testing-library/dom/dist/queries'
+export {getNodeText} from '@testing-library/dom'
