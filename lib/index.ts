@@ -136,48 +136,53 @@ export function getQueriesForElement<T>(
 ): T & IQueryUtils & IScopedQueryUtils {
   const o = object as any
   if (!contextFn) contextFn = () => o
+
+  const functionNames: Array<keyof IQueryUtils> = [
+    'queryByPlaceholderText',
+    'queryAllByPlaceholderText',
+    'getByPlaceholderText',
+    'getAllByPlaceholderText',
+
+    'queryByText',
+    'queryAllByText',
+    'getByText',
+    'getAllByText',
+
+    'queryByLabelText',
+    'queryAllByLabelText',
+    'getByLabelText',
+    'getAllByLabelText',
+
+    'queryByAltText',
+    'queryAllByAltText',
+    'getByAltText',
+    'getAllByAltText',
+
+    'queryByTestId',
+    'queryAllByTestId',
+    'getByTestId',
+    'getAllByTestId',
+
+    'queryByTitle',
+    'queryAllByTitle',
+    'getByTitle',
+    'getAllByTitle',
+
+    'queryByRole',
+    'queryAllByRole',
+    'getByRole',
+    'getAllByRole',
+
+    'queryByDisplayValue',
+    'queryAllByDisplayValue',
+    'getByDisplayValue',
+    'getAllByDisplayValue',
+  ]
+  functionNames.forEach(functionName => {
+    o[functionName] = createDelegateFor(functionName, contextFn)
+  })
+
   o.getQueriesForElement = () => getQueriesForElement(o, () => o)
-
-  o.queryByPlaceholderText = createDelegateFor('queryByPlaceholderText', contextFn)
-  o.queryAllByPlaceholderText = createDelegateFor('queryAllByPlaceholderText', contextFn)
-  o.getByPlaceholderText = createDelegateFor('getByPlaceholderText', contextFn)
-  o.getAllByPlaceholderText = createDelegateFor('getAllByPlaceholderText', contextFn)
-
-  o.queryByText = createDelegateFor('queryByText', contextFn)
-  o.queryAllByText = createDelegateFor('queryAllByText', contextFn)
-  o.getByText = createDelegateFor('getByText', contextFn)
-  o.getAllByText = createDelegateFor('getAllByText', contextFn)
-
-  o.queryByLabelText = createDelegateFor('queryByLabelText', contextFn)
-  o.queryAllByLabelText = createDelegateFor('queryAllByLabelText', contextFn)
-  o.getByLabelText = createDelegateFor('getByLabelText', contextFn)
-  o.getAllByLabelText = createDelegateFor('getAllByLabelText', contextFn)
-
-  o.queryByAltText = createDelegateFor('queryByAltText', contextFn)
-  o.queryAllByAltText = createDelegateFor('queryAllByAltText', contextFn)
-  o.getByAltText = createDelegateFor('getByAltText', contextFn)
-  o.getAllByAltText = createDelegateFor('getAllByAltText', contextFn)
-
-  o.queryByTestId = createDelegateFor('queryByTestId', contextFn)
-  o.queryAllByTestId = createDelegateFor('queryAllByTestId', contextFn)
-  o.getByTestId = createDelegateFor('getByTestId', contextFn)
-  o.getAllByTestId = createDelegateFor('getAllByTestId', contextFn)
-
-  o.queryByTitle = createDelegateFor('queryByTitle', contextFn)
-  o.queryAllByTitle = createDelegateFor('queryAllByTitle', contextFn)
-  o.getByTitle = createDelegateFor('getByTitle', contextFn)
-  o.getAllByTitle = createDelegateFor('getAllByTitle', contextFn)
-
-  o.queryByRole = createDelegateFor('queryByRole', contextFn)
-  o.queryAllByRole = createDelegateFor('queryAllByRole', contextFn)
-  o.getByRole = createDelegateFor('getByRole', contextFn)
-  o.getAllByRole = createDelegateFor('getAllByRole', contextFn)
-
-  o.queryByDisplayValue = createDelegateFor('queryByDisplayValue', contextFn)
-  o.queryAllByDisplayValue = createDelegateFor('queryAllByDisplayValue', contextFn)
-  o.getByDisplayValue = createDelegateFor('getByDisplayValue', contextFn)
-  o.getAllByDisplayValue = createDelegateFor('getAllByDisplayValue', contextFn)
-
   o.getNodeText = createDelegateFor<string>('getNodeText', contextFn, processNodeText)
 
   return o
