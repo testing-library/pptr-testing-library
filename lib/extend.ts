@@ -1,5 +1,6 @@
-import {getDocument, getQueriesForElement} from '.'
 import {ElementHandle} from '../node_modules/@types/puppeteer'
+
+import {getDocument, getQueriesForElement} from '.'
 import {IScopedQueryUtils} from './typedefs'
 
 // tslint:disable-next-line
