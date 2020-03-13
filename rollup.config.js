@@ -1,4 +1,7 @@
-const path = require('path')
+import resolve from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
+import replace from '@rollup/plugin-replace'
+import path from 'path'
 
 module.exports = {
   input: path.join(__dirname, 'rollup.input.js'),
@@ -8,9 +11,9 @@ module.exports = {
     name: '__dom_testing_library__',
   },
   plugins: [
-    require('rollup-plugin-node-resolve')(),
-    require('rollup-plugin-commonjs')(),
-    require('rollup-plugin-replace')({
+    resolve(),
+    commonjs(),
+    replace({
       'process.env.NODE_ENV': JSON.stringify('development'),
     }),
   ],
