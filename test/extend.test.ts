@@ -56,7 +56,9 @@ describe('lib/extend.ts', () => {
       await scope!.getByTitle('missing')
       fail()
     } catch (err) {
-      err.message = err.message.replace(/(\s*at .*(\n|$))+/gm, '\n    <stack>:X:X')
+      err.message = err.message
+        .replace(/(\s*at .*(\n|$))+/gm, '\n    <stack>:X:X')
+        .replace('TestingLibraryElementError', 'Error') // Puppeteer 1.7 returns a generic error
       expect(err.message).toMatchSnapshot()
     }
   })

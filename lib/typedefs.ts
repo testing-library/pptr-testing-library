@@ -1,4 +1,4 @@
-import {Matcher, MatcherOptions, SelectorMatcherOptions} from 'dom-testing-library/typings' // tslint:disable-line no-submodule-imports
+import {Matcher, MatcherOptions, SelectorMatcherOptions} from '@testing-library/dom'
 import {ElementHandle} from 'puppeteer'
 
 type Element = ElementHandle

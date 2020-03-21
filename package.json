@@ -28,6 +28,7 @@
   "keywords": [
     "puppeteer",
     "dom-testing-library",
+    "testing-library",
     "testing",
     "utility"
   ],
@@ -55,8 +56,8 @@
     }
   },
   "dependencies": {
-    "dom-testing-library": "^4.1.1",
-    "wait-for-expect": "^1.2.0"
+    "@testing-library/dom": "^7.0.4",
+    "wait-for-expect": "^3.0.2"
   },
   "devDependencies": {
     "@patrickhulce/lint": "^2.1.3",
