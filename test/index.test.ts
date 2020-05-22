@@ -18,6 +18,13 @@ describe('lib/index.ts', () => {
     expect(await queries.getNodeText(element)).toEqual('Hello h1')
   })
 
+  it('should support regex on raw queries object', async () => {
+    const scope = await page.$('#scoped')
+    if (!scope) throw new Error('Should have scope')
+    const element = await queries.getByText(scope, /Hello/i)
+    expect(await queries.getNodeText(element)).toEqual('Hello h3')
+  })
+
   it('should bind getQueriesForElement', async () => {
     const {getByText} = getQueriesForElement(await getDocument(page))
     const element = await getByText('Hello h1')

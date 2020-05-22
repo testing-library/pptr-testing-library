@@ -107,7 +107,7 @@ function createDelegateFor<T = DOMReturnType>(
     let argsToForward = args.map(arg => (arg instanceof RegExp ? convertRegExp(arg) : arg))
     // Remove the container from the argsToForward since it's always the first argument
     if (containerHandle === args[0]) {
-      argsToForward = args.slice(1)
+      argsToForward = argsToForward.slice(1)
     }
 
     return processHandleFn!({fnName, containerHandle, evaluateFn, argsToForward})
