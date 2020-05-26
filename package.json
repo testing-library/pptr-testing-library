@@ -65,17 +65,16 @@
     "@rollup/plugin-node-resolve": "^7.1.1",
     "@rollup/plugin-replace": "^2.3.1",
     "@types/jest": "^25.1.4",
-    "@types/puppeteer": "^2.0.0",
     "generate-export-aliases": "^1.1.0",
     "jest": "^25.1.0",
-    "puppeteer": "^2.0.0",
+    "playwright": "^1.0.2",
     "rollup": "^2.0.3",
     "ts-jest": "^25.2.1",
     "tslint": "^6.0.0",
     "typescript": "^3.8.3"
   },
   "peerDependencies": {
-    "puppeteer": "^1.5.0 || ^2.0.0"
+    "playwright": "^1.0.0"
   },
   "engines": {
     "node": "^10 || ^12 || ^13 || ^14"
