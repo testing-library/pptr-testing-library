@@ -1,7 +1,7 @@
 {
-  "name": "pptr-testing-library",
+  "name": "playwright-testing-library",
   "version": "0.0.0-development",
-  "description": "puppeteer + dom-testing-library",
+  "description": "playwright + dom-testing-library",
   "main": "./dist/index.js",
   "scripts": {
     "test": "npm run test:lint && npm run test:unit",
@@ -17,16 +17,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/testing-library/pptr-testing-library.git"
+    "url": "https://github.com/hoverinc/playwright-testing-library.git"
   },
-  "author": "Patrick Hulce <patrick.hulce@gmail.com>",
+  "author": "Patrick Hulce <patrick.hulce@gmail.com>, Kerry Gould <kerry@hover.to>, Jamie Rolfs <jamie.rolfs@hover.to>",
   "license": "MIT",
-  "homepage": "https://github.com/testing-library/pptr-testing-library#readme",
+  "homepage": "https://github.com/hoverinc/playwright-testing-library#readme",
   "bugs": {
-    "url": "https://github.com/testing-library/pptr-testing-library/issues"
+    "url": "https://github.com/hoverinc/playwright-testing-library/issues"
   },
   "keywords": [
-    "puppeteer",
+    "playwright",
     "dom-testing-library",
     "testing-library",
     "testing",
@@ -78,6 +78,6 @@
     "puppeteer": "^1.5.0 || ^2.0.0"
   },
   "engines": {
-    "node": "^10 || ^12 || ^13"
+    "node": "^10 || ^12 || ^13 || ^14"
   }
 }
