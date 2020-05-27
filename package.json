@@ -4,14 +4,14 @@
   "description": "playwright + dom-testing-library",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "npm run test:lint && npm run test:unit",
+    "test": "yarn test:lint && yarn test:unit",
     "test:unit": "jest",
     "test:lint": "lint -t typescript './lib/**/*.ts'",
     "semantic-release": "semantic-release",
     "clean": "rm -fR dist/",
-    "rebuild": "npm run clean && npm run build",
-    "prepublishOnly": "npm run rebuild && generate-export-aliases",
-    "build": "npm run build:ts && npm run build:rollup",
+    "rebuild": "yarn clean && yarn build",
+    "prepublishOnly": "yarn rebuild && generate-export-aliases",
+    "build": "yarn build:ts && yarn build:rollup",
     "build:ts": "tsc",
     "build:rollup": "rollup -c rollup.config.js"
   },
