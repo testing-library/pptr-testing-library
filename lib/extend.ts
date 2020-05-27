@@ -1,7 +1,5 @@
-import {ElementHandle} from 'puppeteer'
-
 import {getDocument, getQueriesForElement} from '.'
-import {IScopedQueryUtils} from './typedefs'
+import {ElementHandle, IScopedQueryUtils} from './typedefs'
 
 // tslint:disable-next-line
 let Page, ElementHandle
@@ -13,26 +11,10 @@ function requireOrUndefined(path: string): any {
 }
 
 try {
-  Page = require('puppeteer/lib/Page.js') // tslint:disable-line
+  Page = require('playwright-core/lib/page.js') // tslint:disable-line
   if (Page.Page) Page = Page.Page
 
-  ElementHandle = requireOrUndefined('puppeteer/lib/ElementHandle.js') // tslint:disable-line variable-name
-  if (ElementHandle && ElementHandle.ElementHandle) ElementHandle = ElementHandle.ElementHandle
-
-  if (!ElementHandle) {
-    const ExecutionContext = requireOrUndefined('puppeteer/lib/ExecutionContext.js') // tslint:disable-line variable-name
-    if (ExecutionContext && ExecutionContext.ElementHandle) {
-      ElementHandle = ExecutionContext.ElementHandle
-    }
-  }
-  if (ElementHandle && ElementHandle.ElementHandle) ElementHandle = ElementHandle.ElementHandle
-
-  if (!ElementHandle) {
-    const JSHandle = require('puppeteer/lib/JSHandle.js') // tslint:disable-line
-    if (JSHandle && JSHandle.ElementHandle) {
-      ElementHandle = JSHandle.ElementHandle
-    }
-  }
+  ElementHandle = requireOrUndefined('playwright-core/lib/api.js') // tslint:disable-line variable-name
   if (ElementHandle && ElementHandle.ElementHandle) ElementHandle = ElementHandle.ElementHandle
 
   Page.prototype.getDocument = getDocument
@@ -45,12 +27,12 @@ try {
   }
 } catch (err) {
   // tslint:disable-next-line
-  console.error('Could not augment puppeteer functions, do you have a conflicting version?')
+  console.error('Could not augment playwright functions, do you have a conflicting version?')
   throw err
 }
 
 /* tslint:disable */
-declare module 'puppeteer' {
+declare module 'playwright-core/types/types' {
   interface Page {
     getDocument(): Promise<ElementHandle>
   }

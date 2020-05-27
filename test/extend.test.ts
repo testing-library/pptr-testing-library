@@ -1,22 +1,22 @@
 import * as path from 'path'
-import * as puppeteer from 'puppeteer'
+import * as playwright from 'playwright'
 
 describe('lib/extend.ts', () => {
-  let browser: puppeteer.Browser
-  let page: puppeteer.Page
-  let document: puppeteer.ElementHandle
+  let browser: playwright.ChromiumBrowser
+  let page: playwright.Page
+  let document: playwright.ElementHandle
 
   it('should require without error', async () => {
     await import('../lib/extend')
   })
 
-  it('should launch puppeteer', async () => {
-    browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
+  it('should launch playwright', async () => {
+    browser = await playwright.chromium.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
     page = await browser.newPage()
     await page.goto(`file://${path.join(__dirname, 'fixtures/page.html')}`)
   })
 
-  it('should extend puppeteer ElementHandle', async () => {
+  it('should extend playwright ElementHandle', async () => {
     document = await page.getDocument()
     expect(typeof document.queryAllByAltText).toBe('function')
   })
@@ -25,21 +25,21 @@ describe('lib/extend.ts', () => {
     const element = await document.queryByText('Hello h1')
     expect(element).toBeTruthy()
     /* istanbul ignore next */
-    expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h1')
+    expect(await page.evaluate(el => el?.textContent, element)).toEqual('Hello h1')
   })
 
   it('should use the new v3 methods', async () => {
     const element = await document.queryByRole('presentation')
     expect(element).toBeTruthy()
     /* istanbul ignore next */
-    expect(await page.evaluate(el => el.textContent, element)).toContain('Layout table')
+    expect(await page.evaluate(el => el?.textContent, element)).toContain('Layout table')
   })
 
   it('should handle regex matching', async () => {
     const element = await document.queryByText(/HeLlO h(1|7)/i)
     expect(element).toBeTruthy()
     /* istanbul ignore next */
-    expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h1')
+    expect(await page.evaluate(el => el?.textContent, element)).toEqual('Hello h1')
   })
 
   it('should handle the get* methods', async () => {
@@ -56,9 +56,7 @@ describe('lib/extend.ts', () => {
       await scope!.getByTitle('missing')
       fail()
     } catch (err) {
-      err.message = err.message
-        .replace(/(\s*at .*(\n|$))+/gm, '\n    <stack>:X:X')
-        .replace('TestingLibraryElementError', 'Error') // Puppeteer 1.7 returns a generic error
+      err.message = err.message.replace(/(\s*at .*(\n|$))+/gm, '\n    <stack>:X:X')
       expect(err.message).toMatchSnapshot()
     }
   })
@@ -86,7 +84,7 @@ describe('lib/extend.ts', () => {
     const scope = await document.$('#scoped')
     const element = await scope!.queryByText(/Hello/)
     /* istanbul ignore next */
-    expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h3')
+    expect(await page.evaluate(el => el?.textContent, element)).toEqual('Hello h3')
   })
 
   it('should get text content', async () => {

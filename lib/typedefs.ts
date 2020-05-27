@@ -1,5 +1,7 @@
 import {Matcher, MatcherOptions, SelectorMatcherOptions} from '@testing-library/dom'
-import {ElementHandle} from 'puppeteer'
+import {ElementHandle as PlaywrightElementHandle} from 'playwright'
+
+export type ElementHandle = PlaywrightElementHandle<SVGElement | HTMLElement>
 
 type Element = ElementHandle
 

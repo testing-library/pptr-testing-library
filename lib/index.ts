@@ -1,9 +1,9 @@
 import {readFileSync} from 'fs'
 import * as path from 'path'
-import {ElementHandle, EvaluateFn, JSHandle, Page} from 'puppeteer'
+import {JSHandle, Page} from 'playwright'
 import waitForExpect from 'wait-for-expect'
 
-import {IQueryUtils, IScopedQueryUtils} from './typedefs'
+import {ElementHandle, IQueryUtils, IScopedQueryUtils} from './typedefs'
 
 const domLibraryAsString = readFileSync(
   path.join(__dirname, '../dom-testing-library.js'),
@@ -33,7 +33,7 @@ type ContextFn = (...args: any[]) => ElementHandle
 
 async function createElementHandleArray(handle: JSHandle): Promise<ElementHandle[]> {
   const lengthHandle = await handle.getProperty('length')
-  const length = await lengthHandle.jsonValue() as number
+  const length = (await lengthHandle.jsonValue()) as number
 
   const elements: ElementHandle[] = []
   for (let i = 0; i < length; i++) {
@@ -57,18 +57,14 @@ async function covertToElementHandle(handle: JSHandle, asArray: boolean): Promis
 }
 
 function processNodeText(handles: IHandleSet): Promise<string> {
-  return handles.containerHandle
-    .executionContext()
-    .evaluate(handles.evaluateFn, handles.containerHandle, 'getNodeText')
+  return handles.containerHandle.evaluate(handles.evaluateFn, ['getNodeText'])
 }
 
 async function processQuery(handles: IHandleSet): Promise<DOMReturnType> {
   const {containerHandle, evaluateFn, fnName, argsToForward} = handles
 
   try {
-    const handle = await containerHandle
-      .executionContext()
-      .evaluateHandle(evaluateFn, containerHandle, fnName, ...argsToForward)
+    const handle = await containerHandle.evaluateHandle(evaluateFn, [fnName, ...argsToForward])
     return await covertToElementHandle(handle, fnName.includes('All'))
   } catch (err) {
     err.message = err.message.replace('[fnName]', `[${fnName}]`)
@@ -79,7 +75,10 @@ async function processQuery(handles: IHandleSet): Promise<DOMReturnType> {
 
 interface IHandleSet {
   containerHandle: ElementHandle
-  evaluateFn: EvaluateFn
+  // FIXME: Playwright doesn't expose a type for this like Puppeteer does with
+  // `EvaluateFn`. This *should* be something like the `PageFunction` type that
+  // is unfortunately not exported from the Playwright modules.
+  evaluateFn: any
   fnName: string
   argsToForward: any[]
 }
@@ -97,11 +96,9 @@ function createDelegateFor<T = DOMReturnType>(
   return async function(...args: any[]): Promise<T> {
     // @ts-ignore
     const containerHandle: ElementHandle = contextFn ? contextFn.apply(this, args) : this
+
     // @ts-ignore
-    const evaluateFn: EvaluateFn = new Function(
-      'container, fnName, ...args',
-      delegateFnBodyToExecuteInPage,
-    )
+    const evaluateFn = new Function('container, [fnName, ...args]', delegateFnBodyToExecuteInPage)
 
     // Convert RegExp to a special format since they don't serialize well
     let argsToForward = args.map(arg => (arg instanceof RegExp ? convertRegExp(arg) : arg))

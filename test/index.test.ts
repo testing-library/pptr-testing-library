@@ -1,13 +1,13 @@
 import * as path from 'path'
-import * as puppeteer from 'puppeteer'
+import * as playwright from 'playwright'
 import {getDocument, queries, getQueriesForElement, wait} from '../lib'
 
 describe('lib/index.ts', () => {
-  let browser: puppeteer.Browser
-  let page: puppeteer.Page
+  let browser: playwright.Browser
+  let page: playwright.Page
 
-  it('should launch puppeteer', async () => {
-    browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
+  it('should launch playwright', async () => {
+    browser = await playwright.chromium.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
     page = await browser.newPage()
     await page.goto(`file://${path.join(__dirname, 'fixtures/page.html')}`)
   })
