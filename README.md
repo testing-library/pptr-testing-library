@@ -1,9 +1,10 @@
 # playwright-testing-library
 
-[![NPM Package](https://badge.fury.io/js/playwright-testing-library.svg)](https://www.npmjs.com/package/playwright-testing-library)
-[![Build Status](https://travis-ci.org/hoverinc/playwright-testing-library.svg?branch=master)](https://travis-ci.org/hoverinc/playwright-testing-library)
-[![Coverage Status](https://coveralls.io/repos/github/hoverinc/playwright-testing-library/badge.svg?branch=master)](https://coveralls.io/github/hoverinc/playwright-testing-library?branch=master)
-[![Dependencies](https://david-dm.org/hoverinc/playwright-testing-library.svg)](https://david-dm.org/hoverinc/playwright-testing-library)
+[![Package Version][npm-badge]][npm-link]
+[![Build Status][travis-badge]][travis-link]
+[![Test Coverage][coveralls-badge]][coveralls-link]
+[![Dependencies Status][david-badge]][david-link]
+[![Dependabot Status][dependabot-badge]][dependabot-link]
 
 [playwright](https://github.com/microsoft/playwright) + [@testing-library/dom](https://github.com/testing-library/dom-testing-library) = 💖
 
@@ -115,3 +116,14 @@ Unique methods, not part of `@testing-library/dom`
 ## LICENSE
 
 MIT
+
+[npm-link]: https://www.npmjs.com/package/playwright-testing-library
+[npm-badge]: https://img.shields.io/npm/v/playwright-testing-library
+[travis-link]: https://travis-ci.org/github/hoverinc/playwright-testing-library
+[travis-badge]: https://travis-ci.org/hoverinc/playwright-testing-library.svg?branch=master
+[coveralls-link]: https://coveralls.io/github/hoverinc/playwright-testing-library?branch=master
+[coveralls-badge]: https://coveralls.io/repos/github/hoverinc/playwright-testing-library/badge.svg?branch=master
+[david-link]: https://david-dm.org/hoverinc/playwright-testing-library
+[david-badge]: https://david-dm.org/hoverinc/playwright-testing-library.svg
+[dependabot-link]: https://dependabot.com
+[dependabot-badge]: https://api.dependabot.com/badges/status?host=github&repo=hoverinc/playwright-testing-library
