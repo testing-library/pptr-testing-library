@@ -20,3 +20,11 @@ script:
   - yarn test:unit --coverage --runInBand --verbose
 after_success:
   - cat coverage/lcov.info | coveralls || echo 'Failed to upload to coveralls...'
+
+jobs:
+  include:
+    - stage: release
+      node_js: 12
+      env:
+        - PLAYWRIGHT_OVERRIDE_VERSION=latest
+      script: yarn ci-after-success
