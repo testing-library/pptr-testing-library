@@ -3,6 +3,10 @@ language: node_js
 cache: yarn
 notifications:
   email: false
+branches:
+  only:
+    - master
+    - next
 node_js:
   - node
   - v12
