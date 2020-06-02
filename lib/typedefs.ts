@@ -48,7 +48,10 @@ interface IQueryMethods {
 }
 
 type IScopedQueryMethods = {
-  [K in keyof IQueryMethods]: (m: Matcher, opts?: MatcherOptions) => ReturnType<IQueryMethods[K]>
+  [K in keyof IQueryMethods]: (
+    m: Matcher,
+    opts?: Parameters<IQueryMethods[K]>[2],
+  ) => ReturnType<IQueryMethods[K]>
 }
 
 export interface IScopedQueryUtils extends IScopedQueryMethods {

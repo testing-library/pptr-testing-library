@@ -80,6 +80,23 @@ describe('lib/extend.ts', () => {
     expect(text).toEqual(['Hello h1', 'Hello h2', 'Hello h3'])
   })
 
+  it('should handle the queryAll* methods with a selector', async () => {
+    const elements = await document.queryAllByText(/Hello/, {selector: 'h2'})
+    expect(elements).toHaveLength(1)
+
+    const text = await page.evaluate(el => el.textContent, elements[0])
+
+    expect(text).toEqual('Hello h2')
+  })
+
+  it('should handle the getBy* methods with a selector', async () => {
+    const element = await document.getByText(/Hello/, {selector: 'h2'})
+
+    const text = await page.evaluate(el => el.textContent, element)
+
+    expect(text).toEqual('Hello h2')
+  })
+
   it('should scope results to element', async () => {
     const scope = await document.$('#scoped')
     const element = await scope!.queryByText(/Hello/)
