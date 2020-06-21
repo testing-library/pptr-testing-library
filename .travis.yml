@@ -4,7 +4,7 @@ cache: yarn
 notifications:
   email: false
 node_js:
-  - node
+  - v14
   - v12
   - v10
 env:
