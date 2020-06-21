@@ -8,7 +8,7 @@ branches:
     - master
     - next
 node_js:
-  - node
+  - v14
   - v12
   - v10
 env:
