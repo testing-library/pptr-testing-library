@@ -4,6 +4,7 @@
 [![Build Status](https://travis-ci.org/testing-library/pptr-testing-library.svg?branch=master)](https://travis-ci.org/testing-library/pptr-testing-library)
 [![Coverage Status](https://coveralls.io/repos/github/testing-library/pptr-testing-library/badge.svg?branch=master)](https://coveralls.io/github/testing-library/pptr-testing-library?branch=master)
 [![Dependencies](https://david-dm.org/testing-library/pptr-testing-library.svg)](https://david-dm.org/testing-library/pptr-testing-library)
+[![Discord](https://img.shields.io/discord/723559267868737556.svg?color=7389D8&labelColor=6A7EC2&logo=discord&logoColor=ffffff&style=flat-square)](https://discord.gg/c6JN9fM)
 
 [puppeteer](https://github.com/GoogleChrome/puppeteer) + [@testing-library/dom](https://github.com/testing-library/dom-testing-library) = 💖
 
