@@ -31,25 +31,28 @@ type DOMReturnType = ElementHandle | ElementHandle[] | null
 
 type ContextFn = (...args: any[]) => ElementHandle
 
+async function createElementHandle(handle: JSHandle): Promise<ElementHandle | null> {
+  const element = handle.asElement()
+  if (element) return element
+  await handle.dispose()
+  return null
+}
+
 async function createElementHandleArray(handle: JSHandle): Promise<ElementHandle[]> {
   const lengthHandle = await handle.getProperty('length')
   const length = (await lengthHandle.jsonValue()) as number
 
   const elements: ElementHandle[] = []
+
+  /* eslint-disable no-plusplus, no-await-in-loop */
   for (let i = 0; i < length; i++) {
     const jsElement = await handle.getProperty(i.toString())
     const element = await createElementHandle(jsElement)
     if (element) elements.push(element)
   }
+  /* eslint-enable no-plusplus, no-await-in-loop */
 
   return elements
-}
-
-async function createElementHandle(handle: JSHandle): Promise<ElementHandle | null> {
-  const element = handle.asElement()
-  if (element) return element
-  await handle.dispose()
-  return null // tslint:disable-line
 }
 
 async function covertToElementHandle(handle: JSHandle, asArray: boolean): Promise<DOMReturnType> {
@@ -89,15 +92,17 @@ function createDelegateFor<T = DOMReturnType>(
   processHandleFn?: (handles: IHandleSet) => Promise<T>,
 ): (...args: any[]) => Promise<T> {
   // @ts-ignore
+  // eslint-disable-next-line no-param-reassign
   processHandleFn = processHandleFn || processQuery
 
   const convertRegExp = (regex: RegExp) => ({regex: regex.source, flags: regex.flags})
 
-  return async function(...args: any[]): Promise<T> {
+  return async function (...args: any[]): Promise<T> {
     // @ts-ignore
     const containerHandle: ElementHandle = contextFn ? contextFn.apply(this, args) : this
 
     // @ts-ignore
+    // eslint-disable-next-line no-new-func, @typescript-eslint/no-implied-eval
     const evaluateFn = new Function('container, [fnName, ...args]', delegateFnBodyToExecuteInPage)
 
     // Convert RegExp to a special format since they don't serialize well
@@ -132,6 +137,7 @@ export function getQueriesForElement<T>(
   contextFn?: ContextFn,
 ): T & IQueryUtils & IScopedQueryUtils {
   const o = object as any
+  // eslint-disable-next-line no-param-reassign
   if (!contextFn) contextFn = () => o
 
   const functionNames: Array<keyof IQueryUtils> = [

@@ -1,8 +1,7 @@
+const config = require('@hover/javascript/jest')
+
 module.exports = {
+  ...config,
   collectCoverageFrom: ['**/*.ts', '!**/*.d.ts'],
-  transform: {
-    '\\.ts$': 'ts-jest',
-  },
-  moduleFileExtensions: ['ts', 'js', 'json'],
-  testMatch: ['**/*.test.ts'],
+  coverageThreshold: {},
 }

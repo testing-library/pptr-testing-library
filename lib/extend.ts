@@ -1,13 +1,17 @@
+/* eslint-disable func-names, global-require, import/no-dynamic-require */
+
 import {getDocument, getQueriesForElement} from '.'
 import {ElementHandle, IScopedQueryUtils} from './typedefs'
 
-// tslint:disable-next-line
-let Page, ElementHandle
+let Page
+let ElementHandle // eslint-disable-line no-redeclare
 
 function requireOrUndefined(path: string): any {
   try {
     return require(path)
-  } catch (err) {}
+  } catch (err) {
+    return null
+  }
 }
 
 try {
@@ -18,15 +22,15 @@ try {
   if (ElementHandle && ElementHandle.ElementHandle) ElementHandle = ElementHandle.ElementHandle
 
   Page.prototype.getDocument = getDocument
-  getQueriesForElement(ElementHandle.prototype, function(this: ElementHandle): ElementHandle {
+  getQueriesForElement(ElementHandle.prototype, function (this: ElementHandle): ElementHandle {
     return this
   })
 
-  ElementHandle.prototype.getQueriesForElement = function(this: ElementHandle): ElementHandle {
+  ElementHandle.prototype.getQueriesForElement = function (this: ElementHandle): ElementHandle {
     return getQueriesForElement(this)
   }
 } catch (err) {
-  // tslint:disable-next-line
+  // eslint-disable-next-line no-console
   console.error('Could not augment playwright functions, do you have a conflicting version?')
   throw err
 }

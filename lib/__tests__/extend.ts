@@ -7,7 +7,7 @@ describe('lib/extend.ts', () => {
   let document: playwright.ElementHandle
 
   it('should require without error', async () => {
-    await import('../lib/extend')
+    await import('../extend')
   })
 
   it('should launch playwright', async () => {
@@ -54,7 +54,7 @@ describe('lib/extend.ts', () => {
 
     try {
       await scope!.getByTitle('missing')
-      fail()
+      fail() // eslint-disable-line jest/no-jasmine-globals
     } catch (err) {
       err.message = err.message.replace(/(\s*at .*(\n|$))+/gm, '\n    <stack>:X:X')
       expect(err.message).toMatchSnapshot()

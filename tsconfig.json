@@ -16,5 +16,6 @@
     "strictNullChecks": true,
     "preserveWatchOutput": true
   },
-  "include": ["lib/**/*"]
+  "include": ["lib"],
+  "exclude": ["**/__tests__/**/*"]
 }

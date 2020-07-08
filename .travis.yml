@@ -20,8 +20,7 @@ before_script:
   - yarn add -D "playwright@${PLAYWRIGHT_OVERRIDE_VERSION}"
 script:
   - yarn rebuild
-  - yarn test:lint
-  - yarn test:unit --coverage --runInBand --verbose
+  - yarn validate
 after_success:
   - cat coverage/lcov.info | coveralls || echo 'Failed to upload to coveralls...'
 

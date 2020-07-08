@@ -12,7 +12,8 @@
     "lint": "hover-scripts lint",
     "prepublishOnly": "yarn rebuild && generate-export-aliases",
     "rebuild": "yarn clean && yarn build",
-    "test": "hover-scripts test"
+    "test": "hover-scripts test",
+    "validate": "hover-scripts validate lint,test --coverage --runInBand --verbose"
   },
   "repository": {
     "type": "git",
@@ -32,24 +33,6 @@
     "utility"
   ],
   "config": {
-    "tslint": {
-      "rules": {
-        "increment-decrement": false,
-        "no-unsafe-any": false,
-        "ban-ts-ignore": {
-          "severity": "warning"
-        },
-        "function-constructor": {
-          "severity": "warning"
-        },
-        "strict-comparisons": {
-          "severity": "warning"
-        },
-        "match-default-export-name": {
-          "severity": "warning"
-        }
-      }
-    },
     "exportAliases": {
       "extend": "./dist/extend"
     }
@@ -59,8 +42,7 @@
     "wait-for-expect": "^3.0.2"
   },
   "devDependencies": {
-    "@hover/javascript": "^4.0.2",
-    "@patrickhulce/lint": "^2.1.3",
+    "@hover/javascript": "^4.4.0",
     "@rollup/plugin-commonjs": "^13.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
     "@rollup/plugin-replace": "^2.3.1",
@@ -70,8 +52,7 @@
     "playwright": "^1.1.0",
     "rollup": "^2.0.3",
     "ts-jest": "^25.2.1",
-    "tslint": "^6.0.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.6"
   },
   "peerDependencies": {
     "playwright": "^1.1.0"
