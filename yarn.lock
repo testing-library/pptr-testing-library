@@ -1604,9 +1604,9 @@
     resolve "^1.14.2"
 
 "@rollup/plugin-node-resolve@^8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-8.0.0.tgz#47cc0775e31b6a531c88a40270377fe899a271cb"
-  integrity sha512-5poJCChrkVggXXND/sQ7yNqwjUNT4fP31gpRWCnSNnlXuUXTCMHT33xZrTGxgjm5Rl18MHj7iEzlCT8rYWwQSA==
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-8.1.0.tgz#1da5f3d0ccabc8f66f5e3c74462aad76cfd96c47"
+  integrity sha512-ovq7ZM3JJYUUmEjjO+H8tnUdmQmdQudJB7xruX8LFZ1W2q8jXdPUS6SsIYip8ByOApu4RR7729Am9WhCeCMiHA==
   dependencies:
     "@rollup/pluginutils" "^3.0.8"
     "@types/resolve" "0.0.8"
