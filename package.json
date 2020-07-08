@@ -68,14 +68,14 @@
     "@types/jest": "^25.1.4",
     "generate-export-aliases": "^1.1.0",
     "jest": "^25.1.0",
-    "playwright": "^1.0.2",
+    "playwright": "^1.1.0",
     "rollup": "^2.0.3",
     "ts-jest": "^25.2.1",
     "tslint": "^6.0.0",
     "typescript": "^3.8.3"
   },
   "peerDependencies": {
-    "playwright": "^1.0.0"
+    "playwright": "^1.1.0"
   },
   "engines": {
     "node": "^10 || ^12 || ^13 || ^14"

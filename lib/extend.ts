@@ -11,10 +11,10 @@ function requireOrUndefined(path: string): any {
 }
 
 try {
-  Page = require('playwright-core/lib/page.js') // tslint:disable-line
+  Page = require('playwright/lib/page.js') // tslint:disable-line
   if (Page.Page) Page = Page.Page
 
-  ElementHandle = requireOrUndefined('playwright-core/lib/api.js') // tslint:disable-line variable-name
+  ElementHandle = requireOrUndefined('playwright/lib/api.js') // tslint:disable-line variable-name
   if (ElementHandle && ElementHandle.ElementHandle) ElementHandle = ElementHandle.ElementHandle
 
   Page.prototype.getDocument = getDocument
@@ -32,7 +32,7 @@ try {
 }
 
 /* tslint:disable */
-declare module 'playwright-core/types/types' {
+declare module 'playwright/types/types' {
   interface Page {
     getDocument(): Promise<ElementHandle>
   }
