@@ -13,7 +13,7 @@
     "prepublishOnly": "yarn rebuild && generate-export-aliases",
     "rebuild": "yarn clean && yarn build",
     "test": "hover-scripts test",
-    "validate": "hover-scripts validate lint,test --coverage --runInBand --verbose"
+    "validate": "hover-scripts validate 'lint,test --coverage --runInBand --verbose'"
   },
   "repository": {
     "type": "git",
