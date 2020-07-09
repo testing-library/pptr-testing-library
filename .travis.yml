@@ -15,7 +15,7 @@ env:
   - PLAYWRIGHT_OVERRIDE_VERSION=1.1.0
   - PLAYWRIGHT_OVERRIDE_VERSION=latest
 before_install:
-  - npm install -g yarn coveralls nyc @patrickhulce/scripts
+  - npm install -g yarn coveralls nyc
 before_script:
   - yarn add -D "playwright@${PLAYWRIGHT_OVERRIDE_VERSION}"
 script:
