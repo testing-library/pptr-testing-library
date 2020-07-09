@@ -5,6 +5,7 @@
 [![Test Coverage][codecov-badge]][codecov-link]
 [![Dependencies Status][david-badge]][david-link]
 [![Dependabot Status][dependabot-badge]][dependabot-link]
+[![Conventional Commits][conventional-commits-badge]][conventional-commits-link]
 
 [playwright](https://github.com/microsoft/playwright) + [@testing-library/dom](https://github.com/testing-library/dom-testing-library) = 💖
 
@@ -123,6 +124,8 @@ MIT
 [travis-badge]: https://travis-ci.org/hoverinc/playwright-testing-library.svg?branch=master
 [codecov-link]: https://codecov.io/gh/hoverinc/playwright-testing-library
 [codecov-badge]: https://codecov.io/gh/hoverinc/playwright-testing-library/branch/master/graph/badge.svg
+[conventional-commits-link]: https://conventionalcommits.org
+[conventional-commits-badge]: https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg
 [david-link]: https://david-dm.org/hoverinc/playwright-testing-library
 [david-badge]: https://david-dm.org/hoverinc/playwright-testing-library.svg
 [dependabot-link]: https://dependabot.com
