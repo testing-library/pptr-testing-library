@@ -97,7 +97,7 @@ function createDelegateFor<T = DOMReturnType>(
 
   const convertRegExp = (regex: RegExp) => ({regex: regex.source, flags: regex.flags})
 
-  return async function (...args: any[]): Promise<T> {
+  return async function delegate(...args: any[]): Promise<T> {
     // @ts-ignore
     const containerHandle: ElementHandle = contextFn ? contextFn.apply(this, args) : this
 
