@@ -2,7 +2,7 @@
 
 [![Package Version][npm-badge]][npm-link]
 [![Build Status][travis-badge]][travis-link]
-[![Test Coverage][coveralls-badge]][coveralls-link]
+[![Test Coverage][codecov-badge]][codecov-link]
 [![Dependencies Status][david-badge]][david-link]
 [![Dependabot Status][dependabot-badge]][dependabot-link]
 
@@ -121,8 +121,8 @@ MIT
 [npm-badge]: https://img.shields.io/npm/v/playwright-testing-library
 [travis-link]: https://travis-ci.org/github/hoverinc/playwright-testing-library
 [travis-badge]: https://travis-ci.org/hoverinc/playwright-testing-library.svg?branch=master
-[coveralls-link]: https://coveralls.io/github/hoverinc/playwright-testing-library?branch=master
-[coveralls-badge]: https://coveralls.io/repos/github/hoverinc/playwright-testing-library/badge.svg?branch=master
+[codecov-link]: https://codecov.io/gh/hoverinc/playwright-testing-library
+[codecov-badge]: https://codecov.io/gh/hoverinc/playwright-testing-library/branch/master/graph/badge.svg
 [david-link]: https://david-dm.org/hoverinc/playwright-testing-library
 [david-badge]: https://david-dm.org/hoverinc/playwright-testing-library.svg
 [dependabot-link]: https://dependabot.com
