@@ -15,14 +15,14 @@ env:
   - PLAYWRIGHT_OVERRIDE_VERSION=1.1.0
   - PLAYWRIGHT_OVERRIDE_VERSION=latest
 before_install:
-  - npm install -g yarn coveralls nyc
+  - npm install -g yarn
 before_script:
   - yarn add -D "playwright@${PLAYWRIGHT_OVERRIDE_VERSION}"
 script:
   - yarn rebuild
   - yarn validate
 after_success:
-  - cat coverage/lcov.info | coveralls || echo 'Failed to upload to coveralls...'
+  - yarn ci-after-success
 
 jobs:
   include:
