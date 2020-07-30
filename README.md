@@ -1,10 +1,23 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [playwright-testing-library](#playwright-testing-library)
+  - [Install](#install)
+  - [Use](#use)
+  - [API](#api)
+  - [Known Limitations](#known-limitations)
+  - [Special Thanks](#special-thanks)
+  - [Related Playwright Test Utilities](#related-playwright-test-utilities)
+  - [LICENSE](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # playwright-testing-library
 
 [![Package Version][npm-badge]][npm-link]
 [![Build Status][travis-badge]][travis-link]
 [![Test Coverage][codecov-badge]][codecov-link]
 [![Dependencies Status][david-badge]][david-link]
-[![Dependabot Status][dependabot-badge]][dependabot-link]
 [![Conventional Commits][conventional-commits-badge]][conventional-commits-link]
 
 [playwright](https://github.com/microsoft/playwright) + [@testing-library/dom](https://github.com/testing-library/dom-testing-library) = 💖
@@ -128,5 +141,3 @@ MIT
 [conventional-commits-badge]: https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg
 [david-link]: https://david-dm.org/hoverinc/playwright-testing-library
 [david-badge]: https://david-dm.org/hoverinc/playwright-testing-library.svg
-[dependabot-link]: https://dependabot.com
-[dependabot-badge]: https://api.dependabot.com/badges/status?host=github&repo=hoverinc/playwright-testing-library
