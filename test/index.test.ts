@@ -1,6 +1,6 @@
 import * as path from 'path'
 import * as puppeteer from 'puppeteer'
-import {getDocument, queries, getQueriesForElement, wait} from '../lib'
+import {getDocument, queries, getQueriesForElement, wait, configure} from '../lib'
 
 describe('lib/index.ts', () => {
   let browser: puppeteer.Browser
@@ -16,6 +16,13 @@ describe('lib/index.ts', () => {
     const document = await getDocument(page)
     const element = await queries.getByText(document, 'Hello h1')
     expect(await queries.getNodeText(element)).toEqual('Hello h1')
+  })
+  
+  it('should support custom data-testid names', async () => {
+    configure({testIdAttribute: 'data-id'})
+    const document = await getDocument(page)
+    const element = await queries.getByTestId(document, 'my-header')
+    expect(await queries.getNodeText(element)).toEqual('Hello h2')
   })
 
   it('should support regex on raw queries object', async () => {
