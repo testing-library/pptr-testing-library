@@ -1,6 +1,6 @@
 import * as path from 'path'
 import * as puppeteer from 'puppeteer'
-import {getDocument, queries, getQueriesForElement, wait, configure} from '../lib'
+import {getDocument, queries, getQueriesForElement, waitFor, configure} from '../lib'
 
 describe('lib/index.ts', () => {
   let browser: puppeteer.Browser
@@ -61,7 +61,7 @@ describe('lib/index.ts', () => {
 
   it('should use `wait` properly', async () => {
     const {getByText} = getQueriesForElement(await getDocument(page))
-    await wait(() => getByText('Loaded!'), {timeout: 7000})
+    await waitFor(() => getByText('Loaded!'), {timeout: 7000})
     expect(await getByText('Loaded!')).toBeTruthy()
   }, 9000)
 

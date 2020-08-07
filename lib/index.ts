@@ -35,7 +35,7 @@ type ContextFn = (...args: any[]) => ElementHandle
 
 async function createElementHandleArray(handle: JSHandle): Promise<ElementHandle[]> {
   const lengthHandle = await handle.getProperty('length')
-  const length = await lengthHandle.jsonValue() as number
+  const length = (await lengthHandle.jsonValue()) as number
 
   const elements: ElementHandle[] = []
   for (let i = 0; i < length; i++) {
@@ -132,12 +132,14 @@ export function wait(
   return waitForExpect(callback, timeout, interval)
 }
 
+export const waitFor = wait
+
 export function configure(options: Partial<IConfigureOptions>): void {
   if (!options) {
     return
   }
 
-  const { testIdAttribute } = options
+  const {testIdAttribute} = options
 
   if (testIdAttribute) {
     delegateFnBodyToExecuteInPage = delegateFnBodyToExecuteInPageInitial.replace(

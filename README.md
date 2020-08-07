@@ -18,7 +18,7 @@ All your favorite user-centric querying functions from @testing-library/react & 
 
 ```js
 const puppeteer = require('puppeteer')
-const {getDocument, queries, wait} = require('pptr-testing-library')
+const {getDocument, queries, waitFor} = require('pptr-testing-library')
 
 const {getByTestId, getByLabelText} = queries
 
@@ -34,7 +34,7 @@ const $email = await getByLabelText($form, 'Email')
 // interact with puppeteer like usual
 await $email.type('pptr@example.com')
 // waiting works too!
-await wait(() => getByText($document, 'Loading...'))
+await waitFor(() => getByText($document, 'Loading...'))
 ```
 
 A little too un-puppeteer for you? We've got prototype-mucking covered too :)
