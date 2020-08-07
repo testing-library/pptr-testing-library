@@ -58,3 +58,7 @@ export interface IQueryUtils extends IQueryMethods {
   getQueriesForElement(): IQueryUtils & IScopedQueryUtils
   getNodeText(el: Element): Promise<string>
 }
+
+export interface IConfigureOptions {
+  testIdAttribute: string
+}
