@@ -133,6 +133,10 @@ export function wait(
 }
 
 export function configure(options: Partial<IConfigureOptions>) {
+  if (!options) {
+    return
+  }
+
   const { testIdAttribute } = options;
 
   if (testIdAttribute && typeof testIdAttribute === 'string') {

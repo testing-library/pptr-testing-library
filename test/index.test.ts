@@ -17,7 +17,7 @@ describe('lib/index.ts', () => {
     const element = await queries.getByText(document, 'Hello h1')
     expect(await queries.getNodeText(element)).toEqual('Hello h1')
   })
-  
+
   it('should support custom data-testid attribute name', async () => {
     configure({testIdAttribute: 'data-id'})
     const document = await getDocument(page)
@@ -31,6 +31,15 @@ describe('lib/index.ts', () => {
     const document = await getDocument(page)
     const element = await queries.getByTestId(document, 'first-level-header')
     expect(await queries.getNodeText(element)).toEqual('Hello h1')
+  })
+
+  it('should keep the default data-testid when input passed is invalid', async () => {
+    ;[{}, undefined, null, {testIdAttribute: ''}].forEach(async options => {
+      const document = await getDocument(page)
+      configure(options as any)
+      const element = await queries.getByTestId(document, 'testid-label')
+      expect(await queries.getNodeText(element)).toEqual('Label A')
+    })
   })
 
   it('should support regex on raw queries object', async () => {
@@ -55,6 +64,10 @@ describe('lib/index.ts', () => {
     await wait(() => getByText('Loaded!'), {timeout: 7000})
     expect(await getByText('Loaded!')).toBeTruthy()
   }, 9000)
+
+  afterEach(() => {
+    configure({testIdAttribute: 'data-testid'}) //cleanup
+  })
 
   afterAll(async () => {
     await browser.close()
