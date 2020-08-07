@@ -5,12 +5,15 @@ notifications:
   email: false
 node_js:
   - v14
-  - v12
   - v10
 env:
   - PPTR_OVERRIDE_VERSION=1.6.x
   - PPTR_OVERRIDE_VERSION=1.8.x
   - PPTR_OVERRIDE_VERSION=1.12.x
+  - PPTR_OVERRIDE_VERSION=2.x.x
+  - PPTR_OVERRIDE_VERSION=3.x.x
+  - PPTR_OVERRIDE_VERSION=4.x.x
+  - PPTR_OVERRIDE_VERSION=5.x.x
   - PPTR_OVERRIDE_VERSION=latest
 before_install:
   - npm install -g yarn coveralls nyc @patrickhulce/scripts

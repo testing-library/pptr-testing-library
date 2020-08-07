@@ -13,14 +13,18 @@ function requireOrUndefined(path: string): any {
 }
 
 try {
-  Page = require('puppeteer/lib/Page.js') // tslint:disable-line
+  const libPrefix = requireOrUndefined(`puppeteer/lib/cjs/puppeteer/common/Page.js`)
+    ? 'puppeteer/lib/cjs/puppeteer/common'
+    : 'puppeteer/lib'
+
+  Page = requireOrUndefined(`${libPrefix}/Page.js`) // tslint:disable-line
   if (Page.Page) Page = Page.Page
 
-  ElementHandle = requireOrUndefined('puppeteer/lib/ElementHandle.js') // tslint:disable-line variable-name
+  ElementHandle = requireOrUndefined(`${libPrefix}/ElementHandle.js`) // tslint:disable-line variable-name
   if (ElementHandle && ElementHandle.ElementHandle) ElementHandle = ElementHandle.ElementHandle
 
   if (!ElementHandle) {
-    const ExecutionContext = requireOrUndefined('puppeteer/lib/ExecutionContext.js') // tslint:disable-line variable-name
+    const ExecutionContext = requireOrUndefined(`${libPrefix}/ExecutionContext.js`) // tslint:disable-line variable-name
     if (ExecutionContext && ExecutionContext.ElementHandle) {
       ElementHandle = ExecutionContext.ElementHandle
     }
@@ -28,7 +32,7 @@ try {
   if (ElementHandle && ElementHandle.ElementHandle) ElementHandle = ElementHandle.ElementHandle
 
   if (!ElementHandle) {
-    const JSHandle = require('puppeteer/lib/JSHandle.js') // tslint:disable-line
+    const JSHandle = require(`${libPrefix}/JSHandle.js`) // tslint:disable-line
     if (JSHandle && JSHandle.ElementHandle) {
       ElementHandle = JSHandle.ElementHandle
     }
