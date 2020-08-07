@@ -3,7 +3,7 @@ import * as path from 'path'
 import {ElementHandle, EvaluateFn, JSHandle, Page} from 'puppeteer'
 import waitForExpect from 'wait-for-expect'
 
-import {IQueryUtils, IScopedQueryUtils, Config} from './typedefs'
+import {IQueryUtils, IScopedQueryUtils, IConfigureOptions} from './typedefs'
 
 const domLibraryAsString = readFileSync(
   path.join(__dirname, '../dom-testing-library.js'),
@@ -17,7 +17,7 @@ function mapArgument(argument: any, index: number): any {
     : argument
 }
 
-let delegateFnBodyToExecuteInPage = `
+const delegateFnBodyToExecuteInPageInitial = `
   ${domLibraryAsString};
 
   const mappedArgs = args.map(${mapArgument.toString()});
@@ -26,6 +26,8 @@ let delegateFnBodyToExecuteInPage = `
     __dom_testing_library__.__moduleExports;
   return moduleWithFns[fnName](container, ...mappedArgs);
 `
+
+let delegateFnBodyToExecuteInPage = delegateFnBodyToExecuteInPageInitial
 
 type DOMReturnType = ElementHandle | ElementHandle[] | null
 
@@ -130,17 +132,13 @@ export function wait(
   return waitForExpect(callback, timeout, interval)
 }
 
-export function configure(newConfig: Partial<Config>) {
-  const { testIdAttribute } = newConfig;
+export function configure(options: Partial<IConfigureOptions>) {
+  const { testIdAttribute } = options;
 
-  if (
-    testIdAttribute &&
-    typeof testIdAttribute === 'string' &&
-    testIdAttribute !== ''
-  ) {
-    delegateFnBodyToExecuteInPage = delegateFnBodyToExecuteInPage.replace(
-      `testIdAttribute: 'data-testid'`,
-      `testIdAttribute: '${newConfig.testIdAttribute}'`
+  if (testIdAttribute && typeof testIdAttribute === 'string') {
+    delegateFnBodyToExecuteInPage = delegateFnBodyToExecuteInPageInitial.replace(
+      /testIdAttribute: (['|"])data-testid(['|"])/g,
+      `testIdAttribute: $1${testIdAttribute}$2`
     )
   }
 }

@@ -59,6 +59,6 @@ export interface IQueryUtils extends IQueryMethods {
   getNodeText(el: Element): Promise<string>
 }
 
-export interface Config {
+export interface IConfigureOptions {
   testIdAttribute: string;
 }

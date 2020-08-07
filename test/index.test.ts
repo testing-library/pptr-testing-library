@@ -18,11 +18,19 @@ describe('lib/index.ts', () => {
     expect(await queries.getNodeText(element)).toEqual('Hello h1')
   })
   
-  it('should support custom data-testid names', async () => {
+  it('should support custom data-testid attribute name', async () => {
     configure({testIdAttribute: 'data-id'})
     const document = await getDocument(page)
-    const element = await queries.getByTestId(document, 'my-header')
+    const element = await queries.getByTestId(document, 'second-level-header')
     expect(await queries.getNodeText(element)).toEqual('Hello h2')
+  })
+
+  it('should support subsequent changing the data-testid attribute names', async () => {
+    configure({testIdAttribute: 'data-id'})
+    configure({testIdAttribute: 'data-new-id'})
+    const document = await getDocument(page)
+    const element = await queries.getByTestId(document, 'first-level-header')
+    expect(await queries.getNodeText(element)).toEqual('Hello h1')
   })
 
   it('should support regex on raw queries object', async () => {
