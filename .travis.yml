@@ -18,7 +18,8 @@ env:
 before_install:
   - npm install -g yarn coveralls nyc @patrickhulce/scripts
 before_script:
-  - yarn add -D "puppeteer@${PPTR_OVERRIDE_VERSION}" "@types/puppeteer@${PPTR_OVERRIDE_VERSION}"
+  - yarn add -D "puppeteer@${PPTR_OVERRIDE_VERSION}"
+  - yarn add -D "@types/puppeteer@${PPTR_OVERRIDE_VERSION}" || echo "No types available"
 script:
   - yarn rebuild
   - yarn test:lint
