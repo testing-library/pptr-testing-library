@@ -3,7 +3,7 @@ import * as path from 'path'
 import {ElementHandle, EvaluateFn, JSHandle, Page} from 'puppeteer'
 import waitForExpect from 'wait-for-expect'
 
-import {IQueryUtils, IScopedQueryUtils, IConfigureOptions} from './typedefs'
+import {IConfigureOptions, IQueryUtils, IScopedQueryUtils} from './typedefs'
 
 const domLibraryAsString = readFileSync(
   path.join(__dirname, '../dom-testing-library.js'),
@@ -132,17 +132,17 @@ export function wait(
   return waitForExpect(callback, timeout, interval)
 }
 
-export function configure(options: Partial<IConfigureOptions>) {
+export function configure(options: Partial<IConfigureOptions>): void {
   if (!options) {
     return
   }
 
-  const { testIdAttribute } = options;
+  const { testIdAttribute } = options
 
-  if (testIdAttribute && typeof testIdAttribute === 'string') {
+  if (testIdAttribute) {
     delegateFnBodyToExecuteInPage = delegateFnBodyToExecuteInPageInitial.replace(
       /testIdAttribute: (['|"])data-testid(['|"])/g,
-      `testIdAttribute: $1${testIdAttribute}$2`
+      `testIdAttribute: $1${testIdAttribute}$2`,
     )
   }
 }

@@ -60,5 +60,5 @@ export interface IQueryUtils extends IQueryMethods {
 }
 
 export interface IConfigureOptions {
-  testIdAttribute: string;
+  testIdAttribute: string
 }
