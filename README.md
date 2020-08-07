@@ -35,7 +35,7 @@ All your favorite user-centric querying functions from **@testing-library/react*
 
 ```js
 const {webkit} = require('playwright') // or 'firefox' or 'chromium'
-const {getDocument, queries, wait} = require('playwright-testing-library')
+const {getDocument, queries, waitFor} = require('playwright-testing-library')
 
 const {getByTestId, getByLabelText} = queries
 
@@ -51,7 +51,7 @@ const $email = await getByLabelText($form, 'Email')
 // interact with playwright like usual
 await $email.type('playwright@example.com')
 // waiting works too!
-await wait(() => getByText($document, 'Loading...'))
+await waitFor(() => getByText($document, 'Loading...'))
 ```
 
 A little too un-playwright for you? We've got prototype-mucking covered too :)

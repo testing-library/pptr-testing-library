@@ -134,12 +134,14 @@ export function wait(
   return waitForExpect(callback, timeout, interval)
 }
 
+export const waitFor = wait
+
 export function configure(options: Partial<IConfigureOptions>): void {
   if (!options) {
     return
   }
 
-  const { testIdAttribute } = options
+  const {testIdAttribute} = options
 
   if (testIdAttribute) {
     delegateFnBodyToExecuteInPage = delegateFnBodyToExecuteInPageInitial.replace(
