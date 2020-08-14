@@ -8,7 +8,7 @@
 
 [playwright](https://github.com/microsoft/playwright) + [@testing-library/dom](https://github.com/testing-library/dom-testing-library) = 💖
 
-All your favorite user-centric querying functions from @testing-library/react & @testing-library/library available from Playwright!
+All your favorite user-centric querying functions from **@testing-library/react** & **@testing-library/library** available from Playwright!
 
 > ⚠️ Note: this is a fork of [pptr-testing-library](https://github.com/testing-library/pptr-testing-library) modified to accomodate for some subtle API differences.
 
