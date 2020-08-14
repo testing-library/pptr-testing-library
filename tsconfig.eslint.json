@@ -3,6 +3,5 @@
   "compilerOptions": {
     "allowJs": true
   },
-  "include": ["lib/**/__tests__/**/*", "**/*.config.js"],
-  "exclude": []
+  "include": ["test", "**/*.config.js"]
 }

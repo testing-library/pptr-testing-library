@@ -1,0 +1,5 @@
+node_modules/
+coverage/
+dist/
+extend.js
+extend.d.ts

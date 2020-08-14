@@ -6,18 +6,18 @@ describe('lib/extend.ts', () => {
   let page: playwright.Page
   let document: playwright.ElementHandle
 
-  it('should require without error', async () => {
-    await import('../extend')
-  })
+  beforeAll(async () => {
+    await import('../lib/extend')
 
-  it('should launch playwright', async () => {
     browser = await playwright.chromium.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
     page = await browser.newPage()
+
     await page.goto(`file://${path.join(__dirname, 'fixtures/page.html')}`)
+
+    document = await page.getDocument()
   })
 
   it('should extend playwright ElementHandle', async () => {
-    document = await page.getDocument()
     expect(typeof document.queryAllByAltText).toBe('function')
   })
 
@@ -57,6 +57,7 @@ describe('lib/extend.ts', () => {
       fail() // eslint-disable-line jest/no-jasmine-globals
     } catch (err) {
       err.message = err.message.replace(/(\s*at .*(\n|$))+/gm, '\n    <stack>:X:X')
+      // eslint-disable-next-line jest/no-try-expect
       expect(err.message).toMatchSnapshot()
     }
   })

@@ -1,12 +1,12 @@
 import * as path from 'path'
 import * as playwright from 'playwright'
-import {getDocument, queries, getQueriesForElement, waitFor, configure} from '..'
+import {getDocument, queries, getQueriesForElement, waitFor, configure} from '../lib'
 
 describe('lib/index.ts', () => {
   let browser: playwright.Browser
   let page: playwright.Page
 
-  it('should launch playwright', async () => {
+  beforeAll(async () => {
     browser = await playwright.chromium.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
     page = await browser.newPage()
     await page.goto(`file://${path.join(__dirname, 'fixtures/page.html')}`)
@@ -55,16 +55,16 @@ describe('lib/index.ts', () => {
     expect(await queries.getNodeText(element)).toEqual('Hello h1')
   })
 
-  it('should load the defered page', async () => {
-    await page.goto(`file://${path.join(__dirname, 'fixtures/late-page.html')}`)
-  })
+  describe('loading the deferred page', () => {
+    beforeEach(async () => page.goto(`file://${path.join(__dirname, 'fixtures/late-page.html')}`))
 
-  it('should use `wait` properly', async () => {
-    const {getByText} = getQueriesForElement(await getDocument(page))
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    await waitFor(() => getByText('Loaded!'), {timeout: 7000})
-    expect(await getByText('Loaded!')).toBeTruthy()
-  }, 9000)
+    it('should use `wait` properly', async () => {
+      const {getByText} = getQueriesForElement(await getDocument(page))
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      await waitFor(() => getByText('Loaded!'), {timeout: 7000})
+      expect(await getByText('Loaded!')).toBeTruthy()
+    }, 9000)
+  })
 
   afterEach(() => {
     configure({testIdAttribute: 'data-testid'}) // cleanup
