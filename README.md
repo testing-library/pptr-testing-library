@@ -1,17 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-- [playwright-testing-library](#playwright-testing-library)
-  - [Install](#install)
-  - [Use](#use)
-  - [API](#api)
-  - [Known Limitations](#known-limitations)
-  - [Special Thanks](#special-thanks)
-  - [Related Playwright Test Utilities](#related-playwright-test-utilities)
-  - [LICENSE](#license)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # playwright-testing-library
 
 [![Package Version][npm-badge]][npm-link]
@@ -25,6 +11,21 @@
 All your favorite user-centric querying functions from @testing-library/react & @testing-library/library available from Playwright!
 
 > ⚠️ Note: this is a fork of [pptr-testing-library](https://github.com/testing-library/pptr-testing-library) modified to accomodate for some subtle API differences.
+
+## Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Install](#install)
+- [Use](#use)
+- [API](#api)
+- [Known Limitations](#known-limitations)
+- [Special Thanks](#special-thanks)
+- [Related Playwright Test Utilities](#related-playwright-test-utilities)
+- [LICENSE](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Install
 
