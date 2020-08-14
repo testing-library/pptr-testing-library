@@ -67,7 +67,7 @@ describe('lib/index.ts', () => {
   }, 9000)
 
   afterEach(() => {
-    configure({testIdAttribute: 'data-testid'}) //cleanup
+    configure({testIdAttribute: 'data-testid'}) // cleanup
   })
 
   afterAll(async () => {
