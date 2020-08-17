@@ -105,6 +105,12 @@ Unique methods, not part of `@testing-library/dom`
   - `getAllByTitle`
   - `findByTitle`
   - `findAllByTitle`
+  - `queryByDisplayValue`,
+  - `queryAllByDisplayValue`,
+  - `getByDisplayValue`,
+  - `getAllByDisplayValue`,
+  - `findByDisplayValue`,
+  - `findAllByDisplayValue`,
 
 ## Known Limitations
 
