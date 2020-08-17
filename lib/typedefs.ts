@@ -67,7 +67,7 @@ export interface IScopedQueryUtils extends BoundFunctions<IQueryMethods> {
 }
 
 export interface IQueryUtils extends IQueryMethods {
-  getQueriesForElement(): BoundFunctions<IQueryUtils>
+  getQueriesForElement(): IScopedQueryUtils
   getNodeText(el: Element): Promise<string>
 }
 
