@@ -73,30 +73,41 @@ Unique methods, not part of `@testing-library/dom`
   - `queryAllByPlaceholderText`
   - `getByPlaceholderText`
   - `getAllByPlaceholderText`
+  - `findByPlaceholderText`
+  - `findAllByPlaceholderText`
   - `queryByText`
   - `queryAllByText`
   - `getByText`
   - `getAllByText`
+  - `findByText`
+  - `findAllByText`
   - `queryByLabelText`
   - `queryAllByLabelText`
   - `getByLabelText`
   - `getAllByLabelText`
+  - `findByLabelText`
+  - `findAllByLabelText`
   - `queryByAltText`
   - `queryAllByAltText`
   - `getByAltText`
   - `getAllByAltText`
+  - `findByAltText`
+  - `findAllByAltText`
   - `queryByTestId`
   - `queryAllByTestId`
   - `getByTestId`
   - `getAllByTestId`
+  - `findByTestId`
+  - `findAllByTestId`
   - `queryByTitle`
   - `queryAllByTitle`
   - `getByTitle`
   - `getAllByTitle`
+  - `findByTitle`
+  - `findAllByTitle`
 
 ## Known Limitations
 
-- `waitForElement` method is not exposed. Puppeteer has its own set of wait utilities that somewhat conflict with the style used in `@testing-library/dom`. See [#3](https://github.com/testing-library/pptr-testing-library/issues/3).
 - `fireEvent` method is not exposed, use puppeteer's built-ins instead.
 - `expect` assertion extensions are not available.
 
