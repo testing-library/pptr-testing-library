@@ -1,7 +1,25 @@
-import {Matcher, MatcherOptions, SelectorMatcherOptions, WaitForElementOptions} from '@testing-library/dom'
+import {
+  Matcher,
+  MatcherOptions as MatcherOptions_,
+  SelectorMatcherOptions as SelectorMatcherOptions_,
+  waitForOptions,
+} from '@testing-library/dom'
 import {ElementHandle} from 'puppeteer'
 
 type Element = ElementHandle
+
+type MatcherOptions = Omit<MatcherOptions_, 'normalizer'>
+type SelectorMatcherOptions = Omit<SelectorMatcherOptions_, 'normalizer'>
+
+// tslint:disable-next-line
+interface RoleMatcherOptions extends MatcherOptions {
+  name?: string | RegExp
+}
+
+// tslint:disable-next-line
+interface SelectorRoleMatcherOptions extends SelectorMatcherOptions {
+  name?: string | RegExp
+}
 
 interface IQueryMethods {
   queryByPlaceholderText(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element | null>
@@ -12,12 +30,14 @@ interface IQueryMethods {
     el: Element,
     m: Matcher,
     opts?: SelectorMatcherOptions,
-    waitForOpts?: WaitForElementOptions): Promise<Element>
+    waitForOpts?: waitForOptions,
+  ): Promise<Element>
   findAllByPlaceholderText(
     el: Element,
     m: Matcher,
     opts?: SelectorMatcherOptions,
-    waitForOpts?: WaitForElementOptions): Promise<Element[]>
+    waitForOpts?: waitForOptions,
+  ): Promise<Element[]>
 
   queryByText(el: Element, m: Matcher, opts?: SelectorMatcherOptions): Promise<Element | null>
   queryAllByText(el: Element, m: Matcher, opts?: SelectorMatcherOptions): Promise<Element[]>
@@ -27,12 +47,14 @@ interface IQueryMethods {
     el: Element,
     m: Matcher,
     opts?: SelectorMatcherOptions,
-    waitForOpts?: WaitForElementOptions): Promise<Element>
+    waitForOpts?: waitForOptions,
+  ): Promise<Element>
   findAllByText(
     el: Element,
     m: Matcher,
     opts?: SelectorMatcherOptions,
-    waitForOpts?: WaitForElementOptions): Promise<Element[]>
+    waitForOpts?: waitForOptions,
+  ): Promise<Element[]>
 
   queryByLabelText(el: Element, m: Matcher, opts?: SelectorMatcherOptions): Promise<Element | null>
   queryAllByLabelText(el: Element, m: Matcher, opts?: SelectorMatcherOptions): Promise<Element[]>
@@ -42,12 +64,14 @@ interface IQueryMethods {
     el: Element,
     m: Matcher,
     opts?: SelectorMatcherOptions,
-    waitForOpts?: WaitForElementOptions): Promise<Element>
+    waitForOpts?: waitForOptions,
+  ): Promise<Element>
   findAllByLabelText(
     el: Element,
     m: Matcher,
     opts?: SelectorMatcherOptions,
-    waitForOpts?: WaitForElementOptions): Promise<Element[]>
+    waitForOpts?: waitForOptions,
+  ): Promise<Element[]>
 
   queryByAltText(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element | null>
   queryAllByAltText(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element[]>
@@ -57,12 +81,14 @@ interface IQueryMethods {
     el: Element,
     m: Matcher,
     opts?: SelectorMatcherOptions,
-    waitForOpts?: WaitForElementOptions): Promise<Element>
+    waitForOpts?: waitForOptions,
+  ): Promise<Element>
   findAllByAltText(
     el: Element,
     m: Matcher,
     opts?: SelectorMatcherOptions,
-    waitForOpts?: WaitForElementOptions): Promise<Element[]>
+    waitForOpts?: waitForOptions,
+  ): Promise<Element[]>
 
   queryByTestId(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element | null>
   queryAllByTestId(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element[]>
@@ -72,12 +98,14 @@ interface IQueryMethods {
     el: Element,
     m: Matcher,
     opts?: SelectorMatcherOptions,
-    waitForOpts?: WaitForElementOptions): Promise<Element>
+    waitForOpts?: waitForOptions,
+  ): Promise<Element>
   findAllByTestId(
     el: Element,
     m: Matcher,
     opts?: SelectorMatcherOptions,
-    waitForOpts?: WaitForElementOptions): Promise<Element[]>
+    waitForOpts?: waitForOptions,
+  ): Promise<Element[]>
 
   queryByTitle(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element | null>
   queryAllByTitle(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element[]>
@@ -87,27 +115,31 @@ interface IQueryMethods {
     el: Element,
     m: Matcher,
     opts?: SelectorMatcherOptions,
-    waitForOpts?: WaitForElementOptions): Promise<Element>
+    waitForOpts?: waitForOptions,
+  ): Promise<Element>
   findAllByTitle(
     el: Element,
     m: Matcher,
     opts?: SelectorMatcherOptions,
-    waitForOpts?: WaitForElementOptions): Promise<Element[]>
+    waitForOpts?: waitForOptions,
+  ): Promise<Element[]>
 
-  queryByRole(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element | null>
-  queryAllByRole(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element[]>
-  getByRole(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element>
-  getAllByRole(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element[]>
+  queryByRole(el: Element, m: Matcher, opts?: RoleMatcherOptions): Promise<Element | null>
+  queryAllByRole(el: Element, m: Matcher, opts?: RoleMatcherOptions): Promise<Element[]>
+  getByRole(el: Element, m: Matcher, opts?: RoleMatcherOptions): Promise<Element>
+  getAllByRole(el: Element, m: Matcher, opts?: RoleMatcherOptions): Promise<Element[]>
   findByRole(
     el: Element,
     m: Matcher,
-    opts?: SelectorMatcherOptions,
-    waitForOpts?: WaitForElementOptions): Promise<Element>
+    opts?: SelectorRoleMatcherOptions,
+    waitForOpts?: waitForOptions,
+  ): Promise<Element>
   findAllByRole(
     el: Element,
     m: Matcher,
-    opts?: SelectorMatcherOptions,
-    waitForOpts?: WaitForElementOptions): Promise<Element[]>
+    opts?: SelectorRoleMatcherOptions,
+    waitForOpts?: waitForOptions,
+  ): Promise<Element[]>
 
   queryByDisplayValue(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element | null>
   queryAllByDisplayValue(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element[]>
@@ -117,12 +149,14 @@ interface IQueryMethods {
     el: Element,
     m: Matcher,
     opts?: SelectorMatcherOptions,
-    waitForOpts?: WaitForElementOptions): Promise<Element>
+    waitForOpts?: waitForOptions,
+  ): Promise<Element>
   findAllByDisplayValue(
     el: Element,
     m: Matcher,
     opts?: SelectorMatcherOptions,
-    waitForOpts?: WaitForElementOptions): Promise<Element[]>
+    waitForOpts?: waitForOptions,
+  ): Promise<Element[]>
 }
 
 export type BoundFunction<T> = T extends (
@@ -132,12 +166,12 @@ export type BoundFunction<T> = T extends (
   options: infer Q,
 ) => infer R
   ? (text: P, options?: Q) => R
-  : T extends (a1: any, text: infer P, options: infer Q, waitForElementOptions: infer W) => infer R
-  ? (text: P, options?: Q, waitForElementOptions?: W) => R
+  : T extends (a1: any, text: infer P, options: infer Q, waitForOptions: infer W) => infer R
+  ? (text: P, options?: Q, waitForOptions?: W) => R
   : T extends (a1: any, text: infer P, options: infer Q) => infer R
   ? (text: P, options?: Q) => R
   : never
-export type BoundFunctions<T> = { [P in keyof T]: BoundFunction<T[P]> }
+export type BoundFunctions<T> = {[P in keyof T]: BoundFunction<T[P]>}
 
 export interface IScopedQueryUtils extends BoundFunctions<IQueryMethods> {
   getQueriesForElement(): IScopedQueryUtils
