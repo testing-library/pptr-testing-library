@@ -116,6 +116,29 @@ describe('lib/extend.ts', () => {
     expect(await queryByText('Hello h3')).toBeTruthy()
   })
 
+  describe('deferred page', () => {
+    beforeEach(async () => {
+      await page.goto(`file://${path.join(__dirname, 'fixtures/late-page.html')}`)
+      document = await page.getDocument()
+    })
+
+    it('should handle the findBy* methods', async () => {
+      expect(await document.findByText('Loaded!', {}, {timeout: 7000})).toBeTruthy()
+    }, 9000)
+
+    it('should handle the findByAll* methods', async () => {
+      const elements = await document.findAllByText(/Hello/, {}, {timeout: 7000})
+      expect(elements).toHaveLength(2)
+
+      const text = await Promise.all([
+        page.evaluate(el => el.textContent, elements[0]),
+        page.evaluate(el => el.textContent, elements[1]),
+      ])
+
+      expect(text).toEqual(['Hello h1', 'Hello h2'])
+    }, 9000)
+  })
+
   afterAll(async () => {
     await browser.close()
   })
