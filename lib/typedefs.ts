@@ -1,9 +1,27 @@
-import {Matcher, MatcherOptions, SelectorMatcherOptions, waitForOptions} from '@testing-library/dom'
+import {
+  Matcher,
+  MatcherOptions as MatcherOptions_,
+  SelectorMatcherOptions as SelectorMatcherOptions_,
+  waitForOptions,
+} from '@testing-library/dom'
 import {ElementHandle as PlaywrightElementHandle} from 'playwright'
 
 export type ElementHandle = PlaywrightElementHandle<SVGElement | HTMLElement>
 
 type Element = ElementHandle
+
+type MatcherOptions = Omit<MatcherOptions_, 'normalizer'>
+type SelectorMatcherOptions = Omit<SelectorMatcherOptions_, 'normalizer'>
+
+// tslint:disable-next-line
+interface RoleMatcherOptions extends MatcherOptions {
+  name?: string | RegExp
+}
+
+// tslint:disable-next-line
+interface SelectorRoleMatcherOptions extends SelectorMatcherOptions {
+  name?: string | RegExp
+}
 
 interface IQueryMethods {
   queryByPlaceholderText(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element | null>
@@ -108,20 +126,20 @@ interface IQueryMethods {
     waitForOpts?: waitForOptions,
   ): Promise<Element[]>
 
-  queryByRole(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element | null>
-  queryAllByRole(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element[]>
-  getByRole(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element>
-  getAllByRole(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element[]>
+  queryByRole(el: Element, m: Matcher, opts?: RoleMatcherOptions): Promise<Element | null>
+  queryAllByRole(el: Element, m: Matcher, opts?: RoleMatcherOptions): Promise<Element[]>
+  getByRole(el: Element, m: Matcher, opts?: RoleMatcherOptions): Promise<Element>
+  getAllByRole(el: Element, m: Matcher, opts?: RoleMatcherOptions): Promise<Element[]>
   findByRole(
     el: Element,
     m: Matcher,
-    opts?: SelectorMatcherOptions,
+    opts?: SelectorRoleMatcherOptions,
     waitForOpts?: waitForOptions,
   ): Promise<Element>
   findAllByRole(
     el: Element,
     m: Matcher,
-    opts?: SelectorMatcherOptions,
+    opts?: SelectorRoleMatcherOptions,
     waitForOpts?: waitForOptions,
   ): Promise<Element[]>
 
@@ -150,8 +168,8 @@ export type BoundFunction<T> = T extends (
   options: infer Q,
 ) => infer R
   ? (text: P, options?: Q) => R
-  : T extends (a1: any, text: infer P, options: infer Q, waitForElementOptions: infer W) => infer R
-  ? (text: P, options?: Q, waitForElementOptions?: W) => R
+  : T extends (a1: any, text: infer P, options: infer Q, waitForOptions: infer W) => infer R
+  ? (text: P, options?: Q, waitForOptions?: W) => R
   : T extends (a1: any, text: infer P, options: infer Q) => infer R
   ? (text: P, options?: Q) => R
   : never
