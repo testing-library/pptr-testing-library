@@ -99,6 +99,14 @@ describe('lib/extend.ts', () => {
     expect(text).toEqual('Hello h2')
   })
 
+  it('should handle the getBy* methods with a regex name', async () => {
+    const element = await document.getByRole('button', {name: /getBy.*Test/})
+
+    const text = await page.evaluate(el => el.textContent, element)
+
+    expect(text).toEqual('getByRole Test')
+  })
+
   it('should scope results to element', async () => {
     const scope = await document.$('#scoped')
     const element = await scope!.queryByText(/Hello/)
