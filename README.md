@@ -113,7 +113,7 @@ Unique methods, not part of `@testing-library/dom`
   - `findAllByDisplayValue`,
 
 ## Known Limitations
-
+- Async utilities `waitForElement`, `waitForElementToBeRemoved` and `waitForDomChange` are not exposed. Consider using a `find*` query.
 - `fireEvent` method is not exposed, use puppeteer's built-ins instead.
 - `expect` assertion extensions are not available.
 
