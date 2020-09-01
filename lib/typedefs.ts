@@ -13,12 +13,10 @@ type Element = ElementHandle
 type MatcherOptions = Omit<MatcherOptions_, 'normalizer'>
 type SelectorMatcherOptions = Omit<SelectorMatcherOptions_, 'normalizer'>
 
-// tslint:disable-next-line
 interface RoleMatcherOptions extends MatcherOptions {
   name?: string | RegExp
 }
 
-// tslint:disable-next-line
 interface SelectorRoleMatcherOptions extends SelectorMatcherOptions {
   name?: string | RegExp
 }
