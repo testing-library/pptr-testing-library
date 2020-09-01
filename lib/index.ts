@@ -11,14 +11,40 @@ const domLibraryAsString = readFileSync(
 ).replace(/process.env/g, '{}')
 
 /* istanbul ignore next */
-function mapArgument(argument: any, index: number): any {
-  return index === 0 && typeof argument === 'object' && argument.regex
-    ? new RegExp(argument.regex, argument.flags)
-    : argument
+function convertProxyToRegExp(o: any, depth: number): any {
+  if (typeof o !== 'object' || !o || depth > 2) return o
+  if (!o.__regex || typeof o.__flags !== 'string') {
+    const copy = {...o}
+    for (const key of Object.keys(copy)) {
+      copy[key] = convertProxyToRegExp(copy[key], depth + 1)
+    }
+    return copy
+  }
+
+  return new RegExp(o.__regex, o.__flags)
+}
+
+/* istanbul ignore next */
+function mapArgument(o: any): any {
+  return convertProxyToRegExp(o, 0)
+}
+
+function convertRegExpToProxy(o: any, depth: number): any {
+  if (typeof o !== 'object' || !o || depth > 2) return o
+  if (!(o instanceof RegExp)) {
+    const copy = {...o}
+    for (const key of Object.keys(copy)) {
+      copy[key] = convertRegExpToProxy(copy[key], depth + 1)
+    }
+    return copy
+  }
+
+  return {__regex: o.source, __flags: o.flags}
 }
 
 const delegateFnBodyToExecuteInPageInitial = `
   ${domLibraryAsString};
+  ${convertProxyToRegExp.toString()};
 
   const mappedArgs = args.map(${mapArgument.toString()});
   const moduleWithFns = fnName in __dom_testing_library__ ?
@@ -97,8 +123,6 @@ function createDelegateFor<T = DOMReturnType>(
   // eslint-disable-next-line no-param-reassign
   processHandleFn = processHandleFn || processQuery
 
-  const convertRegExp = (regex: RegExp) => ({regex: regex.source, flags: regex.flags})
-
   return async function delegate(...args: any[]): Promise<T> {
     // @ts-ignore
     const containerHandle: ElementHandle = contextFn ? contextFn.apply(this, args) : this
@@ -107,12 +131,14 @@ function createDelegateFor<T = DOMReturnType>(
     // eslint-disable-next-line no-new-func, @typescript-eslint/no-implied-eval
     const evaluateFn = new Function('container, [fnName, ...args]', delegateFnBodyToExecuteInPage)
 
-    // Convert RegExp to a special format since they don't serialize well
-    let argsToForward = args.map(arg => (arg instanceof RegExp ? convertRegExp(arg) : arg))
+    let argsToForward = args
     // Remove the container from the argsToForward since it's always the first argument
     if (containerHandle === args[0]) {
       argsToForward = argsToForward.slice(1)
     }
+
+    // Convert RegExp to a special format since they don't serialize well
+    argsToForward = argsToForward.map(convertRegExpToProxy)
 
     return processHandleFn!({fnName, containerHandle, evaluateFn, argsToForward})
   }
