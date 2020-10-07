@@ -15,13 +15,20 @@ function requireOrUndefined(path: string) {
 }
 
 try {
-  Page = require('playwright/lib/page.js')
+  Page =
+    requireOrUndefined('playwright/lib/page.js') ??
+    requireOrUndefined('playwright/lib/client/page.js')
+
   if (Page.Page) Page = Page.Page
 
-  ElementHandle = requireOrUndefined('playwright/lib/api.js')
+  ElementHandle =
+    requireOrUndefined('playwright/lib/api.js') ??
+    requireOrUndefined('playwright/lib/client/api.js')
+
   if (ElementHandle && ElementHandle.ElementHandle) ElementHandle = ElementHandle.ElementHandle
 
   Page.prototype.getDocument = getDocument
+
   getQueriesForElement(ElementHandle.prototype, function (this: ElementHandle): ElementHandle {
     return this
   })
