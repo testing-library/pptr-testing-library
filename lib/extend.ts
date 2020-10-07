@@ -6,11 +6,11 @@ import {ElementHandle, IScopedQueryUtils} from './typedefs'
 let Page
 let ElementHandle // eslint-disable-line no-redeclare
 
-function requireOrUndefined(path: string): any {
+function requireOrUndefined(path: string) {
   try {
     return require(path)
   } catch (err) {
-    return null
+    return undefined
   }
 }
 
