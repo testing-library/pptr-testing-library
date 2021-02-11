@@ -75,7 +75,7 @@
     "typescript": "^3.8.3"
   },
   "peerDependencies": {
-    "puppeteer": "^1.5.0 || ^2.0.0"
+    "puppeteer": "*"
   },
   "engines": {
     "node": ">=10"
