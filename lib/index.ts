@@ -98,7 +98,9 @@ async function processQuery(handles: IHandleSet): Promise<DOMReturnType> {
     const handle = await containerHandle.evaluateHandle(evaluateFn, [fnName, ...argsToForward])
     return await covertToElementHandle(handle, fnName.includes('All'))
   } catch (err) {
-    err.message = err.message.replace('[fnName]', `[${fnName}]`)
+    err.message = err.message
+      .replace(/^.*(?=TestingLibraryElementError:)/, '')
+      .replace('[fnName]', `[${fnName}]`)
     err.stack = err.stack.replace('[fnName]', `[${fnName}]`)
     throw err
   }
