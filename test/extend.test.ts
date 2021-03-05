@@ -1,6 +1,10 @@
 import * as path from 'path'
 import * as playwright from 'playwright'
 
+import stacktraceSerializer from './serializers/stacktrace'
+
+expect.addSnapshotSerializer(stacktraceSerializer)
+
 describe('lib/extend.ts', () => {
   let browser: playwright.ChromiumBrowser
   let page: playwright.Page
@@ -52,14 +56,7 @@ describe('lib/extend.ts', () => {
     // Use the scoped element so the pretty HTML snapshot is smaller
     const scope = await document.$('#scoped')
 
-    try {
-      await scope!.getByTitle('missing')
-      fail() // eslint-disable-line jest/no-jasmine-globals
-    } catch (err) {
-      err.message = err.message.replace(/(\s*at .*(\n|$))+/gm, '\n    <stack>:X:X')
-      // eslint-disable-next-line jest/no-try-expect
-      expect(err.message).toMatchSnapshot()
-    }
+    await expect(async () => scope!.getByTitle('missing')).rejects.toThrowErrorMatchingSnapshot()
   })
 
   it('should handle the LabelText methods', async () => {
