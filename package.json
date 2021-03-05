@@ -55,7 +55,7 @@
     "@types/jest": "^26.0.4",
     "generate-export-aliases": "^1.1.0",
     "jest": "^25.1.0",
-    "playwright": "^1.4.2",
+    "playwright": "^1.9.1",
     "rollup": "^2.0.3",
     "ts-jest": "^25.2.1",
     "typescript": "^3.9.6"
