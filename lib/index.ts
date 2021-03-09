@@ -155,8 +155,10 @@ export async function getDocument(_page?: Page): Promise<ElementHandle> {
   return document
 }
 
+type WaitForCallback = Parameters<typeof waitForExpect>[0]
+
 export function wait(
-  callback: () => void,
+  callback: WaitForCallback,
   {timeout = 4500, interval = 50}: {timeout?: number; interval?: number} = {},
 ): Promise<{}> {
   return waitForExpect(callback, timeout, interval)
