@@ -61,7 +61,7 @@ describe('lib/index.ts', () => {
     it('should use `wait` properly', async () => {
       const {getByText} = getQueriesForElement(await getDocument(page))
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      await waitFor(() => getByText('Loaded!'), {timeout: 7000})
+      await waitFor(async () => expect(await getByText('Loaded!')).toBeTruthy(), {timeout: 7000})
       expect(await getByText('Loaded!')).toBeTruthy()
     }, 9000)
   })
