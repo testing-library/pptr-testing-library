@@ -153,9 +153,9 @@ MIT
 [npm-link]: https://www.npmjs.com/package/playwright-testing-library
 [npm-badge]: https://img.shields.io/npm/v/playwright-testing-library
 [travis-link]: https://travis-ci.org/github/hoverinc/playwright-testing-library
-[travis-badge]: https://travis-ci.org/hoverinc/playwright-testing-library.svg?branch=master
+[travis-badge]: https://travis-ci.org/hoverinc/playwright-testing-library.svg?branch=main
 [codecov-link]: https://codecov.io/gh/hoverinc/playwright-testing-library
-[codecov-badge]: https://codecov.io/gh/hoverinc/playwright-testing-library/branch/master/graph/badge.svg
+[codecov-badge]: https://codecov.io/gh/hoverinc/playwright-testing-library/branch/main/graph/badge.svg
 [conventional-commits-link]: https://conventionalcommits.org
 [conventional-commits-badge]: https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg
 [david-link]: https://david-dm.org/hoverinc/playwright-testing-library
