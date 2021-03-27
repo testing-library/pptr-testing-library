@@ -21,7 +21,7 @@ describe('lib/extend.ts', () => {
     document = await page.getDocument()
   })
 
-  it('should extend playwright ElementHandle', async () => {
+  it('should extend playwright ElementHandle', () => {
     expect(typeof document.queryAllByAltText).toBe('function')
   })
 

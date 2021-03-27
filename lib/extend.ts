@@ -4,7 +4,7 @@ import {getDocument, getQueriesForElement} from '.'
 import {ElementHandle, IScopedQueryUtils} from './typedefs'
 
 let Page
-let ElementHandle // eslint-disable-line no-redeclare
+let ElementHandle // eslint-disable-line @typescript-eslint/no-redeclare
 
 function requireOrUndefined(path: string) {
   try {
