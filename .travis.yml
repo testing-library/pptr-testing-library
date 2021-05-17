@@ -27,7 +27,7 @@ after_success:
 jobs:
   include:
     - stage: release
-      node_js: 12
+      node_js: 14
       env:
         - PLAYWRIGHT_OVERRIDE_VERSION=latest
       script: yarn ci-after-success
