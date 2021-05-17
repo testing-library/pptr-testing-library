@@ -8,9 +8,9 @@ branches:
     - main
     - next
 node_js:
+  - v16
   - v14
   - v12
-  - v10
 env:
   - PLAYWRIGHT_OVERRIDE_VERSION=1.1.0
   - PLAYWRIGHT_OVERRIDE_VERSION=latest
