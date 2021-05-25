@@ -104,6 +104,12 @@ Unique methods, not part of `@testing-library/dom`
   - `getAllByTitle`
   - `findByTitle`
   - `findAllByTitle`
+  - `queryByRole`
+  - `queryAllByRole`
+  - `getByRole`
+  - `getAllByRole`
+  - `findByRole`
+  - `findAllByRole`
   - `queryByDisplayValue`,
   - `queryAllByDisplayValue`,
   - `getByDisplayValue`,
