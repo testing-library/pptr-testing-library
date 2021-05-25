@@ -61,11 +61,13 @@ type ContextFn = (...args: any[]) => ElementHandle
 
 async function createElementHandleArray(handle: JSHandle): Promise<ElementHandle[]> {
   const lengthHandle = await handle.getProperty('length')
+  if (!lengthHandle) throw new Error(`Failed to assess length property`)
   const length = (await lengthHandle.jsonValue()) as number
 
   const elements: ElementHandle[] = []
   for (let i = 0; i < length; i++) {
     const jsElement = await handle.getProperty(i.toString())
+    if (!jsElement) throw new Error(`Failed to assess ${i.toString()} property`)
     const element = await createElementHandle(jsElement)
     if (element) elements.push(element)
   }

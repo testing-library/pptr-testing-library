@@ -1,4 +1,4 @@
-import {ElementHandle} from 'puppeteer'
+import type {ElementHandle as ElementHandleType} from 'puppeteer'
 
 import {getDocument, getQueriesForElement} from '.'
 import {IScopedQueryUtils} from './typedefs'
@@ -40,11 +40,15 @@ try {
   if (ElementHandle && ElementHandle.ElementHandle) ElementHandle = ElementHandle.ElementHandle
 
   Page.prototype.getDocument = getDocument
-  getQueriesForElement(ElementHandle.prototype, function(this: ElementHandle): ElementHandle {
+  getQueriesForElement(ElementHandle.prototype, function(
+    this: ElementHandleType,
+  ): ElementHandleType {
     return this
   })
 
-  ElementHandle.prototype.getQueriesForElement = function(this: ElementHandle): ElementHandle {
+  ElementHandle.prototype.getQueriesForElement = function(
+    this: ElementHandleType,
+  ): ElementHandleType {
     return getQueriesForElement(this)
   }
 } catch (err) {

@@ -20,9 +20,8 @@ jobs:
           - pptr: 4.x.x
           - pptr: 5.x.x
           - pptr: 6.x.x
-          # We don't support these yet
-          # - pptr: 7.x.x
-          # - pptr: latest
+          - pptr: 7.x.x
+          - pptr: latest
     steps:
       - name: Run git checkout
         uses: actions/checkout@v2
