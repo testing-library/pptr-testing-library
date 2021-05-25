@@ -1,8 +1,7 @@
 # pptr-testing-library
 
 [![NPM Package](https://badge.fury.io/js/pptr-testing-library.svg)](https://www.npmjs.com/package/pptr-testing-library)
-[![Build Status](https://travis-ci.org/testing-library/pptr-testing-library.svg?branch=master)](https://travis-ci.org/testing-library/pptr-testing-library)
-[![Coverage Status](https://coveralls.io/repos/github/testing-library/pptr-testing-library/badge.svg?branch=master)](https://coveralls.io/github/testing-library/pptr-testing-library?branch=master)
+![GitHub Actions status](https://github.com/testing-library/pptr-testing-library/actions/workflows/ci.yml/badge.svg?branch=main)
 [![Dependencies](https://david-dm.org/testing-library/pptr-testing-library.svg)](https://david-dm.org/testing-library/pptr-testing-library)
 [![Discord](https://img.shields.io/discord/723559267868737556.svg?color=7389D8&labelColor=6A7EC2&logo=discord&logoColor=ffffff)](https://discord.gg/testing-library)
 
@@ -113,6 +112,7 @@ Unique methods, not part of `@testing-library/dom`
   - `findAllByDisplayValue`,
 
 ## Known Limitations
+
 - Async utilities `waitForElement`, `waitForElementToBeRemoved` and `waitForDomChange` are not exposed. Consider using a `find*` query.
 - `fireEvent` method is not exposed, use puppeteer's built-ins instead.
 - `expect` assertion extensions are not available.
