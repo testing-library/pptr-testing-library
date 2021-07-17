@@ -1,37 +1,70 @@
-# playwright-testing-library
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [playwright-testing-library](#playwright-testing-library)
+  - [✨ Features](#-features)
+  - [🌱 Getting Started](#-getting-started)
+    - [1. Install](#1-install)
+    - [2a. Use _standalone queries_](#2a-use-_standalone-queries_)
+    - [2b. Use _extensions_](#2b-use-_extensions_)
+  - [🔌 API](#-api)
+  - [Known Limitations](#known-limitations)
+  - [Special Thanks](#special-thanks)
+  - [Related Playwright Test Utilities](#related-playwright-test-utilities)
+  - [LICENSE](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+<div align="center">
+  <br>
+  <header>
+    <img src="https://user-images.githubusercontent.com/288160/126050717-dd76eb80-ef06-40e0-97e8-72c20c9f8f20.png" height="64" />
+  </header>
+  <br>
+  <h1>playwright-testing-library</h1>
+  <p>🔍 Find elements in <strong>playwright</strong> like your users will with <strong>@testing-libary/dom</strong></p>
+</div>
+
+<div align="center">
 
 [![Package Version][npm-badge]][npm-link]
 [![Build Status][travis-badge]][travis-link]
 [![Test Coverage][codecov-badge]][codecov-link]
 [![Dependencies Status][david-badge]][david-link]
+[![MIT License][license-badge]][license-link] <br>
+[![Code Style][prettier-badge]][prettier-link]
 [![Conventional Commits][conventional-commits-badge]][conventional-commits-link]
+[![Maintenance][maintenance-badge]][maintenance-link]
 
-[playwright](https://github.com/microsoft/playwright) + [@testing-library/dom](https://github.com/testing-library/dom-testing-library) = 💖
+</div>
 
-All your favorite user-centric querying functions from **@testing-library/react** & **@testing-library/library** available from Playwright!
+<br>
+
+## ✨ Features
 
 > ⚠️ Note: this is a fork of [pptr-testing-library](https://github.com/testing-library/pptr-testing-library) modified to accomodate for some subtle API differences.
 
-## Contents
+All of your favorite user-centric querying functions from **@testing-library/react** and **@testing-library/dom** available from Playwright!
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+- Standalone queries — **`playwright-testing-library`** or...
+- Playwright extensions — **`playwright-testing-library/extend`**
+- Asynchronous assertion helper (via **[wait-for-expect](https://github.com/TheBrainFamily/wait-for-expect)**)
 
-- [Install](#install)
-- [Use](#use)
-- [API](#api)
-- [Known Limitations](#known-limitations)
-- [Special Thanks](#special-thanks)
-- [Related Playwright Test Utilities](#related-playwright-test-utilities)
-- [LICENSE](#license)
+## 🌱 Getting Started
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+### 1. Install
 
-## Install
+```bash
+npm install --save-dev playwright-testing-library
+```
 
-`npm install --save-dev playwright-testing-library`
+or
 
-## Use
+```bash
+yarn add --dev playwright-testing-library
+```
+
+### 2a. Use _standalone queries_
 
 ```js
 const {webkit} = require('playwright') // or 'firefox' or 'chromium'
@@ -54,7 +87,7 @@ await $email.type('playwright@example.com')
 await waitFor(() => getByText($document, 'Loading...'))
 ```
 
-A little too un-playwright for you? We've got prototype-mucking covered too :)
+### 2b. Use _extensions_
 
 ```js
 const {webkit} = require('playwright') // or 'firefox' or 'chromium'
@@ -63,6 +96,8 @@ require('playwright-testing-library/extend')
 const browser = await webkit.launch()
 const page = await browser.newPage()
 
+deCall('editor.action.formatDocument')
+// getDocument is added to prototype of Page
 // getDocument is added to prototype of Page
 const $document = await page.getDocument()
 // query methods are added directly to prototype of ElementHandle
@@ -72,16 +107,29 @@ const {getByText} = $form.getQueriesForElement()
 // ...
 ```
 
-## API
+## 🔌 API
 
-Unique methods, not part of `@testing-library/dom`
+Unique methods, not part of **@testing-library/dom**
 
-- `getDocument(page: playwright.Page): ElementHandle` - get an ElementHandle for the document
-- `wait(conditionFn: () => {}): Promise<{}>` - wait for the condition to not throw (wrapper around `waitForExpect`)
+- Get an `ElementHandle` for the document
+
+  ```ts
+  getDocument(page: playwright.Page): ElementHandle
+  ```
+
+- Wait for an assertion (wrapper around [wait-for-expect](https://github.com/TheBrainFamily/wait-for-expect))
+
+  ```ts
+  waitFor(
+    expectation: () => void | Promise<void>,
+    timeout?: number,
+    interval?: number
+  ): Promise<{}>
+  ```
 
 ---
 
-[@testing-library/dom API](https://github.com/testing-library/dom-testing-library#usage). All `get*`/`query*` methods are supported.
+The **[@testing-library/dom](https://github.com/testing-library/dom-testing-library#usage)** — All **`get*`** and **`query*`** methods are supported.
 
 - `getQueriesForElement(handle: ElementHandle): ElementHandle & QueryUtils` - extend the input object with the query API and return it
 - `getNodeText(handle: ElementHandle): Promise<string>` - get the text content of the element
@@ -150,13 +198,19 @@ Unique methods, not part of `@testing-library/dom`
 
 MIT
 
-[npm-link]: https://www.npmjs.com/package/playwright-testing-library
-[npm-badge]: https://img.shields.io/npm/v/playwright-testing-library
-[travis-link]: https://travis-ci.org/github/hoverinc/playwright-testing-library
-[travis-badge]: https://travis-ci.org/hoverinc/playwright-testing-library.svg?branch=main
-[codecov-link]: https://codecov.io/gh/hoverinc/playwright-testing-library
 [codecov-badge]: https://codecov.io/gh/hoverinc/playwright-testing-library/branch/main/graph/badge.svg
-[conventional-commits-link]: https://conventionalcommits.org
+[codecov-link]: https://codecov.io/gh/hoverinc/playwright-testing-library
 [conventional-commits-badge]: https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg
-[david-link]: https://david-dm.org/hoverinc/playwright-testing-library
+[conventional-commits-link]: https://conventionalcommits.org
 [david-badge]: https://david-dm.org/hoverinc/playwright-testing-library.svg
+[david-link]: https://david-dm.org/hoverinc/playwright-testing-library
+[license-badge]: https://img.shields.io/npm/l/@hover/javascript.svg
+[license-link]: https://github.com/hoverinc/hover-javascript/blob/master/LICENSE
+[maintenance-badge]: https://img.shields.io/badge/maintenance-active-247ddc?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAcCAYAAACUJBTQAAAB1ElEQVRIibWWPUtdQRCGH0VNF/wCCVjYCxr/gZWdhYVgLQYbm/wACTYxxA8SSBDtbKwUbfQWkiJFAgkkmHBBY6U2CXaCGlDDG1buxePOnt17bsgD28zOzjtnZvbuRVKR1SFpVdKepEe1njOGnOWCz0q60B1lSa05/oVE2iTNSfqdCZ7lSyWB0NmkSJekeUmXJqzlayWZUJxckUUTJs23mFAjlhNjSdMHfAQ6g54hZUnDdXyN44ek7iKNH4w0PMaeX7pQ8Ox6HQkWww3Dw1hPWoAJ4BxoB4aNR5oB4APQ5vekUdITSceZDLcreyORrGPcfpEL0CBpVNJRwLmUSWLS7NbGpju8FXEteT2qR+jQ9aS3QK2XgUljjXPpRC6iLpYV4KmxRghNVy28Aqb+t4jjLbBhrAH+RcRxZSwBUiINxlIHKZE/xlIHTTlHBDwHjoDPwHtgF/gEnBnvFJVfzSrXkpYyfxKGvIu14F3ONXP1LOWmzEPjpuWl92j55XyQyDnEjRN5AbwD9gMOPkV7tAPMOJE3ZuuOFmOpjS3gGfCdQDl8fgGnGVtzwt8F7wdGqgKOvOmq4iarB3gMjAFlb78qug5MAwehIO4tKViJe4wDP4FSrgfwF/ntR8JxRSf3AAAAAElFTkSuQmCC
+[maintenance-link]: https://github.com/hoverinc/hover-javascript#maintenance
+[npm-badge]: https://img.shields.io/npm/v/playwright-testing-library
+[npm-link]: https://www.npmjs.com/package/playwright-testing-library
+[prettier-badge]: https://img.shields.io/badge/code_style-prettier-ff69b4.svg?logo=prettier
+[prettier-link]: https://prettierjs.org/en/download/
+[travis-badge]: https://travis-ci.org/hoverinc/playwright-testing-library.svg?branch=main
+[travis-link]: https://travis-ci.org/github/hoverinc/playwright-testing-library
