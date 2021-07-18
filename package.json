@@ -4,9 +4,9 @@
   "description": "playwright + dom-testing-library",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "yarn build:ts && yarn build:rollup",
+    "build": "yarn build:types && yarn build:rollup",
     "build:rollup": "rollup -c rollup.config.js",
-    "build:ts": "tsc",
+    "build:types": "tsc",
     "ci-after-success": "hover-scripts ci-after-success",
     "clean": "rm -fR dist/",
     "lint": "hover-scripts lint",
