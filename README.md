@@ -51,7 +51,7 @@ yarn add --dev playwright-testing-library
 
 ```js
 const {webkit} = require('playwright') // or 'firefox' or 'chromium'
-const {getDocument, queries, waitFor} = require('playwright-testing-library')
+const {getDocument, queries} = require('playwright-testing-library')
 
 const {getByTestId, getByLabelText} = queries
 
@@ -60,14 +60,17 @@ const page = await browser.newPage()
 
 // Grab ElementHandle for document
 const $document = await getDocument(page)
+
 // Your favorite query methods are available
 const $form = await getByTestId($document, 'my-form')
-// returned elements are ElementHandles too!
+
+// Returned elements are ElementHandles too!
 const $email = await getByLabelText($form, 'Email')
-// interact with playwright like usual
+
+// Interact with playwright like usual
 await $email.type('playwright@example.com')
-// waiting works too!
-await waitFor(() => getByText($document, 'Loading...'))
+
+// ...
 ```
 
 ### 2b. Use _extensions_
@@ -79,14 +82,20 @@ require('playwright-testing-library/extend')
 const browser = await webkit.launch()
 const page = await browser.newPage()
 
-deCall('editor.action.formatDocument')
-// getDocument is added to prototype of Page
-// getDocument is added to prototype of Page
+// Grab document with `getDocument`, which is added to the prototype of `Paqe`
 const $document = await page.getDocument()
-// query methods are added directly to prototype of ElementHandle
+
+// Query methods are added directly to prototype of `ElementHandle`
 const $form = await $document.getByTestId('my-form')
-// destructing works if you explicitly call getQueriesForElement
-const {getByText} = $form.getQueriesForElement()
+
+// Scope queries with `getQueriesForElement`
+const {getByLabelText} = $form.getQueriesForElement()
+
+const $email = await getByLabelText('Email')
+
+// Interact with Playwright like usual
+await $email.type('playwright@example.com')
+
 // ...
 ```
 
