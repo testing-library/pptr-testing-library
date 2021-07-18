@@ -4,4 +4,5 @@ module.exports = {
   ...config,
   collectCoverageFrom: ['**/*.ts', '!**/*.d.ts'],
   coverageThreshold: {},
+  setupFilesAfterEnv: ['./jest.setup.ts'],
 }

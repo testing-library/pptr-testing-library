@@ -3,5 +3,5 @@
   "compilerOptions": {
     "allowJs": true
   },
-  "include": ["test", "**/*.config.js", ".eslintrc.js"]
+  "include": ["test", "**/*.config.js", ".eslintrc.js", "jest.setup.ts"]
 }
