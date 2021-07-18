@@ -1,0 +1,15 @@
+version = 1
+
+[merge]
+method = "rebase"
+
+[merge.automerge_dependencies]
+versions = ["patch"]
+usernames = ["dependabot"]
+
+[approve]
+auto_approve_usernames = ["dependabot"]
+
+[update]
+ignored_usernames = ["dependabot"]
+autoupdate_label = "autoupdate"
