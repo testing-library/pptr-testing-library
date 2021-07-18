@@ -1,0 +1,74 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: Build
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - next
+      - alpha
+      - beta
+
+jobs:
+  deduplicate:
+    name: Deduplicate Jobs
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          concurrent_skipping: same_content_newer
+
+  build:
+    name: Build + Test + Release / Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    if: ${{ needs.deduplicate.outputs.should_skip != 'true' }}
+    strategy:
+      matrix:
+        node: ['12', '14', '16']
+        playwright: ['1.1.0', 'latest']
+
+    steps:
+      - name: Get Yarn cache path
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Setup node
+        uses: actions/setup-node@master
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Load Yarn cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Install specific Playwright version
+        run: |
+          yarn add -D ${{ matrix.playwright }}
+          yarn why playwright
+
+      - name: Build
+        run: yarn rebuild
+
+      - name: Run lint + tests
+        run: yarn validate
+
+      - name: Upload Coverage / Release
+        run: yarn ci-after-success
+        if: ${{ matrix.node == '14' }}
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
