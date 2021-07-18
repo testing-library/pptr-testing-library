@@ -60,7 +60,7 @@ jobs:
       - name: Install specific Playwright version
         if: ${{ !(matrix.node == '16' && matrix.playwright == '1.1.0')  }}
         run: |
-          yarn add -D ${{ matrix.playwright }}
+          yarn add -D playwright@${{ matrix.playwright }}
           yarn why playwright
 
       - name: Build
