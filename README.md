@@ -11,7 +11,7 @@
 <div align="center">
 
 [![Package Version][npm-badge]][npm-link]
-[![Build Status][travis-badge]][travis-link]
+[![Build Status][build-badge]][build-link]
 [![Test Coverage][codecov-badge]][codecov-link]
 [![Dependencies Status][david-badge]][david-link]
 [![MIT License][license-badge]][license-link] <br>
@@ -195,5 +195,5 @@ MIT
 [npm-link]: https://www.npmjs.com/package/playwright-testing-library
 [prettier-badge]: https://img.shields.io/badge/code_style-prettier-ff69b4.svg?logo=prettier
 [prettier-link]: https://prettierjs.org/en/download/
-[travis-badge]: https://travis-ci.org/hoverinc/playwright-testing-library.svg?branch=main
-[travis-link]: https://travis-ci.org/github/hoverinc/playwright-testing-library
+[build-badge]: https://github.com/hoverinc/playwright-testing-library/actions/workflows/build.yml/badge.svg
+[build-link]: https://github.com/hoverinc/playwright-testing-library/actions/workflows/build.yml
