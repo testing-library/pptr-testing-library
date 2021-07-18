@@ -1,20 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-- [playwright-testing-library](#playwright-testing-library)
-  - [✨ Features](#-features)
-  - [🌱 Getting Started](#-getting-started)
-    - [1. Install](#1-install)
-    - [2a. Use _standalone queries_](#2a-use-_standalone-queries_)
-    - [2b. Use _extensions_](#2b-use-_extensions_)
-  - [🔌 API](#-api)
-  - [Known Limitations](#known-limitations)
-  - [Special Thanks](#special-thanks)
-  - [Related Playwright Test Utilities](#related-playwright-test-utilities)
-  - [LICENSE](#license)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 <div align="center">
   <br>
   <header>

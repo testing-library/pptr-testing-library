@@ -17,7 +17,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "hover-scripts pre-commit",
+      "pre-commit": "hover-scripts pre-commit --no-toc",
       "commit-msg": "hover-scripts commit-msg"
     }
   },
