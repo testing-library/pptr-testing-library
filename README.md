@@ -5,7 +5,7 @@
   </header>
   <br>
   <h1>playwright-testing-library</h1>
-  <p>🔍 Find elements in <strong>playwright</strong> like your users will with <strong>@testing-libary/dom</strong></p>
+  <p>🔍 Find elements in <strong>playwright</strong> like your users  with queries from <strong>@testing-library/dom</strong></p>
 </div>
 
 <div align="center">
