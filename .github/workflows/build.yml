@@ -55,16 +55,23 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      # Old versions of Playwright (<= 1.1.0) fail on Node 16
+
       - name: Install specific Playwright version
+        if: ${{ !(matrix.node == '16' && matrix.playwright == '1.1.0')  }}
         run: |
           yarn add -D ${{ matrix.playwright }}
           yarn why playwright
 
       - name: Build
+        if: ${{ !(matrix.node == '16' && matrix.playwright == '1.1.0')  }}
         run: yarn rebuild
 
       - name: Run lint + tests
+        if: ${{ !(matrix.node == '16' && matrix.playwright == '1.1.0')  }}
         run: yarn validate
+
+      # Only release on Node 14
 
       - name: Upload Coverage / Release
         run: yarn ci-after-success
