@@ -1,4 +1,5 @@
 import {
+  ByRoleOptions as ByRoleOptions_,
   Matcher,
   MatcherOptions as MatcherOptions_,
   SelectorMatcherOptions as SelectorMatcherOptions_,
@@ -10,16 +11,7 @@ type Element = ElementHandle
 
 type MatcherOptions = Omit<MatcherOptions_, 'normalizer'>
 type SelectorMatcherOptions = Omit<SelectorMatcherOptions_, 'normalizer'>
-
-// tslint:disable-next-line
-interface RoleMatcherOptions extends MatcherOptions {
-  name?: string | RegExp
-}
-
-// tslint:disable-next-line
-interface SelectorRoleMatcherOptions extends SelectorMatcherOptions {
-  name?: string | RegExp
-}
+type ByRoleOptions = Omit<ByRoleOptions_, 'normalizer'>
 
 interface IQueryMethods {
   queryByPlaceholderText(el: Element, m: Matcher, opts?: MatcherOptions): Promise<Element | null>
@@ -124,20 +116,20 @@ interface IQueryMethods {
     waitForOpts?: waitForOptions,
   ): Promise<Element[]>
 
-  queryByRole(el: Element, m: Matcher, opts?: RoleMatcherOptions): Promise<Element | null>
-  queryAllByRole(el: Element, m: Matcher, opts?: RoleMatcherOptions): Promise<Element[]>
-  getByRole(el: Element, m: Matcher, opts?: RoleMatcherOptions): Promise<Element>
-  getAllByRole(el: Element, m: Matcher, opts?: RoleMatcherOptions): Promise<Element[]>
+  queryByRole(el: Element, m: Matcher, opts?: ByRoleOptions): Promise<Element | null>
+  queryAllByRole(el: Element, m: Matcher, opts?: ByRoleOptions): Promise<Element[]>
+  getByRole(el: Element, m: Matcher, opts?: ByRoleOptions): Promise<Element>
+  getAllByRole(el: Element, m: Matcher, opts?: ByRoleOptions): Promise<Element[]>
   findByRole(
     el: Element,
     m: Matcher,
-    opts?: SelectorRoleMatcherOptions,
+    opts?: ByRoleOptions,
     waitForOpts?: waitForOptions,
   ): Promise<Element>
   findAllByRole(
     el: Element,
     m: Matcher,
-    opts?: SelectorRoleMatcherOptions,
+    opts?: ByRoleOptions,
     waitForOpts?: waitForOptions,
   ): Promise<Element[]>
 
