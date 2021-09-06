@@ -1,8 +1,8 @@
 import {
+  ByRoleOptions as ByRoleOptions_,
   Matcher,
   MatcherOptions as MatcherOptions_,
   SelectorMatcherOptions as SelectorMatcherOptions_,
-  ByRoleOptions as ByRoleOptions_,
   waitForOptions,
 } from '@testing-library/dom'
 import {ElementHandle} from 'puppeteer'
