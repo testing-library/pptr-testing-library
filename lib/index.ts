@@ -31,7 +31,8 @@ function convertProxyToRegExp(o: any, depth: number): any {
 
 function convertRegExpToProxy(o: any, depth: number): any {
   if (typeof o !== 'object' || !o || depth > 2) return o
-  if (!(o instanceof RegExp)) {
+  // Support the cross-environment use case where `instanceof` is not sufficient, see https://github.com/testing-library/pptr-testing-library/pull/64
+  if (Object.prototype.toString.call(o) !== '[object RegExp]') {
     const copy = {...o}
     for (const key of Object.keys(copy)) {
       copy[key] = convertRegExpToProxy(copy[key], depth + 1)
