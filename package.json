@@ -43,7 +43,7 @@
     "wait-for-expect": "^3.0.2"
   },
   "devDependencies": {
-    "@hover/javascript": "^6.16.0",
+    "@hover/javascript": "^6.53.0",
     "@rollup/plugin-commonjs": "^21.0.0",
     "@rollup/plugin-node-resolve": "^13.0.5",
     "@rollup/plugin-replace": "^3.0.0",
@@ -51,7 +51,7 @@
     "generate-export-aliases": "^1.1.0",
     "husky": "^7.0.2",
     "playwright": "^1.11.0",
-    "rollup": "^2.0.3",
+    "rollup": "^2.58.0",
     "setimmediate": "^1.0.5",
     "typescript": "^4.4.3"
   },
