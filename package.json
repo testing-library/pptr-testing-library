@@ -13,13 +13,8 @@
     "prepublishOnly": "yarn rebuild && generate-export-aliases",
     "rebuild": "yarn clean && yarn build",
     "test": "hover-scripts test",
-    "validate": "hover-scripts validate 'lint,test --coverage --runInBand --verbose'"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "hover-scripts pre-commit --no-toc",
-      "commit-msg": "hover-scripts commit-msg"
-    }
+    "validate": "hover-scripts validate 'lint,test --coverage --runInBand --verbose'",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
