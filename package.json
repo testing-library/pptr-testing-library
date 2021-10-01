@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "@hover/javascript": "^6.53.0",
+    "@playwright/test": "^1.15.1",
     "@rollup/plugin-commonjs": "^21.0.0",
     "@rollup/plugin-node-resolve": "^13.0.5",
     "@rollup/plugin-replace": "^3.0.0",
@@ -56,7 +57,16 @@
     "typescript": "^4.4.3"
   },
   "peerDependencies": {
-    "playwright": "^1.1.0"
+    "playwright": "^1.1.0",
+    "@playwright/test": "^1.12.0"
+  },
+  "peerDependenciesMeta": {
+    "playwright": {
+      "optional": true
+    },
+    "@playwright/test": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=12"
