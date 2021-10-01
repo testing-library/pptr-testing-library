@@ -5,4 +5,5 @@ module.exports = {
   collectCoverageFrom: ['**/*.ts', '!**/*.d.ts'],
   coverageThreshold: {},
   setupFilesAfterEnv: ['./jest.setup.ts'],
+  testTimeout: 15000,
 }
