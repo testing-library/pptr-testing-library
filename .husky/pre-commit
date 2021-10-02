@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-yarn hover-scripts pre-commit --no-toc
+npm run pre-commit

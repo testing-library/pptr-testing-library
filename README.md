@@ -29,8 +29,8 @@
 
 All of your favorite user-centric querying functions from **@testing-library/react** and **@testing-library/dom** available from Playwright!
 
-- Standalone queries — **`playwright-testing-library`** or...
-- Playwright extensions — **`playwright-testing-library/extend`**
+- Playwright Test [fixture](https://playwright.dev/docs/test-fixtures) — **`@playwright-testing-library/test/fixture`** or...
+- Standalone queries — **`playwright-testing-library`**/**`@playwright-testing-library/test`**
 - Asynchronous assertion helper (via **[wait-for-expect](https://github.com/TheBrainFamily/wait-for-expect)**)
 
 ## 🌱 Getting Started
@@ -47,7 +47,46 @@ or
 yarn add --dev playwright-testing-library
 ```
 
-### 2a. Use _standalone queries_
+### 2a. Use _Playwright Test [fixture](https://playwright.dev/docs/test-fixtures)_
+
+```ts
+import {test as baseTest} from '@playwright/test'
+import {fixtures, TestingLibraryFixtures} from '@playwright-testing-library/test/fixture'
+
+// As only fixture
+const test = baseTest.extend<TestingLibraryFixtures>(fixtures)
+
+// Alternatively, with other fixtures
+interface Fixtures extends TestingLibraryFixtures {
+  // ... additional fixture types
+}
+
+const test = baseTest.extend<Fixtures>({
+  ...fixtures,
+  // ... additional fixtures
+})
+
+const {expect} = test
+
+// Query methods are available in `test` blocks
+test('my form', ({queries: {getByTestId}}) => {
+  const $form = await getByTestId('my-form')
+
+  // Scope queries with `getQueriesForElement`
+  const {getByLabelText} = $form.getQueriesForElement()
+
+  const $email = await getByLabelText('Email')
+
+  // Interact with Playwright like usual
+  await $email.type('playwright@example.com')
+
+  expect($email).toHaveValue('playwright@example.com')
+
+  // ...
+})
+```
+
+### 2b. Use _standalone queries_
 
 ```js
 const {webkit} = require('playwright') // or 'firefox' or 'chromium'
@@ -68,32 +107,6 @@ const $form = await getByTestId($document, 'my-form')
 const $email = await getByLabelText($form, 'Email')
 
 // Interact with playwright like usual
-await $email.type('playwright@example.com')
-
-// ...
-```
-
-### 2b. Use _extensions_
-
-```js
-const {webkit} = require('playwright') // or 'firefox' or 'chromium'
-require('playwright-testing-library/extend')
-
-const browser = await webkit.launch()
-const page = await browser.newPage()
-
-// Grab document with `getDocument`, which is added to the prototype of `Paqe`
-const $document = await page.getDocument()
-
-// Query methods are added directly to prototype of `ElementHandle`
-const $form = await $document.getByTestId('my-form')
-
-// Scope queries with `getQueriesForElement`
-const {getByLabelText} = $form.getQueriesForElement()
-
-const $email = await getByLabelText('Email')
-
-// Interact with Playwright like usual
 await $email.type('playwright@example.com')
 
 // ...

@@ -12,4 +12,12 @@ module.exports = {
     'no-restricted-syntax': 'off',
     'no-underscore-dangle': ['error', {allow: ['__regex', '__flags']}],
   },
+  overrides: [
+    {
+      files: ['playwright-test/*.+(js|ts)'],
+      rules: {
+        'import/no-extraneous-dependencies': ['error', {devDependencies: true}],
+      },
+    },
+  ],
 }

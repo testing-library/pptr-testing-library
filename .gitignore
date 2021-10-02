@@ -5,7 +5,7 @@ dist/
 yarn-error.log
 
 dom-testing-library.js
-extend.js
-extend.d.ts
+fixture.js
+fixture.d.ts
 
 .vscode/

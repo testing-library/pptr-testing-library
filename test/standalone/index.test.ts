@@ -1,6 +1,6 @@
 import * as path from 'path'
 import * as playwright from 'playwright'
-import {getDocument, queries, getQueriesForElement, waitFor, configure} from '../lib'
+import {getDocument, queries, getQueriesForElement, waitFor, configure} from '../../lib'
 
 describe('lib/index.ts', () => {
   let browser: playwright.Browser
@@ -9,7 +9,7 @@ describe('lib/index.ts', () => {
   beforeAll(async () => {
     browser = await playwright.chromium.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
     page = await browser.newPage()
-    await page.goto(`file://${path.join(__dirname, 'fixtures/page.html')}`)
+    await page.goto(`file://${path.join(__dirname, '../fixtures/page.html')}`)
   })
 
   it('should export the utilities', async () => {
@@ -60,7 +60,9 @@ describe('lib/index.ts', () => {
   })
 
   describe('loading the deferred page', () => {
-    beforeEach(async () => page.goto(`file://${path.join(__dirname, 'fixtures/late-page.html')}`))
+    beforeEach(async () =>
+      page.goto(`file://${path.join(__dirname, '../fixtures/late-page.html')}`),
+    )
 
     it('should use `wait` properly', async () => {
       // FIXME: I think it will take some work to get the types in a

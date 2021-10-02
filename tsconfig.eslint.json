@@ -3,5 +3,14 @@
   "compilerOptions": {
     "allowJs": true
   },
-  "include": ["test", "**/*.config.js", ".eslintrc.js", "jest.setup.ts"]
+  "include": [
+    "**/*.config.js",
+    "**/*.config.ts",
+    "dom-testing-library.input.js",
+    ".eslintrc.js",
+    "playwright-test/*.js",
+    "playwright-test/*.ts",
+    "jest.setup.ts",
+    "test"
+  ]
 }

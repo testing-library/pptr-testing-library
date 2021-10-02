@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist",
     "target": "es2015",
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
     "sourceMap": true,
     "declaration": true,
