@@ -4,17 +4,19 @@
   "description": "playwright + dom-testing-library",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "yarn build:types && yarn build:rollup",
+    "build": "npm run build:types && npm run build:rollup",
     "build:rollup": "rollup -c rollup.config.js",
     "build:types": "tsc",
     "ci-after-success": "hover-scripts ci-after-success",
     "clean": "rm -fR dist/",
+    "commit-msg": "hover-scripts commit-msg",
     "lint": "hover-scripts lint",
-    "prepublishOnly": "yarn rebuild && generate-export-aliases",
-    "rebuild": "yarn clean && yarn build",
+    "pre-commit": "hover-scripts pre-commit --no-toc",
+    "prepare": "husky install",
+    "prepublishOnly": "npm run rebuild && generate-export-aliases",
+    "rebuild": "npm run clean && npm run build",
     "test": "hover-scripts test",
-    "validate": "hover-scripts validate 'lint,test --coverage --runInBand --verbose'",
-    "prepare": "husky install"
+    "validate": "hover-scripts validate 'lint,test --coverage --runInBand --verbose'"
   },
   "repository": {
     "type": "git",

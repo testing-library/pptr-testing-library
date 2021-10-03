@@ -33,10 +33,6 @@ jobs:
         playwright: ['1.1.0', 'latest']
 
     steps:
-      - name: Get Yarn cache path
-        id: yarn-cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
       - name: Checkout
         uses: actions/checkout@master
 
@@ -44,37 +40,40 @@ jobs:
         uses: actions/setup-node@master
         with:
           node-version: ${{ matrix.node }}
+          
+      - name: Update to npm 7
+        run: npm i -g npm@7 --registry=https://registry.npmjs.org  
 
-      - name: Load Yarn cache
-        uses: actions/cache@v2
+      - uses: actions/cache@v2
         with:
-          path: ${{ steps.yarn-cache.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-yarn-
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm install
 
       # Old versions of Playwright (<= 1.1.0) fail on Node 16
 
       - name: Install specific Playwright version
         if: ${{ !(matrix.node == '16' && matrix.playwright == '1.1.0')  }}
         run: |
-          yarn add -D playwright@${{ matrix.playwright }}
-          yarn why playwright
+          npm install playwright@${{ matrix.playwright }}
+          npm why playwright
 
       - name: Build
         if: ${{ !(matrix.node == '16' && matrix.playwright == '1.1.0')  }}
-        run: yarn rebuild
+        run: npm run rebuild
 
       - name: Run lint + tests
         if: ${{ !(matrix.node == '16' && matrix.playwright == '1.1.0')  }}
-        run: yarn validate
+        run: npm run validate
 
       # Only release on Node 14
 
       - name: Upload Coverage / Release
-        run: yarn ci-after-success
+        run: npm run ci-after-success
         if: ${{ matrix.node == '14' }}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
