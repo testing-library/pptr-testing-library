@@ -12,6 +12,7 @@ const run = async () => {
   const modifiedPackage = {
     ...package,
     name: '@playwright-testing-library/test',
+    version: '0.0.0-semantically-released',
   }
 
   await fs.writeFile(PACKAGE, JSON.stringify(modifiedPackage, undefined, 2))
