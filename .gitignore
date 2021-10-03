@@ -7,3 +7,5 @@ yarn-error.log
 dom-testing-library.js
 extend.js
 extend.d.ts
+
+.vscode/
