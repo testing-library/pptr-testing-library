@@ -77,7 +77,7 @@ jobs:
       - name: Upload Coverage / Release / Playwright Test
         run: |
           npm run prepare:playwright-test
-          npm run ci-after-success
+          npm publish
         if: ${{ matrix.node == '14' && matrix.playwright == 'latest' }}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
