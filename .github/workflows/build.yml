@@ -40,6 +40,8 @@ jobs:
         uses: actions/setup-node@master
         with:
           node-version: ${{ matrix.node }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Update to npm 7
         run: npm i -g npm@7 --registry=https://registry.npmjs.org
