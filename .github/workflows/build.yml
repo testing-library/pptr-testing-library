@@ -94,6 +94,5 @@ jobs:
       - name: Upload Coverage / Release / Playwright Test
         if: ${{ matrix.node == '14' && matrix.playwright == 'latest' && steps.did-release.outputs.released == 'true' }}
         run: |
-          cat .npmrc
           npm run prepare:playwright-test
           npm publish
