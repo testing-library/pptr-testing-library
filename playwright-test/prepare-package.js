@@ -6,8 +6,9 @@ const fs = require('fs/promises')
 const {PACKAGE, getPackage} = require('./package')
 
 const run = async () => {
+  const package = await getPackage()
   const modifiedPackage = {
-    ...getPackage(),
+    ...package,
     name: '@playwright-testing-library/test',
   }
 
