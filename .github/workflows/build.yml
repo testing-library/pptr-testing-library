@@ -78,15 +78,18 @@ jobs:
         id: did-release
         run: echo "::set-output name=released::$(node ./playwright-test/check-package.js)"
 
-      - name: Setup node for second publish
-        uses: actions/setup-node@master
+      - name: Setup NPM authentication for second publish
         if: ${{ matrix.node == '14' && matrix.playwright == 'latest' && steps.did-release.outputs.released == 'true' }}
-        with:
-          node-version: ${{ matrix.node }}
-          registry-url: 'https://registry.npmjs.org/'
-          scope: '@playwright-testing-library'
+        run: |
+          cat > .npmrc <<EOF
+           registry=https://registry.npmjs.org/
+           @playwright-testing-library:registry=https://registry.npmjs.org/
+           //registry.npmjs.org/:_authToken=$NPM_TOKEN
+           always-auth=true
+           unsafe-perm=true
+          EOF
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Upload Coverage / Release / Playwright Test
         if: ${{ matrix.node == '14' && matrix.playwright == 'latest' && steps.did-release.outputs.released == 'true' }}
