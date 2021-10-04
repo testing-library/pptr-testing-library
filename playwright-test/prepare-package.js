@@ -2,15 +2,12 @@
 /* eslint-disable no-console */
 
 const fs = require('fs/promises')
-const path = require('path')
 
-const PACKAGE = path.join(__dirname, '..', 'package.json')
+const {PACKAGE, getPackage} = require('./package')
 
 const run = async () => {
-  const package = JSON.parse(await fs.readFile(PACKAGE, {encoding: 'utf-8'}))
-
   const modifiedPackage = {
-    ...package,
+    ...getPackage(),
     name: '@playwright-testing-library/test',
   }
 

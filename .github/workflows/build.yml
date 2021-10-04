@@ -40,8 +40,6 @@ jobs:
         uses: actions/setup-node@master
         with:
           node-version: ${{ matrix.node }}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Update to npm 7
         run: npm i -g npm@7 --registry=https://registry.npmjs.org
@@ -76,11 +74,20 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set flag as to whether we released
+        id: did-release
+        run: echo "::set-output name=released::$(node ./playwright-test/check-package.js)"
+
+      - name: Setup node for second publish
+        uses: actions/setup-node@master
+        if: ${{ matrix.node == '14' && matrix.playwright == 'latest' && steps.did-release.outputs.released == 'true' }}
+        with:
+          node-version: ${{ matrix.node }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Upload Coverage / Release / Playwright Test
+        if: ${{ matrix.node == '14' && matrix.playwright == 'latest' && steps.did-release.outputs.released == 'true' }}
         run: |
           npm run prepare:playwright-test
           npm publish
-        if: ${{ matrix.node == '14' && matrix.playwright == 'latest' }}
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
