@@ -3,6 +3,7 @@ coverage/
 .nyc_output/
 dist/
 yarn-error.log
+.npmrc
 
 dom-testing-library.js
 fixture.js

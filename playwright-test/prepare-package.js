@@ -12,7 +12,7 @@ const run = async () => {
     name: '@playwright-testing-library/test',
   }
 
-  await fs.writeFile(PACKAGE, JSON.stringify(modifiedPackage, undefined, 2))
+  await fs.writeFile(PACKAGE, `${JSON.stringify(modifiedPackage, undefined, 2)}\n`)
 }
 
 run()

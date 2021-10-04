@@ -91,8 +91,18 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.PLAYWRIGHT_TESTING_LIBRARY_TOKEN }}
 
-      - name: Upload Coverage / Release / Playwright Test
-        if: ${{ matrix.node == '14' && matrix.playwright == 'latest' && steps.did-release.outputs.released == 'true' }}
+      - name: Set branch name
+        id: branch
+        run: echo ::set-output name=branch::${GITHUB_REF#refs/*/}
+
+      - name: Release / Playwright Test (latest)
+        if: ${{ matrix.node == '14' && matrix.playwright == 'latest' && steps.did-release.outputs.released == 'true' && steps.branch.outputs.branch == 'main' }}
         run: |
           npm run prepare:playwright-test
-          npm publish
+          npm publish --access=public
+
+      - name: Release / Playwright Test (pre-release)
+        if: ${{ matrix.node == '14' && matrix.playwright == 'latest' && steps.did-release.outputs.released == 'true' && steps.branch.outputs.branch != 'main' }}
+        run: |
+          npm run prepare:playwright-test
+          npm publish --access=public --tag=${{ steps.branch.outputs.branch }}
