@@ -83,11 +83,14 @@ jobs:
         if: ${{ matrix.node == '14' && matrix.playwright == 'latest' && steps.did-release.outputs.released == 'true' }}
         with:
           node-version: ${{ matrix.node }}
+          registry-url: 'https://registry.npmjs.org/'
+          scope: '@playwright-testing-library'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Upload Coverage / Release / Playwright Test
         if: ${{ matrix.node == '14' && matrix.playwright == 'latest' && steps.did-release.outputs.released == 'true' }}
         run: |
+          cat .npmrc
           npm run prepare:playwright-test
           npm publish
