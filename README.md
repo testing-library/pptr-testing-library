@@ -38,13 +38,21 @@ All of your favorite user-centric querying functions from **@testing-library/rea
 ### 1. Install
 
 ```bash
+# For use with Playwright
 npm install --save-dev playwright-testing-library
+
+# For use with Playwright Test
+npm install --save-dev @playwright-testing-library/test
 ```
 
 or
 
 ```bash
+# For use with Playwright
 yarn add --dev playwright-testing-library
+
+# For use with Playwright Test
+yarn add --dev @playwright-testing-library/test
 ```
 
 ### 2a. Use _Playwright Test [fixture](https://playwright.dev/docs/test-fixtures)_
