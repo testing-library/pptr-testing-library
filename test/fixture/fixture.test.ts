@@ -44,6 +44,16 @@ test.describe('lib/fixture.ts', () => {
     )
   })
 
+  test('handles page navigations', async ({queries: {getByTestId}, page}) => {
+    await page.goto(`file://${path.join(__dirname, '../fixtures/page.html')}`)
+
+    const element = await getByTestId('testid-text-input')
+
+    expect(await page.evaluate(el => el.outerHTML, element)).toMatch(
+      `<input type="text" data-testid="testid-text-input">`,
+    )
+  })
+
   test('should handle the get* method failures', async ({queries}) => {
     const {getByTitle} = queries
     // Use the scoped element so the pretty HTML snapshot is smaller

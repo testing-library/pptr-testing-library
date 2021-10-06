@@ -4,6 +4,7 @@ import {JSHandle, Page} from 'playwright'
 import waitForExpect from 'wait-for-expect'
 
 import {ElementHandle, IConfigureOptions, IQueryUtils, IScopedQueryUtils} from './typedefs'
+import {queryNames} from './common'
 
 const domLibraryAsString = readFileSync(
   path.join(__dirname, '../dom-testing-library.js'),
@@ -193,64 +194,7 @@ export function getQueriesForElement<T>(
   // eslint-disable-next-line no-param-reassign
   if (!contextFn) contextFn = () => o
 
-  const functionNames: Array<keyof IQueryUtils> = [
-    'queryByPlaceholderText',
-    'queryAllByPlaceholderText',
-    'getByPlaceholderText',
-    'getAllByPlaceholderText',
-    'findByPlaceholderText',
-    'findAllByPlaceholderText',
-
-    'queryByText',
-    'queryAllByText',
-    'getByText',
-    'getAllByText',
-    'findByText',
-    'findAllByText',
-
-    'queryByLabelText',
-    'queryAllByLabelText',
-    'getByLabelText',
-    'getAllByLabelText',
-    'findByLabelText',
-    'findAllByLabelText',
-
-    'queryByAltText',
-    'queryAllByAltText',
-    'getByAltText',
-    'getAllByAltText',
-    'findByAltText',
-    'findAllByAltText',
-
-    'queryByTestId',
-    'queryAllByTestId',
-    'getByTestId',
-    'getAllByTestId',
-    'findByTestId',
-    'findAllByTestId',
-
-    'queryByTitle',
-    'queryAllByTitle',
-    'getByTitle',
-    'getAllByTitle',
-    'findByTitle',
-    'findAllByTitle',
-
-    'queryByRole',
-    'queryAllByRole',
-    'getByRole',
-    'getAllByRole',
-    'findByRole',
-    'findAllByRole',
-
-    'queryByDisplayValue',
-    'queryAllByDisplayValue',
-    'getByDisplayValue',
-    'getAllByDisplayValue',
-    'findByDisplayValue',
-    'findAllByDisplayValue',
-  ]
-  functionNames.forEach(functionName => {
+  queryNames.forEach(functionName => {
     o[functionName] = createDelegateFor(functionName, contextFn)
   })
 

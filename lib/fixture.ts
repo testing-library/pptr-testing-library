@@ -1,15 +1,25 @@
 import type {PlaywrightTestArgs, TestFixture} from '@playwright/test'
+
+import {getDocument, queries as unscopedQueries} from '.'
+import {queryNames} from './common'
 import type {IScopedQueryUtils as Queries} from './typedefs'
-import {getDocument, getQueriesForElement} from '.'
 
 interface TestingLibraryFixtures {
   queries: Queries
 }
 
 const fixture: TestFixture<Queries, PlaywrightTestArgs> = async ({page}, use) => {
-  const document = await getDocument(page)
+  const queries = {} as Queries
 
-  const queries = getQueriesForElement(document)
+  queryNames.forEach(name => {
+    // @ts-expect-error
+    queries[name] = async (...args) => {
+      const document = await getDocument(page)
+
+      // @ts-expect-error
+      return unscopedQueries[name](document, ...args)
+    }
+  })
 
   await use(queries)
 }
