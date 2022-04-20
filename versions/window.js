@@ -35,15 +35,17 @@ function convertRegExpToProxy(o, depth) {
     return { __regex: o.source, __flags: o.flags };
 }
 let domLibraryToExecute = domLibraryAsString;
+const initialLibraryName = '__dom_testing_library__';
+let libraryName = initialLibraryName;
 function getDelegateFnBodyToExecuteInPage(includeDomTestingLib) {
     return `
     ${includeDomTestingLib ? domLibraryToExecute : ""}
     ${convertProxyToRegExp.toString()}
     
     const mappedArgs = args.map(${mapArgument.toString()});
-    const moduleWithFns = fnName in __dom_testing_library__ ?
-      __dom_testing_library__ :
-      __dom_testing_library__.__moduleExports;
+    const moduleWithFns = fnName in ${libraryName} ?
+      ${libraryName} :
+      ${libraryName}.__moduleExports;
     return moduleWithFns[fnName](container, ...mappedArgs);
   `;
 }
@@ -92,14 +94,13 @@ async function processQuery(handles) {
         throw err;
     }
 }
-const executionContextInit = new WeakMap();
 function createDelegateFor(fnName, contextFn, processHandleFn) {
     // @ts-ignore
     processHandleFn = processHandleFn || processQuery;
     return async function (...args) {
         // @ts-ignore
         const containerHandle = contextFn ? contextFn.apply(this, args) : this;
-        const shouldIncludeTestingLib = await containerHandle.evaluate(() => window.__dom_testing_library__ == null);
+        const shouldIncludeTestingLib = await containerHandle.evaluate((_, libraryName) => window[libraryName] == null, libraryName);
         // @ts-ignore
         const evaluateFn = new Function("container, fnName, ...args", getDelegateFnBodyToExecuteInPage(shouldIncludeTestingLib));
         let argsToForward = args;
@@ -134,6 +135,9 @@ function configure(options) {
     const { testIdAttribute } = options;
     if (testIdAttribute) {
         domLibraryToExecute = domLibraryAsString.replace(/testIdAttribute: (['|"])data-testid(['|"])/g, `testIdAttribute: $1${testIdAttribute}$2`);
+        const randomID = Math.random().toString(36).slice(2);
+        libraryName = `${initialLibraryName}${randomID}`;
+        domLibraryToExecute = domLibraryToExecute.replace(initialLibraryName, libraryName);
     }
 }
 exports.configure = configure;
