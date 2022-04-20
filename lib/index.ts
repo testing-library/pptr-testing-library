@@ -43,18 +43,23 @@ function convertRegExpToProxy(o: any, depth: number): any {
   return {__regex: o.source, __flags: o.flags}
 }
 
-const delegateFnBodyToExecuteInPageInitial = `
-  ${domLibraryAsString};
-  ${convertProxyToRegExp.toString()};
+let domLibraryToExecute = domLibraryAsString
 
-  const mappedArgs = args.map(${mapArgument.toString()});
-  const moduleWithFns = fnName in __dom_testing_library__ ?
-    __dom_testing_library__ :
-    __dom_testing_library__.__moduleExports;
-  return moduleWithFns[fnName](container, ...mappedArgs);
-`
+const initialLibraryName = '__dom_testing_library__'
+let libraryName = initialLibraryName
 
-let delegateFnBodyToExecuteInPage = delegateFnBodyToExecuteInPageInitial
+function getDelegateFnBodyToExecuteInPage(includeDomTestingLib: boolean): string {
+  return `
+    ${includeDomTestingLib ? domLibraryToExecute : ''}
+    ${convertProxyToRegExp.toString()}
+
+    const mappedArgs = args.map(${mapArgument.toString()});
+    const moduleWithFns = fnName in ${libraryName} ?
+      ${libraryName} :
+      ${libraryName}.__moduleExports;
+    return moduleWithFns[fnName](container, ...mappedArgs);
+  `
+}
 
 type DOMReturnType = ElementHandle | ElementHandle[] | null
 
@@ -126,10 +131,19 @@ function createDelegateFor<T = DOMReturnType>(
   return async function(...args: any[]): Promise<T> {
     // @ts-ignore
     const containerHandle: ElementHandle = contextFn ? contextFn.apply(this, args) : this
+
+    const shouldIncludeTestingLib = await containerHandle.evaluate(
+      (_, libraryName) => {
+        const library = (window as any)[libraryName]
+        return library === null || library === undefined
+      },
+      libraryName,
+    )
+
     // @ts-ignore
     const evaluateFn: EvaluateFn = new Function(
       'container, fnName, ...args',
-      delegateFnBodyToExecuteInPage,
+      getDelegateFnBodyToExecuteInPage(shouldIncludeTestingLib),
     )
 
     let argsToForward = args
@@ -171,10 +185,14 @@ export function configure(options: Partial<IConfigureOptions>): void {
   const {testIdAttribute} = options
 
   if (testIdAttribute) {
-    delegateFnBodyToExecuteInPage = delegateFnBodyToExecuteInPageInitial.replace(
+    domLibraryToExecute = domLibraryAsString.replace(
       /testIdAttribute: (['|"])data-testid(['|"])/g,
       `testIdAttribute: $1${testIdAttribute}$2`,
     )
+
+    const randomID = Math.random().toString(36).slice(2)
+    libraryName = `${initialLibraryName}${randomID}`
+    domLibraryToExecute = domLibraryToExecute.replace(initialLibraryName, libraryName)
   }
 }
 
