@@ -6,6 +6,7 @@ const puppeteer = require("puppeteer");
 const { queries: baseQueries, getDocument } = require("./versions/base");
 const { queries: windowQueries } = require("./versions/window");
 const { queries: execQueries } = require("./versions/executionContext");
+const { queries: latestQueries } = require("./");
 
 var suite = new Benchmark.Suite("pptr-testing-library");
 
@@ -31,6 +32,15 @@ async function main() {
       defer: true,
       fn(deferred) {
         windowQueries
+          .getByText(document, "Hello h1")
+          .then(() => deferred.resolve());
+      },
+    })
+    .add({
+      name: "latest",
+      defer: true,
+      fn(deferred) {
+        latestQueries
           .getByText(document, "Hello h1")
           .then(() => deferred.resolve());
       },

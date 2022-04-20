@@ -45,15 +45,18 @@ function convertRegExpToProxy(o: any, depth: number): any {
 
 let domLibraryToExecute = domLibraryAsString;
 
+const initialLibraryName = '__dom_testing_library__';
+let libraryName = initialLibraryName;
+
 function getDelegateFnBodyToExecuteInPage(includeDomTestingLib: boolean): string {
   return `
     ${includeDomTestingLib ? domLibraryToExecute : ""}
     ${convertProxyToRegExp.toString()}
     
     const mappedArgs = args.map(${mapArgument.toString()});
-    const moduleWithFns = fnName in __dom_testing_library__ ?
-      __dom_testing_library__ :
-      __dom_testing_library__.__moduleExports;
+    const moduleWithFns = fnName in ${libraryName} ?
+      ${libraryName} :
+      ${libraryName}.__moduleExports;
     return moduleWithFns[fnName](container, ...mappedArgs);
   `;
 }
@@ -130,7 +133,8 @@ function createDelegateFor<T = DOMReturnType>(
     const containerHandle: ElementHandle = contextFn ? contextFn.apply(this, args) : this
 
     const shouldIncludeTestingLib = await containerHandle.evaluate(
-      () => (window as any).__dom_testing_library__ == null
+      (_, libraryName) => (window as any)[libraryName] == null,
+      libraryName
     );
 
     // @ts-ignore
@@ -182,6 +186,10 @@ export function configure(options: Partial<IConfigureOptions>): void {
       /testIdAttribute: (['|"])data-testid(['|"])/g,
       `testIdAttribute: $1${testIdAttribute}$2`,
     )
+
+    const randomID = Math.random().toString(36).slice(2)
+    libraryName = `${initialLibraryName}${randomID}`;
+    domLibraryToExecute = domLibraryToExecute.replace(initialLibraryName, libraryName);
   }
 }
 
