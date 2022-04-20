@@ -22,36 +22,52 @@ async function main() {
       name: "base",
       defer: true,
       fn(deferred) {
-        baseQueries
-          .getByText(document, "Hello h1")
-          .then(() => deferred.resolve());
-      },
-    })
-    .add({
-      name: "window check",
-      defer: true,
-      fn(deferred) {
-        windowQueries
-          .getByText(document, "Hello h1")
-          .then(() => deferred.resolve());
-      },
-    })
-    .add({
-      name: "latest",
-      defer: true,
-      fn(deferred) {
-        latestQueries
-          .getByText(document, "Hello h1")
-          .then(() => deferred.resolve());
+        baseQueries.getByAltText(document, "Image A").then((result) => {
+          if (result) {
+            deferred.resolve();
+          } else {
+            throw new Error("Image not found.");
+          }
+        });
       },
     })
     .add({
       name: "execution context",
       defer: true,
       fn(deferred) {
-        execQueries
-          .getByText(document, "Hello h1")
-          .then(() => deferred.resolve());
+        execQueries.getByAltText(document, "Image A").then((result) => {
+          if (result) {
+            deferred.resolve();
+          } else {
+            throw new Error("Image not found.");
+          }
+        });
+      },
+    })
+    .add({
+      name: "latest",
+      defer: true,
+      fn(deferred) {
+        latestQueries.getByAltText(document, "Image A").then((result) => {
+          if (result) {
+            deferred.resolve();
+          } else {
+            throw new Error("Image not found.");
+          }
+        });
+      },
+    })
+    .add({
+      name: "querySelector",
+      defer: true,
+      fn(deferred) {
+        page.$('img[alt="Image A"]').then((result) => {
+          if (result) {
+            deferred.resolve();
+          } else {
+            throw new Error("Image not found.");
+          }
+        });
       },
     })
     // add listeners
