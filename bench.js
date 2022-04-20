@@ -3,8 +3,9 @@
 const path = require("path");
 const Benchmark = require("benchmark");
 const puppeteer = require("puppeteer");
-const { queries: currentQueries } = require("./current");
-const { queries: newQueries, getDocument } = require("./");
+const { queries: baseQueries, getDocument } = require("./versions/base");
+const { queries: windowQueries } = require("./versions/window");
+const { queries: execQueries } = require("./versions/executionContext");
 
 var suite = new Benchmark.Suite("pptr-testing-library");
 
@@ -17,19 +18,28 @@ async function main() {
   // add tests
   suite
     .add({
-      name: "current findByRole",
+      name: "base",
       defer: true,
       fn(deferred) {
-        currentQueries
+        baseQueries
           .getByText(document, "Hello h1")
           .then(() => deferred.resolve());
       },
     })
     .add({
-      name: "new findByRole",
+      name: "window check",
       defer: true,
       fn(deferred) {
-        newQueries
+        windowQueries
+          .getByText(document, "Hello h1")
+          .then(() => deferred.resolve());
+      },
+    })
+    .add({
+      name: "execution context",
+      defer: true,
+      fn(deferred) {
+        execQueries
           .getByText(document, "Hello h1")
           .then(() => deferred.resolve());
       },

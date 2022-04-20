@@ -1,6 +1,6 @@
 import {readFileSync} from 'fs'
 import * as path from 'path'
-import {ElementHandle, EvaluateFn, JSHandle, Page} from 'puppeteer'
+import {ElementHandle, EvaluateFn, ExecutionContext, JSHandle, Page} from 'puppeteer'
 import waitForExpect from 'wait-for-expect'
 
 import {IConfigureOptions, IQueryUtils, IScopedQueryUtils} from './typedefs'
@@ -117,6 +117,8 @@ interface IHandleSet {
   argsToForward: any[]
 }
 
+const executionContextInit = new WeakMap<ExecutionContext, boolean>();
+
 function createDelegateFor<T = DOMReturnType>(
   fnName: keyof IQueryUtils,
   contextFn?: ContextFn,
@@ -129,9 +131,14 @@ function createDelegateFor<T = DOMReturnType>(
     // @ts-ignore
     const containerHandle: ElementHandle = contextFn ? contextFn.apply(this, args) : this
 
-    const shouldIncludeTestingLib = await containerHandle.evaluate(
-      () => (window as any).__dom_testing_library__ == null
-    );
+    // const shouldIncludeTestingLib = await containerHandle.evaluate(
+    //   () => (window as any).__dom_testing_library__ == null
+    // );
+    const executionContext = containerHandle.executionContext();
+    const shouldIncludeTestingLib = !executionContextInit.has(executionContext);
+    if (shouldIncludeTestingLib) {
+      executionContextInit.set(executionContext, true);
+    }
 
     // @ts-ignore
     const evaluateFn: EvaluateFn = new Function(
