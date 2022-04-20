@@ -43,22 +43,22 @@ function convertRegExpToProxy(o: any, depth: number): any {
   return {__regex: o.source, __flags: o.flags}
 }
 
-let domLibraryToExecute = domLibraryAsString;
+let domLibraryToExecute = domLibraryAsString
 
-const initialLibraryName = '__dom_testing_library__';
-let libraryName = initialLibraryName;
+const initialLibraryName = '__dom_testing_library__'
+let libraryName = initialLibraryName
 
 function getDelegateFnBodyToExecuteInPage(includeDomTestingLib: boolean): string {
   return `
-    ${includeDomTestingLib ? domLibraryToExecute : ""}
+    ${includeDomTestingLib ? domLibraryToExecute : ''}
     ${convertProxyToRegExp.toString()}
-    
+
     const mappedArgs = args.map(${mapArgument.toString()});
     const moduleWithFns = fnName in ${libraryName} ?
       ${libraryName} :
       ${libraryName}.__moduleExports;
     return moduleWithFns[fnName](container, ...mappedArgs);
-  `;
+  `
 }
 
 type DOMReturnType = ElementHandle | ElementHandle[] | null
@@ -133,15 +133,18 @@ function createDelegateFor<T = DOMReturnType>(
     const containerHandle: ElementHandle = contextFn ? contextFn.apply(this, args) : this
 
     const shouldIncludeTestingLib = await containerHandle.evaluate(
-      (_, libraryName) => (window as any)[libraryName] == null,
-      libraryName
-    );
+      (_, libraryName) => {
+        const library = (window as any)[libraryName]
+        return library === null || library === undefined
+      },
+      libraryName,
+    )
 
     // @ts-ignore
     const evaluateFn: EvaluateFn = new Function(
-      "container, fnName, ...args",
-      getDelegateFnBodyToExecuteInPage(shouldIncludeTestingLib)
-    );
+      'container, fnName, ...args',
+      getDelegateFnBodyToExecuteInPage(shouldIncludeTestingLib),
+    )
 
     let argsToForward = args
     // Remove the container from the argsToForward since it's always the first argument
@@ -188,8 +191,8 @@ export function configure(options: Partial<IConfigureOptions>): void {
     )
 
     const randomID = Math.random().toString(36).slice(2)
-    libraryName = `${initialLibraryName}${randomID}`;
-    domLibraryToExecute = domLibraryToExecute.replace(initialLibraryName, libraryName);
+    libraryName = `${initialLibraryName}${randomID}`
+    domLibraryToExecute = domLibraryToExecute.replace(initialLibraryName, libraryName)
   }
 }
 
