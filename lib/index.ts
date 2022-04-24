@@ -56,6 +56,12 @@ const delegateFnBodyToExecuteInPageInitial = `
 
 let delegateFnBodyToExecuteInPage = delegateFnBodyToExecuteInPageInitial
 
+let config: Partial<IConfigureOptions> = {
+  asyncUtilTimeout: 4500
+}
+
+configure(config)
+
 type DOMReturnType = ElementHandle | ElementHandle[] | null
 
 type ContextFn = (...args: any[]) => ElementHandle
@@ -156,7 +162,7 @@ export async function getDocument(_page?: Page): Promise<ElementHandle> {
 
 export function wait(
   callback: () => void,
-  {timeout = 4500, interval = 50}: {timeout?: number; interval?: number} = {},
+  {timeout = config.asyncUtilTimeout, interval = 50}: {timeout?: number; interval?: number} = {},
 ): Promise<{}> {
   return waitForExpect(callback, timeout, interval)
 }
@@ -168,13 +174,22 @@ export function configure(options: Partial<IConfigureOptions>): void {
     return
   }
 
-  const {testIdAttribute} = options
+  config = {
+    ...config,
+    ...options,
+  }
+
+  const {testIdAttribute, asyncUtilTimeout} = config
 
   if (testIdAttribute) {
-    delegateFnBodyToExecuteInPage = delegateFnBodyToExecuteInPageInitial.replace(
+    delegateFnBodyToExecuteInPage = delegateFnBodyToExecuteInPage.replace(
       /testIdAttribute: (['|"])data-testid(['|"])/g,
       `testIdAttribute: $1${testIdAttribute}$2`,
     )
+  }
+
+  if (asyncUtilTimeout) {
+    delegateFnBodyToExecuteInPage = delegateFnBodyToExecuteInPage.replace(/asyncUtilTimeout: ([-+]?\d*\.?\d+)(?:[eE]([-+]?\d+))?/g, `asyncUtilTimeout: ${asyncUtilTimeout}`)
   }
 }
 

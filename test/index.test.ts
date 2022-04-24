@@ -18,6 +18,20 @@ describe('lib/index.ts', () => {
     expect(await queries.getNodeText(element)).toEqual('Hello h1')
   })
 
+  it('should support custom global timeout', async () => {
+    configure({asyncUtilTimeout: 2000})
+    let timeout1 = false
+    let timeout2 = false
+    setTimeout(() => {
+      timeout1 = true
+    }, 1000)
+    setTimeout(() => {
+      timeout2 = true
+    }, 3000)
+    await waitFor(() => expect(timeout1).toBe(true))
+    expect(timeout2).toBe(false)
+  })
+
   it('should support custom data-testid attribute name', async () => {
     configure({testIdAttribute: 'data-id'})
     const document = await getDocument(page)
@@ -66,7 +80,7 @@ describe('lib/index.ts', () => {
   }, 9000)
 
   afterEach(() => {
-    configure({testIdAttribute: 'data-testid'}) //cleanup
+    configure({testIdAttribute: 'data-testid', asyncUtilTimeout: 4500}) //cleanup
   })
 
   afterAll(async () => {
