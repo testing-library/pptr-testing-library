@@ -132,11 +132,11 @@ describe('lib/extend.ts', () => {
     })
 
     it('should handle the findBy* methods', async () => {
-      expect(await document.findByText('Loaded!', {}, {timeout: 7000})).toBeTruthy()
-    }, 9000)
+      expect(await document.findByText('Loaded!')).toBeTruthy()
+    })
 
     it('should handle the findByAll* methods', async () => {
-      const elements = await document.findAllByText(/Hello/, {}, {timeout: 7000})
+      const elements = await document.findAllByText(/Hello/)
       expect(elements).toHaveLength(2)
 
       const text = await Promise.all([
@@ -145,7 +145,7 @@ describe('lib/extend.ts', () => {
       ])
 
       expect(text).toEqual(['Hello h1', 'Hello h2'])
-    }, 9000)
+    })
   })
 
   afterAll(async () => {
