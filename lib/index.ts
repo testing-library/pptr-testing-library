@@ -1,6 +1,6 @@
 import {readFileSync} from 'fs'
 import * as path from 'path'
-import {ElementHandle, EvaluateFn, JSHandle, Page} from 'puppeteer'
+import {ElementHandle, EvaluateFunc, Frame, JSHandle, Page} from 'puppeteer'
 import waitForExpect from 'wait-for-expect'
 
 import {IConfigureOptions, IQueryUtils, IScopedQueryUtils} from './typedefs'
@@ -43,6 +43,17 @@ function convertRegExpToProxy(o: any, depth: number): any {
   return {__regex: o.source, __flags: o.flags}
 }
 
+function getExecutionContextFromHandle(
+  elementHandle: ElementHandle,
+): Pick<Frame, 'evaluate' | 'evaluateHandle'> {
+  if (!elementHandle.frame) {
+    // @ts-expect-error - Support versions of puppeteer before v17.
+    return elementHandle.executionContext()
+  }
+
+  return elementHandle.frame
+}
+
 const delegateFnBodyToExecuteInPageInitial = `
   ${domLibraryAsString};
   ${convertProxyToRegExp.toString()};
@@ -56,16 +67,16 @@ const delegateFnBodyToExecuteInPageInitial = `
 
 let delegateFnBodyToExecuteInPage = delegateFnBodyToExecuteInPageInitial
 
-type DOMReturnType = ElementHandle | ElementHandle[] | null
+type DOMReturnType = ElementHandle<Node> | Array<ElementHandle<Node>> | null
 
 type ContextFn = (...args: any[]) => ElementHandle
 
-async function createElementHandleArray(handle: JSHandle): Promise<ElementHandle[]> {
+async function createElementHandleArray(handle: JSHandle): Promise<Array<ElementHandle<Node>>> {
   const lengthHandle = await handle.getProperty('length')
   if (!lengthHandle) throw new Error(`Failed to assess length property`)
   const length = (await lengthHandle.jsonValue()) as number
 
-  const elements: ElementHandle[] = []
+  const elements: Array<ElementHandle<Node>> = []
   for (let i = 0; i < length; i++) {
     const jsElement = await handle.getProperty(i.toString())
     if (!jsElement) throw new Error(`Failed to assess ${i.toString()} property`)
@@ -76,7 +87,7 @@ async function createElementHandleArray(handle: JSHandle): Promise<ElementHandle
   return elements
 }
 
-async function createElementHandle(handle: JSHandle): Promise<ElementHandle | null> {
+async function createElementHandle(handle: JSHandle): Promise<ElementHandle<Node> | null> {
   const element = handle.asElement()
   if (element) return element
   await handle.dispose()
@@ -88,29 +99,35 @@ async function covertToElementHandle(handle: JSHandle, asArray: boolean): Promis
 }
 
 function processNodeText(handles: IHandleSet): Promise<string> {
-  return handles.containerHandle
-    .executionContext()
-    .evaluate(handles.evaluateFn, handles.containerHandle, 'getNodeText')
+  return getExecutionContextFromHandle(handles.containerHandle).evaluate(
+    handles.evaluateFn,
+    handles.containerHandle,
+    'getNodeText',
+  )
 }
 
 async function processQuery(handles: IHandleSet): Promise<DOMReturnType> {
   const {containerHandle, evaluateFn, fnName, argsToForward} = handles
 
   try {
-    const handle = await containerHandle
-      .executionContext()
-      .evaluateHandle(evaluateFn, containerHandle, fnName, ...argsToForward)
+    const handle = await getExecutionContextFromHandle(containerHandle).evaluateHandle(
+      evaluateFn,
+      containerHandle,
+      fnName,
+      ...argsToForward,
+    )
     return await covertToElementHandle(handle, fnName.includes('All'))
   } catch (err) {
+    if (typeof err !== 'object' || !err || !(err instanceof Error)) throw err
     err.message = err.message.replace('[fnName]', `[${fnName}]`)
-    err.stack = err.stack.replace('[fnName]', `[${fnName}]`)
+    err.stack = (err.stack || '').replace('[fnName]', `[${fnName}]`)
     throw err
   }
 }
 
 interface IHandleSet {
   containerHandle: ElementHandle
-  evaluateFn: EvaluateFn
+  evaluateFn: EvaluateFunc<unknown[]>
   fnName: string
   argsToForward: any[]
 }
