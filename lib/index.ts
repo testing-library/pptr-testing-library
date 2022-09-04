@@ -1,6 +1,6 @@
 import {readFileSync} from 'fs'
 import * as path from 'path'
-import {ElementHandle, EvaluateFunc, Frame, JSHandle, Page} from 'puppeteer'
+import {ElementHandle, Frame, JSHandle, Page} from 'puppeteer'
 import waitForExpect from 'wait-for-expect'
 
 import {IConfigureOptions, IQueryUtils, IScopedQueryUtils} from './typedefs'
@@ -127,9 +127,9 @@ async function processQuery(handles: IHandleSet): Promise<DOMReturnType> {
 
 interface IHandleSet {
   containerHandle: ElementHandle
-  evaluateFn: EvaluateFunc<unknown[]>
   fnName: string
   argsToForward: any[]
+  evaluateFn(...params: any[]): any
 }
 
 function createDelegateFor<T = DOMReturnType>(
@@ -162,7 +162,7 @@ function createDelegateFor<T = DOMReturnType>(
   }
 }
 
-export async function getDocument(_page?: Page): Promise<ElementHandle> {
+export async function getDocument(_page?: Page): Promise<ElementHandle<Node>> {
   // @ts-ignore
   const page: Page = _page || this
   const documentHandle = await page.mainFrame().evaluateHandle('document')
