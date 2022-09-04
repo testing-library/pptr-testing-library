@@ -24,6 +24,7 @@ jobs:
           - pptr: 10.x.x
           - pptr: 12.x.x
           - pptr: 14.x.x
+          - pptr: 17.x.x
           - pptr: latest
     steps:
       - name: Run git checkout

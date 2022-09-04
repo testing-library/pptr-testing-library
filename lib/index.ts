@@ -47,7 +47,7 @@ function getExecutionContextFromHandle(
   elementHandle: ElementHandle,
 ): Pick<Frame, 'evaluate' | 'evaluateHandle'> {
   if (!elementHandle.frame) {
-    // @ts-expect-error - Support versions of puppeteer before v17.
+    // @ts-ignore - Support versions of puppeteer before v17.
     return elementHandle.executionContext()
   }
 
