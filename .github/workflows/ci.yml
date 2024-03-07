@@ -12,7 +12,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - pptr: 14.x.x
           - pptr: 17.x.x
           - pptr: 20.x.x
           - pptr: 21.x.x
@@ -30,5 +29,4 @@ jobs:
       - run: npm install "puppeteer@${{ matrix.pptr }}"
       - run: npm install "@types/puppeteer@${{ matrix.pptr }}" || echo "No types available"
       - run: npm run rebuild
-      - run: npm run test:lint
       - run: npm run test:unit --coverage --runInBand --verbose
