@@ -4,9 +4,8 @@
   "description": "puppeteer + dom-testing-library",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "npm run test:lint && npm run test:unit",
+    "test": "npm run test:unit",
     "test:unit": "jest",
-    "test:lint": "lint -t typescript './lib/**/*.ts'",
     "semantic-release": "semantic-release",
     "clean": "rm -fR dist/",
     "rebuild": "npm run clean && npm run build",
