@@ -12,17 +12,26 @@ function requireOrUndefined(path: string): any {
   } catch (err) {}
 }
 
-try {
-  let apiPrefix = 'puppeteer-core/lib/cjs/puppeteer/api' // Puppeteer v18+
+const PREFIXES = [
+  'puppeteer-core/lib/cjs/puppeteer/api', // puppeteer v18+
+  'puppeteer/lib/cjs/puppeteer/common', // puppeteer v5-v18
+  'puppeteer/lib', // puppeteer <v5
+]
 
-  if (!requireOrUndefined(`${apiPrefix}/Page.js`)) {
-    apiPrefix = 'puppeteer/lib/cjs/common' // Puppeteer v5-v18
-  } else if (!requireOrUndefined(`${apiPrefix}/Page.js`)) {
-    apiPrefix = 'puppeteer/lib' // Puppeteer <v5
+try {
+  const apiPrefix = PREFIXES.find(dir => requireOrUndefined(`${dir}/Page.js`))
+  if (!apiPrefix) {
+    const fs = require('fs')
+    const resolvedPath = require.resolve('puppeteer').replace(/node_modules\/puppeteer.*/, 'node_modules')
+    const paths = PREFIXES.map(prefix => resolvedPath + '/' + prefix)
+    const files = paths.flatMap(dir => fs.existsSync(dir) ? fs.readdirSync(dir) : [])
+    const debugData = `Available Files:\n  - ${files.join('\n  - ')}`
+    throw new Error(`Could not find Page class\n${debugData}`)
   }
 
   Page = requireOrUndefined(`${apiPrefix}/Page.js`) // tslint:disable-line
-  if (Page.Page) Page = Page.Page
+  if (Page && Page.Page) Page = Page.Page
+
 
   ElementHandle = requireOrUndefined(`${apiPrefix}/ElementHandle.js`) // tslint:disable-line variable-name
   if (ElementHandle && ElementHandle.ElementHandle) ElementHandle = ElementHandle.ElementHandle

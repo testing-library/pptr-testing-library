@@ -2,6 +2,7 @@
   "compileOnSave": true,
   "compilerOptions": {
     "outDir": "./dist",
+    "lib": ["es2019"],
     "target": "es2015",
     "module": "commonjs",
     "moduleResolution": "node",
