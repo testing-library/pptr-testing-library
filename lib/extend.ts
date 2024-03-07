@@ -13,18 +13,22 @@ function requireOrUndefined(path: string): any {
 }
 
 try {
-  const libPrefix = requireOrUndefined(`puppeteer/lib/cjs/puppeteer/common/Page.js`)
-    ? 'puppeteer/lib/cjs/puppeteer/common'
-    : 'puppeteer/lib'
+  let apiPrefix = 'puppeteer-core/lib/cjs/puppeteer/api' // Puppeteer v18+
 
-  Page = requireOrUndefined(`${libPrefix}/Page.js`) // tslint:disable-line
+  if (!requireOrUndefined(`${apiPrefix}/Page.js`)) {
+    apiPrefix = 'puppeteer/lib/cjs/common' // Puppeteer v5-v18
+  } else if (!requireOrUndefined(`${apiPrefix}/Page.js`)) {
+    apiPrefix = 'puppeteer/lib' // Puppeteer <v5
+  }
+
+  Page = requireOrUndefined(`${apiPrefix}/Page.js`) // tslint:disable-line
   if (Page.Page) Page = Page.Page
 
-  ElementHandle = requireOrUndefined(`${libPrefix}/ElementHandle.js`) // tslint:disable-line variable-name
+  ElementHandle = requireOrUndefined(`${apiPrefix}/ElementHandle.js`) // tslint:disable-line variable-name
   if (ElementHandle && ElementHandle.ElementHandle) ElementHandle = ElementHandle.ElementHandle
 
   if (!ElementHandle) {
-    const ExecutionContext = requireOrUndefined(`${libPrefix}/ExecutionContext.js`) // tslint:disable-line variable-name
+    const ExecutionContext = requireOrUndefined(`${apiPrefix}/ExecutionContext.js`) // tslint:disable-line variable-name
     if (ExecutionContext && ExecutionContext.ElementHandle) {
       ElementHandle = ExecutionContext.ElementHandle
     }
@@ -32,7 +36,7 @@ try {
   if (ElementHandle && ElementHandle.ElementHandle) ElementHandle = ElementHandle.ElementHandle
 
   if (!ElementHandle) {
-    const JSHandle = require(`${libPrefix}/JSHandle.js`) // tslint:disable-line
+    const JSHandle = require(`${apiPrefix}/JSHandle.js`) // tslint:disable-line
     if (JSHandle && JSHandle.ElementHandle) {
       ElementHandle = JSHandle.ElementHandle
     }
@@ -52,8 +56,8 @@ try {
     return getQueriesForElement(this)
   }
 } catch (err) {
-  // tslint:disable-next-line
   console.error('Could not augment puppeteer functions, do you have a conflicting version?')
+  console.error((err as any).stack)
   throw err
 }
 

@@ -57,9 +57,9 @@ describe('lib/extend.ts', () => {
       fail()
     } catch (err) {
       const message = (err as any).message
-        .replace(/(\s*at .*(\n|$))+/gm, '\n    <stack>:X:X')
-        .replace('TestingLibraryElementError', 'Error')
-      expect(message).toMatchSnapshot()
+      expect(message).toContain('Unable to find an element with the title: missing')
+      const html = message.match(/<div([\s\S]+)div>/)
+      expect(html[0]).toMatchSnapshot()
     }
   })
 
