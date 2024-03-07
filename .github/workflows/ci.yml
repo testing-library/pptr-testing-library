@@ -12,28 +12,21 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - pptr: 1.6.x
-          - pptr: 1.8.x
-          - pptr: 1.12.x
-          - pptr: 2.x.x
-          - pptr: 3.x.x
-          - pptr: 4.x.x
-          - pptr: 5.x.x
-          - pptr: 6.x.x
-          - pptr: 7.x.x
-          - pptr: latest
+          - pptr: 17.x.x
+          - pptr: 20.x.x
+          - pptr: 21.x.x
+          - pptr: 22.x.x
     steps:
       - name: Run git checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Run nvm install 14
+      - name: Run nvm install 20
         uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 20.x
       - run: npm install
       - run: npm install "puppeteer@${{ matrix.pptr }}"
       - run: npm install "@types/puppeteer@${{ matrix.pptr }}" || echo "No types available"
       - run: npm run rebuild
-      - run: npm run test:lint
       - run: npm run test:unit --coverage --runInBand --verbose

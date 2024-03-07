@@ -23,21 +23,21 @@ describe('lib/extend.ts', () => {
 
   it('should handle the query* methods', async () => {
     const element = await document.queryByText('Hello h1')
-    expect(element).toBeTruthy()
+    if (!element) throw Error('Expected element to be defined')
     /* istanbul ignore next */
     expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h1')
   })
 
   it('should use the new v3 methods', async () => {
     const element = await document.queryByRole('presentation')
-    expect(element).toBeTruthy()
+    if (!element) throw Error('Expected element to be defined')
     /* istanbul ignore next */
     expect(await page.evaluate(el => el.textContent, element)).toContain('Layout table')
   })
 
   it('should handle regex matching', async () => {
     const element = await document.queryByText(/HeLlO h(1|7)/i)
-    expect(element).toBeTruthy()
+    if (!element) throw Error('Expected element to be defined')
     /* istanbul ignore next */
     expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h1')
   })
@@ -56,10 +56,10 @@ describe('lib/extend.ts', () => {
       await scope!.getByTitle('missing')
       fail()
     } catch (err) {
-      err.message = err.message
-        .replace(/(\s*at .*(\n|$))+/gm, '\n    <stack>:X:X')
-        .replace('TestingLibraryElementError', 'Error') // Puppeteer 1.7 returns a generic error
-      expect(err.message).toMatchSnapshot()
+      const message = (err as any).message
+      expect(message).toContain('Unable to find an element with the title: missing')
+      const html = message.match(/<div([\s\S]+)div>/)
+      expect(html[0]).toMatchSnapshot()
     }
   })
 
@@ -110,6 +110,7 @@ describe('lib/extend.ts', () => {
   it('should scope results to element', async () => {
     const scope = await document.$('#scoped')
     const element = await scope!.queryByText(/Hello/)
+    if (!element) throw Error('Expected element to be defined')
     /* istanbul ignore next */
     expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h3')
   })
