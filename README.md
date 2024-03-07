@@ -54,6 +54,13 @@ const {getByText} = $form.getQueriesForElement()
 // ...
 ```
 
+## Version Compat
+
+| Puppeteer Version | pptr-testing-library Version |
+| ----------------- | ---------------------------- |
+| 17+               | >0.8.0                       |
+| <17               | 0.7.x                        |
+
 ## API
 
 Unique methods, not part of `@testing-library/dom`

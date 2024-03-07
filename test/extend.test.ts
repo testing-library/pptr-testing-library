@@ -110,6 +110,7 @@ describe('lib/extend.ts', () => {
   it('should scope results to element', async () => {
     const scope = await document.$('#scoped')
     const element = await scope!.queryByText(/Hello/)
+    if (!element) throw Error('Expected element to be defined')
     /* istanbul ignore next */
     expect(await page.evaluate(el => el.textContent, element)).toEqual('Hello h3')
   })
